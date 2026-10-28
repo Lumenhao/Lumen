@@ -1,0 +1,20 @@
+{{/* 首页书架：自动列出 content/books/ 下所有书，按 weight 排序。用法：{{< bookshelf >}} */}}
+{{ $books := (site.GetPage "/books").Pages.ByWeight }}
+<div class="bookshelf">
+  {{ range $books }}
+    <a class="book-row" href="{{ .RelPermalink }}">
+      <div class="book-row-art">{{ partial "book-art" . }}</div>
+      <div class="book-row-main">
+        <div class="book-row-head">
+          <span class="book-row-title">{{ .Title }}</span>
+          <span class="book-row-meta">
+            {{ with .Params.author }}{{ . }}{{ else }}{{ with .Params.categories }}{{ index . 0 }}{{ end }}{{ end }}
+            {{ partial "status-badge" . }}
+          </span>
+        </div>
+        <span class="book-row-desc">{{ with .Description }}{{ . }}{{ else }}{{ .Summary | plainify | truncate 90 }}{{ end }}</span>
+      </div>
+      <span class="book-row-arrow">›</span>
+    </a>
+  {{ end }}
+</div>

@@ -10,14 +10,7 @@ weight: 1
 
 ## 书架
 
-<div class="bookshelf">
-  <a class="book-row" href="{{< relref "/books/library-guide/_index.md" >}}">
-    <span class="book-row-title">图书馆使用指南</span>
-    <span class="book-row-meta">示例书 · 三章</span>
-    <span class="book-row-desc">拿这本书当模板：文件放在哪、页面元素怎么写、公式与图片怎么插，都在这三章里。</span>
-    <span class="book-row-arrow">›</span>
-  </a>
-</div>
+{{< bookshelf >}}
 
 ## 最近笔记
 

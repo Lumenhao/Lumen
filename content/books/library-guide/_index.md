@@ -1,17 +1,18 @@
 ---
 title: "图书馆使用指南"
+subtitle: "从一本书到一座图书馆"
+author: "Haoming Xing"
 description: "拿这本书当模板：文件放在哪、页面元素怎么写、公式与图片怎么插。"
 weight: 10
 BookCollapseSection: true
 categories: ["指南"]
 tags: ['指南', '示例']
+status: "在读"
+year: 2026
+rating: 5
 ---
 
-<section class="book-cover">
-  <h1 class="book-cover-title">图书馆使用指南</h1>
-  <p class="book-cover-subtitle">从一本书到一座图书馆</p>
-  <p class="book-cover-author">示例书 · 三章</p>
-</section>
+{{< book-cover >}}
 
 <section class="book-intro">
   <h2>简介</h2>

@@ -1,0 +1,30 @@
+{{/* 书籍封面头部：读取 frontmatter 的 subtitle/author/cover/year/publisher/pages/rating/status */}}
+{{ $p := .Page }}
+<section class="book-hero">
+  <div class="book-hero-art">{{ partial "book-art" $p }}</div>
+  <div class="book-hero-info">
+    <h1 class="book-cover-title">{{ $p.Title }}</h1>
+    {{ with $p.Params.subtitle }}<p class="book-cover-subtitle">{{ . }}</p>{{ end }}
+    {{ with $p.Params.author }}<p class="book-cover-author">{{ . }}</p>{{ end }}
+    <div class="book-hero-meta">
+      {{ partial "status-badge" $p }}
+      {{ with $p.Params.year }}<span>{{ . }}</span>{{ end }}
+      {{ with $p.Params.publisher }}<span>{{ . }}</span>{{ end }}
+      {{ with $p.Params.pages }}<span>{{ . }} 页</span>{{ end }}
+      {{ with $p.Params.rating }}<span class="rating">★ {{ . }}</span>{{ end }}
+    </div>
+    {{ $terms := slice }}
+    {{ range $p.GetTerms "categories" }}{{ $terms = $terms | append (dict "title" .LinkTitle "url" .RelPermalink) }}{{ end }}
+    {{ range $p.GetTerms "tags" }}
+      {{ $t := .LinkTitle }}
+      {{ $seen := false }}
+      {{ range $terms }}{{ if eq .title $t }}{{ $seen = true }}{{ end }}{{ end }}
+      {{ if not $seen }}{{ $terms = $terms | append (dict "title" $t "url" .RelPermalink) }}{{ end }}
+    {{ end }}
+    {{ with $terms }}
+      <div class="book-hero-tags">
+        {{ range . }}<a class="chip" href="{{ .url }}">{{ .title }}</a>{{ end }}
+      </div>
+    {{ end }}
+  </div>
+</section>

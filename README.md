@@ -14,11 +14,10 @@
 完整步骤见 **[使用说明.md](使用说明.md)**，最短路径：
 
 1. 复制模板：`cp -r content/books/library-guide content/books/<新书 slug>`
-2. 改 `_index.md` 的书名、简介、`categories`、`weight`
+2. 改 `_index.md` 的书名、简介、`categories`、`weight`，封面用 `{{< book-cover >}}` 自动生成
 3. 删掉模板章节，写 `ch01.md`、`ch02.md`……（`weight` 用 10、20、30）
 4. 图片放该书目录下的 `images/`，Markdown 里写 `images/xxx.jpg`
-5. 在 `content/_index.md` 的书架里加一行链接
-6. 保存，浏览器自动刷新
+5. 保存，浏览器自动刷新——首页书架、封面墙、分类筛选全自动
 
 排版元素（提示框、定理、例题、图注、伪代码）的写法见站内 **参考 → 元素速查**。
 

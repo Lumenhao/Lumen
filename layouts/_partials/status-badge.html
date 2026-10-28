@@ -1,0 +1,6 @@
+{{/* 阅读状态徽章：在读 / 已读 / 想读 */}}
+{{ with .Params.status }}
+  {{ $cls := "reading" }}
+  {{ if eq . "已读" }}{{ $cls = "done" }}{{ else if eq . "想读" }}{{ $cls = "want" }}{{ end }}
+  <span class="status status-{{ $cls }}">{{ . }}</span>
+{{ end }}

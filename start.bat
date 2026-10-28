@@ -28,11 +28,21 @@ if errorlevel 1 (
 
 if not exist ".venv\Scripts\python.exe" (
   echo   Creating .venv ...
-  %PY% -m venv .venv || goto :fail
+  %PY% -m venv .venv
+  if errorlevel 1 (
+    echo   Could not create .venv - see the messages above.
+    pause
+    exit /b 1
+  )
 )
 
 echo   Checking dependencies ...
-".venv\Scripts\python.exe" -m pip install --quiet --disable-pip-version-check -r "app\requirements.txt" || goto :fail
+".venv\Scripts\python.exe" -m pip install --quiet --disable-pip-version-check -r "app\requirements.txt"
+if errorlevel 1 (
+  echo   Dependency install failed - see the messages above.
+  pause
+  exit /b 1
+)
 
 ".venv\Scripts\python.exe" -c "from app.config import settings; print(settings.port)" > "%TEMP%\lumen-port.txt"
 set /p PORT=<"%TEMP%\lumen-port.txt"
@@ -44,9 +54,3 @@ start "" /b powershell -NoProfile -Command "Start-Sleep -Seconds 2; Start-Proces
 
 ".venv\Scripts\python.exe" -m app.main
 exit /b 0
-
-:fail
-echo.
-echo   Setup failed - see the messages above.
-pause
-exit /b 1

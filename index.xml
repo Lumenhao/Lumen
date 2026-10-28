@@ -86,7 +86,7 @@ $$&lt;/div&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description></item><item><title>关于本站</title><link>https://Lumenhao.github.io/Lumen/about.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Lumen/about.html</guid><description>&lt;h1 id="关于本站"&gt;关于本站&lt;a class="anchor" href="#%e5%85%b3%e4%ba%8e%e6%9c%ac%e7%ab%99"&gt;#&lt;/a&gt;&lt;/h1&gt;
-&lt;p&gt;&lt;strong&gt;Lumen · 星皓书房&lt;/strong&gt; 是一个自托管的个人数字图书馆：原地读取 Calibre 书库，配一间 Koodo 级的阅读器。完整说明、部署方式与技术取舍见 &lt;a href="https://github.com/Lumenhao/lumen"&gt;GitHub 仓库&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Lumen · 星皓书房&lt;/strong&gt; 是一个自托管的个人数字图书馆：原地读取 Calibre 书库，配一间 Koodo 级的阅读器。完整说明、部署方式与技术取舍见 &lt;a href="https://github.com/Lumenhao/Lumen"&gt;GitHub 仓库&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;这个站点是它的门面与读书笔记：首页是产品介绍；书架、笔记、论文与参考都用 Markdown 写成，由 &lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt; 与 &lt;a href="https://github.com/alex-shpak/hugo-book"&gt;Hugo Book&lt;/a&gt; 主题生成，发布在 GitHub Pages。支持 KaTeX 数学公式与 pseudocode.js 伪代码。&lt;/p&gt;
 &lt;h2 id="命名"&gt;命名&lt;a class="anchor" href="#%e5%91%bd%e5%90%8d"&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;星皓书房&lt;/strong&gt;：星，是书架上散落的每一个光点；皓，明亮；书房，是读书的那间屋子——合起来是一间被星光照亮的书房。&lt;/p&gt;

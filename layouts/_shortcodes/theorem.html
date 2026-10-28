@@ -1,0 +1,11 @@
+{{/*
+  定理/引理/命题框。数学教材用。
+  用法：{{< theorem type="定理" title="贝尔曼最优方程" >}}陈述{{< /theorem >}}
+  type: 定理(默认) | 引理 | 命题 | 推论
+*/}}
+{{ $type := .Get "type" | default "定理" }}
+{{ $title := .Get "title" }}
+<div class="element theorem">
+  <span class="element-label">{{ $type }}</span>{{ with $title }}<span class="element-title">{{ . }}</span>{{ end }}
+  <div class="element-body">{{ .Inner | .Page.RenderString }}</div>
+</div>

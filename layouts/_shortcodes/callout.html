@@ -1,0 +1,11 @@
+{{/*
+  通用提示框。type 控制颜色图标。
+  用法：{{< callout type="tip" >}}内容{{< /callout >}}
+  type: tip(蓝) | note(灰) | warning(橙) | important(红)
+*/}}
+{{ $type := .Get "type" | default "note" }}
+{{ $title := .Get "title" }}
+<div class="callout callout-{{ $type }}">
+  {{ with $title }}<p class="callout-title">{{ . }}</p>{{ end }}
+  <div class="callout-body">{{ .Inner | .Page.RenderString }}</div>
+</div>

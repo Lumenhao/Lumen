@@ -1,0 +1,19 @@
+{{/* 首页"最近笔记"列表：取 notes/ 下最近 N 篇（默认 5）。*/}}
+{{ $limit := .Get "limit" | default 5 }}
+{{ $notes := where .Site.RegularPages "Section" "eq" "notes" }}
+{{ $notes = sort $notes "Date" "desc" }}
+<div class="recent-list">
+  {{ range first (int $limit) $notes }}
+    <a class="recent-item" href="{{ .RelPermalink }}">
+      <div class="recent-item-main">
+        <h3 class="recent-item-title">{{ partial "docs/title" . }}</h3>
+        {{ with .Description }}<p class="recent-item-desc">{{ . }}</p>{{ end }}
+      </div>
+      <div class="recent-item-meta">
+        <time>{{ .Date.Format "2006-01-02" }}</time>
+      </div>
+    </a>
+  {{ else }}
+    <p class="recent-empty">还没有笔记。</p>
+  {{ end }}
+</div>

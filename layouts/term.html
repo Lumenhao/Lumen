@@ -1,0 +1,25 @@
+{{/* 标签/分类详情页：列出所有页面（含 section _index.md）*/}}
+{{ define "main" }}
+  <header class="term-header">
+    <h1 class="term-title">{{ .Title }}</h1>
+    <p class="term-count">{{ len .Pages }} 项</p>
+  </header>
+
+  <div class="card-grid">
+    {{ range .Pages }}
+      <a class="card" href="{{ .RelPermalink }}">
+        <h2 class="card-title">{{ partial "docs/title" . }}</h2>
+        {{ with .Description }}
+          <p class="card-desc">{{ . }}</p>
+        {{ else }}
+          <p class="card-desc">{{ .Summary | plainify | truncate 120 }}</p>
+        {{ end }}
+        <div class="card-meta">
+          {{ with .Date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006-01-02" }}</time>{{ end }}
+        </div>
+      </a>
+    {{ end }}
+  </div>
+{{ end }}
+
+{{ define "toc-container" }}{{ end }}

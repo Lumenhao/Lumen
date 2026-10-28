@@ -1,0 +1,8 @@
+{{/*
+  要点/总结框。章节末总结用。
+  用法：{{< key-point >}}本章要点...{{< /key-point >}}
+*/}}
+<div class="element key-point">
+  <span class="element-label">要点</span>
+  <div class="element-body">{{ .Inner | .Page.RenderString }}</div>
+</div>

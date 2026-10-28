@@ -1,0 +1,19 @@
+{{/* 分类法首页（/tags/）：标签云。*/}}
+{{ define "main" }}
+  {{ with .Content }}
+    <article class="markdown book-article">
+      {{- . -}}
+    </article>
+  {{ end }}
+
+  <div class="tag-cloud">
+    {{ range .Data.Terms.Alphabetical }}
+      <a href="{{ .Page.RelPermalink }}" class="chip chip-lg">
+        {{ .Page.LinkTitle }}
+        <span class="chip-count">{{ .Count }}</span>
+      </a>
+    {{ end }}
+  </div>
+{{ end }}
+
+{{ define "toc-container" }}{{ end }}

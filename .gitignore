@@ -1,0 +1,10 @@
+pdfs/
+site/
+public/
+resources/
+.hugo_build.lock
+__pycache__/
+*.pyc
+.DS_Store
+out/
+fix_ocr.py

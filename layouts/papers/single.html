@@ -1,0 +1,22 @@
+{{/* 论文笔记详情页：作者/年份/链接 meta 行 + 标签 + 正文。*/}}
+{{ define "main" }}
+  <article class="markdown book-article post paper">
+    <header class="post-header">
+      <h1 class="post-title">{{ partial "docs/title" . }}</h1>
+      <div class="post-meta">
+        {{ with .Date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006-01-02" }}</time>{{ end }}
+        {{ with .Params.author }}<span class="meta-author">{{ . }}</span>{{ end }}
+        {{ with .Params.year }}<span class="meta-year">{{ . }}</span>{{ end }}
+        {{ range .GetTerms "tags" }}
+          <a href="{{ .RelPermalink }}" class="chip">{{ .LinkTitle }}</a>
+        {{ end }}
+      </div>
+      {{ with .Params.links }}
+        <div class="paper-links">
+          {{ range . }}<a href="{{ .url }}" target="_blank" rel="noopener" class="paper-link">{{ .name | default "链接" }} ↗</a>{{ end }}
+        </div>
+      {{ end }}
+    </header>
+    {{- .Content -}}
+  </article>
+{{ end }}

@@ -1,0 +1,128 @@
+{{/*
+  侧栏：主题切换 + 分区→书籍两级树 + 静态入口
+  优先使用 categories frontmatter，缺失时以 tags 第一项作为分类。
+*/}}
+{{ $currentPage := . }}
+{{ $booksSection := .Site.GetPage "/books" }}
+{{ $notesSection := .Site.GetPage "/notes" }}
+{{ $papersSection := .Site.GetPage "/papers" }}
+{{ $tagsPage := .Site.GetPage "/tags" }}
+
+{{ $books := sort $booksSection.Sections "Params.weight" }}
+
+<button id="theme-toggle" class="theme-toggle" aria-label="切换深色/浅色模式" title="切换深色/浅色模式">
+  <span class="theme-icon">🌙</span>
+</button>
+
+<ul>
+  {{ with $booksSection }}
+    <li>
+      <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage . }}active{{ end }}">
+        {{ partial "docs/title" . }}
+      </a>
+
+      {{ if or (eq $currentPage .) (.IsAncestor $currentPage) }}
+        {{/* 收集分类：优先 categories，回退 tags[0] */}}
+        {{ $allCats := slice }}
+        {{ range $books }}
+          {{ $cat := "" }}
+          {{ with .Params.categories }}{{ $cat = index . 0 }}{{ end }}
+          {{ if not $cat }}{{ with .Params.tags }}{{ $cat = index . 0 }}{{ end }}{{ end }}
+          {{ if $cat }}{{ $allCats = $allCats | append $cat }}{{ end }}
+        {{ end }}
+        {{ $allCats = $allCats | uniq }}
+
+        {{ if gt (len $allCats) 0 }}
+          {{ range $catName := $allCats }}
+            {{/* 筛选属于当前分类的书籍 */}}
+            {{ $catBooks := slice }}
+            {{ range $books }}
+              {{ $bookCat := "" }}
+              {{ with .Params.categories }}{{ $bookCat = index . 0 }}{{ end }}
+              {{ if not $bookCat }}{{ with .Params.tags }}{{ $bookCat = index . 0 }}{{ end }}{{ end }}
+              {{ if eq $bookCat $catName }}
+                {{ $catBooks = $catBooks | append . }}
+              {{ end }}
+            {{ end }}
+            {{ if gt (len $catBooks) 0 }}
+              <li>
+                <span class="menu-category">{{ $catName }}</span>
+                <ul>
+                {{ range $catBooks }}
+                  {{ $bookPage := . }}
+                  <li>
+                    {{ template "book-page-link" (dict "Page" $bookPage "CurrentPage" $currentPage) }}
+                    {{ if or (eq $currentPage $bookPage) ($bookPage.IsAncestor $currentPage) }}
+                      <ul>
+                      {{ range (where $bookPage.Pages "Params.bookHidden" "ne" true) }}
+                        {{ if .IsSection }}
+                          <li>{{ template "book-page-link" (dict "Page" . "CurrentPage" $currentPage) }}</li>
+                          {{/* 如果当前页在此子 section 内，展开其章节 */}}
+                          {{ if or (eq $currentPage .) (.IsAncestor $currentPage) }}
+                            <ul>
+                            {{ range (where .Pages "Params.bookHidden" "ne" true) }}
+                              {{ if .IsSection }}
+                                <li>{{ template "book-page-link" (dict "Page" . "CurrentPage" $currentPage) }}</li>
+                              {{ else if and .IsPage .Content }}
+                                <li>{{ template "book-page-link" (dict "Page" . "CurrentPage" $currentPage) }}</li>
+                              {{ end }}
+                            {{ end }}
+                            </ul>
+                          {{ end }}
+                        {{ else if and .IsPage .Content }}
+                          <li>{{ template "book-page-link" (dict "Page" . "CurrentPage" $currentPage) }}</li>
+                        {{ end }}
+                      {{ end }}
+                      </ul>
+                    {{ end }}
+                  </li>
+                {{ end }}
+                </ul>
+              </li>
+            {{ end }}
+          {{ end }}
+        {{ else }}
+          {{ range $books }}
+            {{ template "book-page-link" (dict "Page" . "CurrentPage" $currentPage) }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    </li>
+  {{ end }}
+
+  {{ $refSection := .Site.GetPage "/reference" }}
+  {{ with $notesSection }}
+    <li>{{ template "menu-static-link" (dict "Page" . "CurrentPage" $currentPage) }}</li>
+  {{ end }}
+  {{ with $papersSection }}
+    <li>{{ template "menu-static-link" (dict "Page" . "CurrentPage" $currentPage) }}</li>
+  {{ end }}
+  {{ with $refSection }}
+    <li>{{ template "menu-static-link" (dict "Page" . "CurrentPage" $currentPage) }}</li>
+  {{ end }}
+  {{ with $tagsPage }}
+    <li>{{ template "menu-static-link" (dict "Page" . "CurrentPage" $currentPage) }}</li>
+  {{ end }}
+  {{ with $.Site.GetPage "/about" }}
+    <li>{{ template "menu-static-link" (dict "Page" . "CurrentPage" $currentPage) }}</li>
+  {{ end }}
+</ul>
+
+{{ define "menu-static-link" }}
+  {{ $current := eq .CurrentPage .Page }}
+  {{ $ancestor := .Page.IsAncestor .CurrentPage }}
+  <a href="{{ .Page.RelPermalink }}" class="{{ if or $current $ancestor }}active{{ end }}">
+    {{ partial "docs/title" .Page }}
+  </a>
+{{ end }}
+
+{{ define "book-page-link" }}
+  {{ $current := eq .CurrentPage .Page }}
+  {{ if .Page.Content }}
+    <a href="{{ .Page.RelPermalink }}" class="{{ if $current }}active{{ end }}">
+      {{ partial "docs/title" .Page }}
+    </a>
+  {{ else }}
+    <span>{{ partial "docs/title" .Page }}</span>
+  {{ end }}
+{{ end }}

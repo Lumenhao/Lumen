@@ -1,0 +1,24 @@
+{{/*
+  算法框。包裹 pseudocode.js 的 <pre class="pseudocode">，给统一外观。
+  用法：
+  {{< algorithm title="Sarsa 算法" >}}
+  <pre class="pseudocode">
+  \begin{algorithm}
+  \caption{算法 1: Sarsa算法}
+  \begin{algorithmic}
+  state 输入: episodes, α, γ
+  ...
+  \end{algorithmic}
+  \end{algorithm}
+  </pre>
+  {{< /algorithm >}}
+
+  title 可选；pseudocode.js 的 \caption 也会显示标题。
+*/}}
+{{ $title := .Get "title" }}
+<div class="element algorithm">
+  <span class="element-label">算法</span>{{ with $title }}<span class="element-title">{{ . }}</span>{{ end }}
+  <div class="element-body algorithm-body">
+    {{ .Inner | .Page.RenderString }}
+  </div>
+</div>

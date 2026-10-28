@@ -1,0 +1,25 @@
+{{/*
+  自动生成书的章节目录。
+  用在书 _index.md 里：{{< book-toc >}}
+  自动列出当前 section 下所有章节（按 weight 排序），
+  每条 = 标题（链接）+ description（一句简介）。
+  格式统一，无需手写 HTML 表格。
+*/}}
+{{ $current := .Page }}
+{{ $pages := where .Page.Pages "Params.bookhidden" "ne" true }}
+{{/* 只取普通页面（章节），排除子 section */}}
+{{ $pages = where $pages "IsSection" "eq" false }}
+{{/* 按 weight 排序 */}}
+{{ $pages = sort $pages "Weight" "asc" }}
+
+<div class="book-toc-list">
+  {{ range $pages }}
+    <a class="toc-row" href="{{ .RelPermalink }}">
+      <span class="toc-row-title">{{ .Title }}</span>
+      {{ with .Description }}
+        <span class="toc-row-desc">{{ . }}</span>
+      {{ end }}
+      <span class="toc-row-arrow">›</span>
+    </a>
+  {{ end }}
+</div>

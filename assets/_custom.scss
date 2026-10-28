@@ -1,0 +1,833 @@
+// Yuunagi Library — 自定义样式（移植自 mkdocs extra.css）
+// Book 主题用 CSS 变量 + @mixin theme-{light,dark} 覆盖
+// 正文容器是 <article class="markdown">，所以用 .markdown 作选择器
+
+// === 主题色：teal（对齐原 mkdocs primary: teal） ===
+// BookTheme = "auto" 需要 theme-auto mixin（主题未提供），在此补全
+// 并扩展 theme-light/theme-dark 使其含完整调色板
+@mixin theme-light {
+  --body-background: #ffffff;
+  --body-background-tint: none;
+  --body-font-color: #000000;
+  --color-link: #00897b;
+  --color-visited-link: #00897b;
+  --icon-filter: none;
+  --gray-100: #f0f0f0;
+  --gray-200: #d0d0d0;
+  --gray-500: #707070;
+}
+@mixin theme-dark {
+  --body-background: #1a1a1a;
+  --body-background-tint: none;
+  --body-font-color: #e0e0e0;
+  --color-link: #4db6ac;
+  --color-visited-link: #4db6ac;
+  --icon-filter: brightness(0) invert(1);
+  --gray-100: #2d2d2d;
+  --gray-200: #3d3d3d;
+  --gray-500: #a0a0a0;
+}
+@mixin theme-auto {
+  @include theme-light;
+  @media (prefers-color-scheme: dark) {
+    @include theme-dark;
+  }
+}
+
+// === 字体 ===
+:root {
+  --body-font: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont,
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+  --code-font: "JetBrains Mono", "SF Mono", "Fira Code", Consolas, monospace;
+}
+body {
+  font-family: var(--body-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+.markdown {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+// === 标题 ===
+.markdown h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--body-font-color);
+  border-bottom: 2px solid var(--gray-200);
+  padding-bottom: 0.3rem;
+}
+.markdown h2 {
+  margin-top: 2.4em;
+  font-weight: 700;
+  color: var(--body-font-color);
+}
+.markdown h3 {
+  font-weight: 600;
+  margin-top: 2rem;
+  color: var(--body-font-color);
+  padding: 0.4rem 0.8rem;
+  border-left: 4px solid var(--color-link);
+  background: var(--gray-100);
+  border-radius: 0 6px 6px 0;
+}
+.markdown p {
+  margin-bottom: 1em;
+}
+.markdown code {
+  border-radius: 0.35rem;
+}
+
+// === 表格 ===
+.markdown table {
+  display: table;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.markdown table th,
+.markdown table td {
+  text-align: center;
+  padding: 0.4rem 0.8rem;
+}
+
+// 格子世界专用表格（RL 书）
+.markdown table.grid-world {
+  width: auto;
+  margin: 1rem auto;
+  td {
+    width: 2.5rem;
+    height: 2.5rem;
+    text-align: center;
+    border: 1px solid var(--gray-200);
+  }
+}
+
+// === 图片：居中带阴影 ===
+.markdown img {
+  display: block;
+  margin: 1.5rem auto 0.5rem;
+  max-width: 90%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+// === 图注/表注 ===
+.markdown p.caption {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  margin-top: 0.3rem;
+  margin-bottom: 1.5rem;
+}
+
+// === 解答块（绿色左边框，quant-finance-interview 书） ===
+.markdown .solution {
+  border-left: 4px solid #2e7d32;
+  background: #e8f5e9;
+  padding: 0.8rem 1.2rem;
+  margin: 1rem 0;
+  border-radius: 0 6px 6px 0;
+  @media (prefers-color-scheme: dark) {
+    border-left-color: #66bb6a;
+    background: rgba(46, 125, 50, 0.15);
+  }
+}
+
+// === 算法框（pseudocode.js 渲染） ===
+.markdown .algorithm {
+  border: 1px solid var(--gray-200);
+  border-radius: 6px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  .alg-title {
+    display: block;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    background: var(--color-link);
+    color: #fff;
+  }
+  .alg-body {
+    padding: 0.8rem 1.2rem;
+    font-family: var(--code-font);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    background: var(--gray-100);
+  }
+}
+
+// pseudocode.js 容器微调
+.markdown pre.pseudocode,
+.markdown .katex-display {
+  margin: 1.5rem 0;
+}
+
+// 行内数学跟随正文大小
+.markdown .katex {
+  font-size: inherit;
+}
+
+// ============================================
+// 博客层：Apple 风（极简留白、超大字号、克制装饰）
+// ============================================
+
+:root {
+  --font-sans: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont,
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+  --hairline: rgba(0, 0, 0, 0.1);       // 极细分隔线
+  --hairline-strong: rgba(0, 0, 0, 0.18);
+  --text-primary: #1d1d1f;               // Apple 近黑
+  --text-secondary: #6e6e73;             // Apple 次要灰
+  --surface: #f5f5f7;                    // Apple 浅灰背景块
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --hairline: rgba(255, 255, 255, 0.14);
+    --hairline-strong: rgba(255, 255, 255, 0.24);
+    --text-primary: #f5f5f7;
+    --text-secondary: #a1a1a6;
+    --surface: rgba(255, 255, 255, 0.06);
+  }
+}
+
+// === Hero（首页顶部）：超大标题、大量留白 ===
+.hero {
+  text-align: center;
+  padding: 5rem 1rem 3.5rem;
+}
+.hero-title {
+  font-size: clamp(2.5rem, 7vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin: 0 0 0.6rem;
+  color: var(--text-primary);
+}
+.hero-subtitle {
+  color: var(--text-secondary);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+// === 区块标题（## 书架 / ## 最近笔记）：Apple 小标题风格 ===
+.book-article h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 4rem 0 1.5rem;
+  color: var(--text-primary);
+}
+
+// === 代码块复制按钮 ===
+.markdown pre {
+  position: relative;
+}
+.markdown pre .copy-btn {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  padding: 2px 8px;
+  font-size: .75rem;
+  color: var(--text-secondary);
+  background: var(--body-background);
+  border: 1px solid var(--hairline);
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.markdown pre:hover .copy-btn {
+  opacity: 1;
+}
+.markdown pre .copy-btn:hover {
+  background: var(--surface);
+}
+
+// === 书架（首页）：整行式列表，非卡片网格 ===
+.bookshelf {
+  margin: 1rem 0 2rem;
+  border-top: 1px solid var(--hairline);
+}
+.book-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1.6rem 0.25rem;
+  border-bottom: 1px solid var(--hairline);
+  text-decoration: none;
+  color: inherit;
+  transition: padding-left 0.3s ease, background 0.3s ease;
+  &:hover {
+    padding-left: 1rem;
+    background: var(--surface);
+  }
+}
+.book-row-title {
+  flex: 0 0 auto;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+}
+.book-row-meta {
+  flex: 0 0 auto;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  min-width: 8rem;
+}
+.book-row-desc {
+  flex: 1 1 auto;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+.book-row-arrow {
+  flex: 0 0 auto;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+.book-row:hover .book-row-arrow {
+  transform: translateX(4px);
+  color: var(--color-link);
+}
+
+// === 通用卡片网格（notes/papers/term 列表页）：浅灰背景块 ===
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  margin: 1.5rem 0 2rem;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.6rem 1.5rem;
+  background: var(--body-background);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s ease;
+  &:hover { background: var(--surface); }
+}
+.card-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+.card-desc {
+  margin: 0 0 1rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  flex-grow: 1;
+}
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  time { font-variant-numeric: tabular-nums; }
+}
+
+// === 标签：Apple 风，纯文字链接，无背景胶囊 ===
+.chip {
+  display: inline;
+  color: var(--color-link);
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  text-decoration: none;
+  &::before { content: "#"; opacity: 0.5; }
+  &:hover { text-decoration: underline; }
+}
+.chip-lg {
+  font-size: 0.95rem;
+}
+.chip-count {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+  font-size: 0.85em;
+  &::before { content: "·"; margin: 0 0.2em; opacity: 0.5; }
+}
+
+// === 标签云（/tags/）===
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.5rem;
+  margin: 2.5rem 0;
+  line-height: 2;
+}
+
+// === 最近笔记（首页）：极简列表，仅标题+日期 ===
+.recent-list {
+  margin: 0.5rem 0 1rem;
+  border-top: 1px solid var(--hairline);
+}
+.recent-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1.1rem 0.25rem;
+  border-bottom: 1px solid var(--hairline);
+  text-decoration: none;
+  color: inherit;
+  transition: padding-left 0.25s ease;
+  &:hover { padding-left: 0.75rem; }
+}
+.recent-item-main { flex: 1 1 auto; min-width: 0; }
+.recent-item-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+.recent-item-desc { display: none; }  // 首页不显示摘要，保持极简
+.recent-item-meta time {
+  flex: 0 0 auto;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.recent-empty {
+  color: var(--text-secondary);
+  padding: 2rem 0;
+}
+
+// === "查看全部"链接：Apple 蓝、小号 ===
+.section-link {
+  margin: 1.5rem 0 1rem;
+  a {
+    color: var(--color-link);
+    font-size: 0.95rem;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+// === 笔记/论文详情页 ===
+.post-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 0;
+}
+.post-title {
+  margin: 0 0 0.8rem;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--text-primary);
+}
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  time, .meta-author, .meta-year { font-variant-numeric: tabular-nums; }
+}
+.paper-links {
+  margin-top: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.paper-link {
+  font-size: 0.88rem;
+  color: var(--color-link);
+  text-decoration: none;
+  &:hover { text-decoration: underline; }
+}
+
+// === term 页头 ===
+.term-header { margin-bottom: 2rem; }
+.term-title {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+.term-count {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+// === 分页 ===
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 3rem 0;
+}
+.pagination-link {
+  color: var(--color-link);
+  text-decoration: none;
+  font-size: 0.95rem;
+  &:hover { text-decoration: underline; }
+}
+
+// === 元素模板（callout / definition / theorem / example / key-point）===
+// 统一的框式元素，左边框色区分类型，圆角，柔和背景。
+
+// callout（提示框：tip/note/warning/important）
+.callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border-left: 3px solid var(--gray-200);
+  background: var(--surface);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  p:last-child { margin-bottom: 0; }
+}
+.callout-title {
+  font-weight: 600;
+  margin: 0 0 0.4rem;
+  font-size: 0.9rem;
+}
+.callout-tip      { border-left-color: #007aff; background: rgba(0,122,255,0.06); }
+.callout-note     { border-left-color: var(--gray-300, #8e8e93); }
+.callout-warning  { border-left-color: #ff9500; background: rgba(255,149,0,0.06); }
+.callout-important{ border-left-color: #ff3b30; background: rgba(255,59,48,0.06); }
+
+// 通用元素框（definition / theorem / example / key-point）
+.element {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+.element-label {
+  display: inline-block;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--text-secondary);
+  border-radius: 999px;
+  margin-bottom: 0.5rem;
+}
+.element-title {
+  font-weight: 600;
+  margin-left: 0.5rem;
+  font-size: 0.95rem;
+}
+.element-body {
+  margin-top: 0.5rem;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  p:last-child { margin-bottom: 0; }
+  .solution { margin: 1rem 0 0; }
+}
+
+// 各类型配色
+.element.definition .element-label { background: #5856d6; }   // 紫
+.element.theorem    .element-label { background: #007aff; }   // 蓝
+.element.example    .element-label { background: #34c759; }   // 绿
+.element.key-point  .element-label { background: #ff9500; }   // 橙
+.element.algorithm  .element-label { background: #30b0c8; }   // 青
+.element.definition { border-left: 3px solid #5856d6; }
+.element.theorem    { border-left: 3px solid #007aff; }
+.element.example    { border-left: 3px solid #34c759; }
+.element.key-point  { border-left: 3px solid #ff9500; background: rgba(255,149,0,0.05); }
+.element.algorithm  { border-left: 3px solid #30b0c8; }
+
+// 算法框内的 pseudocode.js 渲染区
+.algorithm-body {
+  pre.pseudocode {
+    margin: 0.5rem 0 0;
+    padding: 0;
+    background: none;
+    border: none;
+  }
+}
+
+// === 书封面页 ===
+.book-cover {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+}
+.book-cover-title {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem;
+  color: var(--text-primary);
+}
+.book-cover-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  margin: 0 0 0.4rem;
+}
+.book-cover-author {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+// === 书籍简介栏 ===
+.book-intro {
+  margin: 1rem 0 2rem;
+  padding: 1.2rem 1.5rem;
+  border-left: 3px solid var(--primary);
+  background: var(--surface);
+  border-radius: 0 6px 6px 0;
+  p { margin: 0 0 0.4rem; }
+  p:last-child { margin-bottom: 0; }
+}
+.book-intro-links {
+  margin-top: 0.8rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  a { font-size: 0.9rem; }
+}
+
+// === 自动章节目录（{{< book-toc >}}）===
+.book-toc-list {
+  margin: 1rem 0 2rem;
+  border-top: 1px solid var(--hairline);
+}
+.toc-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1rem 0.25rem;
+  border-bottom: 1px solid var(--hairline);
+  text-decoration: none;
+  color: inherit;
+  transition: padding-left 0.25s ease, background 0.25s ease;
+  &:hover {
+    padding-left: 0.75rem;
+    background: var(--surface);
+    .toc-row-arrow { transform: translateX(4px); color: var(--color-link); }
+  }
+}
+.toc-row-title {
+  flex: 0 0 auto;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.toc-row-desc {
+  flex: 1 1 auto;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.toc-row-arrow {
+  flex: 0 0 auto;
+  color: var(--text-secondary);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+// === 右侧目录（TOC）：更易读 ===
+.book-toc-content {
+  font-size: 0.85rem;  // 主题默认 --font-size-smallest 太小
+  nav#TableOfContents {
+    ul { padding-left: 0.8rem; list-style: none; }
+    li { margin: 0.25rem 0; }
+    a {
+      display: block;
+      color: var(--text-secondary);
+      text-decoration: none;
+      line-height: 1.4;
+      padding: 0.1rem 0;
+      &:hover { color: var(--color-link); }
+    }
+    // 顶级（二级标题）加粗
+    > ul > li > a { font-weight: 500; color: var(--text-primary); }
+  }
+}
+
+// === 搜索框 ⌘K 提示 ===
+.book-search {
+  position: relative;
+  input { padding-right: 3rem; }
+}
+.book-search-kbd {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  padding: 0.1rem 0.4rem;
+  font-size: 0.7rem;
+  font-family: var(--font-sans);
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 4px;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+// === 搜索结果列表 ===
+#book-search-results {
+  li { margin-bottom: 0.6rem; }
+  a {
+    color: var(--body-font-color);
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+  small {
+    display: block;
+    color: var(--gray-500);
+    font-size: 0.75rem;
+  }
+  p {
+    color: var(--gray-500);
+    font-size: 0.8rem;
+    margin: 0.15rem 0 0;
+    line-height: 1.4;
+  }
+}
+
+// === 搜索关键词高亮 ===
+.search-match {
+  color: #e53935;
+  background: none;
+  font-weight: 400;
+}
+
+// === 移动端顶栏操作区 ===
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.mobile-search-trigger {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--body-font-color);
+  padding: 0.25rem;
+  &:hover { color: var(--color-link); }
+}
+
+// === 移动端搜索适配 ===
+@media screen and (max-width: 896px) {
+  #book-search-results {
+    max-height: 50vh;
+    overflow-y: auto;
+    li { margin-bottom: 0.8rem; }
+    a { font-size: 0.9rem; }
+    small { font-size: 0.7rem; }
+    p { font-size: 0.75rem; }
+  }
+  .book-search input {
+    font-size: 16px; // 防止 iOS 缩放
+    min-height: 44px; // 触控目标最小尺寸
+  }
+}
+
+// === 侧栏分类标签 ===
+.menu-category {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray-500);
+  padding: 0.5rem 0 0.2rem;
+}
+
+// ============================================
+// 主题切换按钮 + 手动覆盖系统偏好
+// ============================================
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.4rem;
+  margin-bottom: 0.8rem;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.2s;
+  &:hover { background: var(--gray-200); }
+}
+
+// 手动 dark mode：覆盖 prefers-color-scheme
+html[data-theme="dark"] {
+  --body-background: #1a1a1a;
+  --body-background-tint: none;
+  --body-font-color: #e0e0e0;
+  --color-link: #4db6ac;
+  --color-visited-link: #4db6ac;
+  --icon-filter: brightness(0) invert(1);
+  --gray-100: #2d2d2d;
+  --gray-200: #3d3d3d;
+  --gray-500: #a0a0a0;
+  --text-primary: #f5f5f7;
+  --text-secondary: #a1a1a6;
+  --surface: rgba(255, 255, 255, 0.06);
+  --hairline: rgba(255, 255, 255, 0.14);
+  --hairline-strong: rgba(255, 255, 255, 0.24);
+  color-scheme: dark;
+  .markdown .solution {
+    border-left-color: #66bb6a;
+    background: rgba(46, 125, 50, 0.15);
+  }
+}
+html[data-theme="light"] {
+  --body-background: #ffffff;
+  --body-background-tint: none;
+  --body-font-color: #000000;
+  --color-link: #00897b;
+  --color-visited-link: #00897b;
+  --icon-filter: none;
+  --gray-100: #f0f0f0;
+  --gray-200: #d0d0d0;
+  --gray-500: #707070;
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --surface: #f5f5f7;
+  --hairline: rgba(0, 0, 0, 0.1);
+  --hairline-strong: rgba(0, 0, 0, 0.18);
+  color-scheme: light;
+  .markdown .solution {
+    border-left-color: #2e7d32;
+    background: #e8f5e9;
+  }
+}
+
+// === 上一页/下一页 页脚导航 ===
+.book-nav {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--hairline);
+}
+.book-nav-link {
+  color: var(--color-link);
+  text-decoration: none;
+  font-size: 0.9rem;
+  &:hover { text-decoration: underline; }
+}

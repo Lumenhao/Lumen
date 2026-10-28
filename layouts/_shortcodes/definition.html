@@ -1,0 +1,9 @@
+{{/*
+  定义框。教材用。
+  用法：{{< definition title="马尔可夫决策过程" >}}定义内容{{< /definition >}}
+*/}}
+{{ $title := .Get "title" }}
+<div class="element definition">
+  <span class="element-label">定义</span>{{ with $title }}<span class="element-title">{{ . }}</span>{{ end }}
+  <div class="element-body">{{ .Inner | .Page.RenderString }}</div>
+</div>

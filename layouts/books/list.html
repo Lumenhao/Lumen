@@ -1,0 +1,32 @@
+{{/*
+  books section 列表页。
+  - /books/（书架）：无 _index.md 内容 → 卡片网格列出所有书
+  - /books/<book>/（单本书）：_index.md 有封面+目录内容 → 只渲染内容
+*/}}
+{{ define "main" }}
+  {{ with .Content }}
+    <article class="markdown book-article">
+      {{- . -}}
+    </article>
+  {{ else }}
+    <div class="card-grid">
+      {{ range .Pages }}
+        <a class="card" href="{{ .RelPermalink }}">
+          <h2 class="card-title">{{ partial "docs/title" . }}</h2>
+          {{ with .Description }}
+            <p class="card-desc">{{ . }}</p>
+          {{ else }}
+            <p class="card-desc">{{ .Summary | plainify | truncate 120 }}</p>
+          {{ end }}
+          <div class="card-meta">
+            {{ range .GetTerms "tags" }}
+              <span class="chip">{{ .LinkTitle }}</span>
+            {{ end }}
+          </div>
+        </a>
+      {{ end }}
+    </div>
+  {{ end }}
+{{ end }}
+
+{{ define "toc-container" }}{{ end }}

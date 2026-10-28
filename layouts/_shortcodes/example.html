@@ -1,0 +1,10 @@
+{{/*
+  例题框。面试书/教材用。
+  用法：{{< example title="赌徒破产问题" >}}题目 + 解答{{< /example >}}
+  可嵌套 {{< solution >}} 显示解答。
+*/}}
+{{ $title := .Get "title" }}
+<div class="element example">
+  <span class="element-label">例题</span>{{ with $title }}<span class="element-title">{{ . }}</span>{{ end }}
+  <div class="element-body">{{ .Inner | .Page.RenderString }}</div>
+</div>

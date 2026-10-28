@@ -1,0 +1,23 @@
+- id: Search
+  translation: 搜索
+
+- id: Edit this page
+  translation: 编辑本页
+
+- id: Last modified by
+  translation: 最后修改者
+
+- id: bookSearchConfig
+  translation: |
+    {
+      encode: false,
+      tokenize: function(str) {
+        var tokens = [];
+        var words = str.split(/\s+/);
+        for (var i = 0; i < words.length; i++) {
+          var parts = words[i].match(/[\x00-\x7F]+|[^\x00-\x7F]/g) || [];
+          tokens = tokens.concat(parts);
+        }
+        return tokens;
+      }
+    }

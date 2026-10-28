@@ -1,0 +1,11 @@
+{{/*
+  首页布局：只渲染 _index.md 内容（hero + 书架 + 最近笔记）。
+  不追加 card-grid（那是 section list 页的行为，首页不需要）。
+*/}}
+{{ define "main" }}
+  <article class="markdown book-article">
+    {{- .Content -}}
+  </article>
+{{ end }}
+
+{{ define "toc-container" }}{{ end }}

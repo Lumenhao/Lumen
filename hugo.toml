@@ -1,0 +1,63 @@
+# 我的图书馆 — Hugo 配置
+# 发布前需要改的一行：baseURL（改成 https://<你的GitHub用户名>.github.io/<仓库名>/）
+baseURL = 'https://YOURNAME.github.io/my-library/'
+title = "我的图书馆"
+theme = 'hugo-book'
+
+defaultContentLanguage = 'zh'
+enableGitInfo = true
+disablePathToLower = true
+uglyurls = true
+relativeurls = false
+
+copyright = '© 我的图书馆'
+
+[markup]
+[markup.goldmark.renderer]
+  unsafe = true
+[markup.goldmark.extensions]
+  typographer = false
+[markup.goldmark.extensions.footnote]
+  enable = true
+  backlink = true
+  linkStyle = 'superscript'
+  title = '查看脚注'
+[markup.goldmark.extensions.passthrough]
+  enable = true
+[markup.goldmark.extensions.passthrough.delimiters]
+  block = [['$$', '$$'], ['\[', '\]']]
+  inline = [['$', '$'], ['\(', '\)']]
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 4
+  ordered = false
+[markup.highlight]
+  style = 'github'
+  lineNos = false
+  noClasses = false
+
+[outputs]
+  home = ['html', 'rss']
+
+[taxonomies]
+  tag = 'tags'
+  category = 'categories'
+
+[languages.zh]
+  label = '中文'
+  locale = 'zh-CN'
+  weight = 1
+
+[params]
+  BookTheme = 'auto'
+  BookSection = '*'
+  BookSearch = true
+  BookComments = false
+  BookDateFormat = '2006-01-02'
+  BookPortableLinks = 'warning'
+
+# 发布到 GitHub 后取消注释，并把地址换成你的仓库
+# [[menu.after]]
+#   name = 'GitHub'
+#   url = 'https://github.com/YOURNAME/my-library'
+#   weight = 10

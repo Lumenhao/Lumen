@@ -1,0 +1,100 @@
+{{/* 层级感知 prev/next */}}
+{{- $pages := slice -}}
+{{- $parent := .Parent -}}
+{{- $isSection := .IsSection -}}
+{{- $home := .Site.Home -}}
+
+{{- if $parent -}}
+  {{- if $isSection -}}
+    {{- $pages = $parent.Pages.ByWeight -}}
+  {{- else -}}
+    {{- $pages = $parent.RegularPages.ByWeight -}}
+    {{- if not $pages -}}
+      {{- $pages = $parent.Pages.ByWeight -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $prev := false -}}{{- $next := false -}}{{- $nextLabel := "" -}}{{- $isLast := false -}}{{- $isFirst := false -}}
+
+{{- if or (eq .Kind "taxonomy") (eq .Kind "term") -}}
+  {{- /* 分类/标签页：prev=前一分类, next=后一分类, 首尾回书架 */ -}}
+  {{- $terms := slice -}}
+  {{- range .Site.Taxonomies.categories -}}{{- $terms = $terms | append .Page -}}{{- end -}}
+  {{- if gt (len $terms) 1 -}}
+    {{- $found := false -}}{{- $isLast := false -}}{{- $isFirst := false -}}
+    {{- $lastIdx := sub (len $terms) 1 -}}
+    {{- range $idx, $p := $terms -}}
+      {{- if $found -}}
+        {{- if not $next -}}{{- $next = $p -}}{{- end -}}
+      {{- else -}}
+        {{- if eq $p $ -}}
+          {{- $found = true -}}
+          {{- if eq $idx 0 -}}{{- $isFirst = true -}}{{- end -}}
+          {{- if eq $idx $lastIdx -}}{{- $isLast = true -}}{{- end -}}
+        {{- else -}}
+          {{- $prev = $p -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- with .Site.GetPage "/books" -}}
+      {{- if $isFirst -}}{{- $prev = . -}}{{- end -}}
+      {{- if $isLast -}}{{- $next = . -}}{{- $nextLabel = "完结 · 返回书架 →" -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if not $prev -}}{{- with .Site.GetPage "/books" -}}{{- $prev = . -}}{{- end -}}{{- end -}}
+{{- else if $isSection -}}
+  {{- /* 书封面：prev=父级section(仅丛书卷) → 首页，next=开始阅读 */ -}}
+  {{- if and $parent $parent.IsSection $parent.Params.BookCollapseSection -}}
+    {{- $prev = $parent -}}
+  {{- else -}}
+    {{- $prev = .Site.Home -}}
+  {{- end -}}
+  {{- with .RegularPages.ByWeight -}}
+    {{- if gt (len .) 0 -}}{{- $next = index . 0 -}}{{- $nextLabel = "开始阅读 →" -}}{{- end -}}
+  {{- end -}}
+{{- else if gt (len $pages) 1 -}}
+  {{- $found := false -}}{{- $isLast := false -}}{{- $isFirst := false -}}
+  {{- $lastIdx := sub (len $pages) 1 -}}
+  {{- range $idx, $p := $pages -}}
+    {{- if $found -}}
+      {{- if not $next -}}{{- $next = $p -}}{{- end -}}
+    {{- else -}}
+      {{- if eq $p $ -}}
+        {{- $found = true -}}
+        {{- if eq $idx 0 -}}{{- $isFirst = true -}}{{- end -}}
+        {{- if eq $idx $lastIdx -}}{{- $isLast = true -}}{{- end -}}
+      {{- else -}}
+        {{- $prev = $p -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $isFirst -}}
+    {{- $prev = $parent -}}
+  {{- end -}}
+  {{- if $isLast -}}
+    {{- $next = $parent -}}{{- $nextLabel = "完结 · 返回封面 →" -}}
+  {{- end -}}
+  {{- if not $prev -}}{{- $prev = $parent -}}{{- end -}}
+{{- end -}}
+
+{{- if or $prev $next -}}
+<nav class="book-nav">
+  <div class="flex justify-between">
+    <div class="book-nav-prev">
+    {{- with $prev -}}
+      <a href="{{ .RelPermalink }}" class="book-nav-link">← {{ partial "docs/title" . }}</a>
+    {{- end -}}
+    </div>
+    <div class="book-nav-next">
+    {{- with $next -}}
+      {{- if $nextLabel -}}
+        <a href="{{ .RelPermalink }}" class="book-nav-link {{ if $isLast }}book-nav-finish{{ end }}">{{ $nextLabel }}</a>
+      {{- else -}}
+        <a href="{{ .RelPermalink }}" class="book-nav-link ">{{ partial "docs/title" . }} →</a>
+      {{- end -}}
+    {{- end -}}
+    </div>
+  </div>
+</nav>
+{{- end -}}

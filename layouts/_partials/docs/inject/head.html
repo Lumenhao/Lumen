@@ -1,0 +1,60 @@
+{{- /* 防止亮/暗闪烁：页面渲染前从 localStorage 读取主题 */ -}}
+<script>
+  (function(){
+    var t=localStorage.getItem('book-theme');
+    if(!t) return;
+    var d=document.documentElement;
+    d.dataset.theme=t;
+    d.style.colorScheme=t;
+    if(t==='dark'){
+      d.style.setProperty('--body-background','#1a1a1a');
+      d.style.setProperty('--body-font-color','#e0e0e0');
+      d.style.setProperty('--color-link','#4db6ac');
+      d.style.setProperty('--gray-100','#2d2d2d');
+      d.style.setProperty('--gray-200','#3d3d3d');
+      d.style.setProperty('--gray-500','#a0a0a0');
+      d.style.setProperty('--text-primary','#f5f5f7');
+      d.style.setProperty('--text-secondary','#a1a1a6');
+      d.style.setProperty('--surface','rgba(255,255,255,0.06)');
+      d.style.setProperty('--hairline','rgba(255,255,255,0.14)');
+      d.style.setProperty('--hairline-strong','rgba(255,255,255,0.24)');
+    } else {
+      d.style.setProperty('--body-background','#fff');
+      d.style.setProperty('--body-font-color','#000');
+      d.style.setProperty('--color-link','#00897b');
+      d.style.setProperty('--gray-100','#f0f0f0');
+      d.style.setProperty('--gray-200','#d0d0d0');
+      d.style.setProperty('--gray-500','#707070');
+      d.style.setProperty('--text-primary','#1d1d1f');
+      d.style.setProperty('--text-secondary','#6e6e73');
+      d.style.setProperty('--surface','#f5f5f7');
+      d.style.setProperty('--hairline','rgba(0,0,0,0.1)');
+      d.style.setProperty('--hairline-strong','rgba(0,0,0,0.18)');
+    }
+  })()
+</script>
+
+{{- /* 字体：Noto Sans SC（思源黑体）+ Inter（拉丁/数字） */ -}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+
+{{- /* 代码语法高亮（Chroma）*/ -}}
+{{- with resources.Get "syntax.css" | minify -}}
+<link rel="stylesheet" href="{{ .RelPermalink }}">
+{{- end -}}
+
+{{- /* KaTeX: 全站加载，auto-render 处理 $...$ 和 $...$ */ -}}
+<link rel="stylesheet" href="{{ "katex/katex.min.css" | relURL }}">
+<script defer src="{{ "katex/katex.min.js" | relURL }}"></script>
+<script defer src="{{ "katex/auto-render.min.js" | relURL }}"></script>
+
+{{- /* pseudocode.js: RL 书的算法块（<pre class="pseudocode">） */ -}}
+<link rel="stylesheet" href="{{ "pseudocode.min.css" | relURL }}">
+<script defer src="{{ "pseudocode.min.js" | relURL }}"></script>
+
+{{- /* 代码复制按钮 + 缩写 tooltip + KaTeX 初始化 + 主题切换 */ -}}
+<script defer src="{{ "code-copy.js" | relURL }}"></script>
+<script defer src="{{ "abbr-tooltip.js" | relURL }}"></script>
+<script defer src="{{ "katex-init.js" | relURL }}"></script>
+<script defer src="{{ "theme-toggle.js" | relURL }}"></script>

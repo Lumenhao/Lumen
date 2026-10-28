@@ -1,0 +1,2 @@
+{{- /* 覆盖主题：图片用相对路径原样输出（images/ 与 .md 同级，uglyurls 下相对路径有效） */ -}}
+<img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title }}title="{{ . }}"{{ end }}/>

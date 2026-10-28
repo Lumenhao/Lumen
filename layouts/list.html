@@ -1,0 +1,44 @@
+{{/* 通用 section 列表页：卡片网格（用于 notes/ papers/）。*/}}
+{{ define "main" }}
+  {{ with .Content }}
+    <article class="markdown book-article">
+      {{- . -}}
+    </article>
+  {{ end }}
+
+  <div class="card-grid">
+    {{ range .Pages }}
+      <a class="card" href="{{ .RelPermalink }}">
+        <h2 class="card-title">{{ partial "docs/title" . }}</h2>
+        {{ with .Description }}
+          <p class="card-desc">{{ . }}</p>
+        {{ else }}
+          <p class="card-desc">{{ .Summary | plainify | truncate 120 }}</p>
+        {{ end }}
+        <div class="card-meta">
+          {{ with .Date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006-01-02" }}</time>{{ end }}
+          {{ range .GetTerms "tags" }}
+            <span class="chip">{{ .LinkTitle }}</span>
+          {{ end }}
+        </div>
+      </a>
+    {{ end }}
+  </div>
+
+  {{ template "_default/pagination" . }}
+{{ end }}
+
+{{ define "_default/pagination" }}
+  {{ if gt .Paginator.TotalPages 1 }}
+    <nav class="pagination">
+      {{ if .Paginator.HasPrev }}
+        <a href="{{ .Paginator.Prev.URL }}" class="pagination-link">← 上一页</a>
+      {{ end }}
+      {{ if .Paginator.HasNext }}
+        <a href="{{ .Paginator.Next.URL }}" class="pagination-link">下一页 →</a>
+      {{ end }}
+    </nav>
+  {{ end }}
+{{ end }}
+
+{{ define "toc-container" }}{{ end }}

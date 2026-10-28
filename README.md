@@ -23,7 +23,7 @@ Calibre is very good at keeping a library. It was never meant to be the place wh
 Lumen points at the Calibre library you already own, reads it without touching it, and puts a quiet, well-set reading room on top: four reading themes, real pagination, highlights and notes that survive a browser restart. No import step, no duplicate library, no metadata rewritten behind Calibre's back.
 
 ```bash
-git clone https://github.com/Lumenhao/Lumen.git && cd lumen
+git clone https://github.com/Lumenhao/Lumen.git && cd Lumen
 docker compose up -d          # → http://localhost:8080
 ```
 

@@ -23,7 +23,7 @@ Calibre 很擅长替你**收书**，只是它从来不是用来**读书**的地�
 Lumen 指向你早已整理好的 Calibre 书库，只读地把它读进来，再在上面盖一间安静的阅读室：四套阅读主题、真正的分页排版、刷新也不丢的划线笔记。没有导入步骤，没有第二份书库，也不会背着 Calibre 改写任何元数据。
 
 ```bash
-git clone https://github.com/Lumenhao/Lumen.git && cd lumen
+git clone https://github.com/Lumenhao/Lumen.git && cd Lumen
 docker compose up -d          # → http://localhost:8080
 ```
 

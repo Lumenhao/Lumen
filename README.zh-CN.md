@@ -23,7 +23,7 @@ Calibre 很擅长替你**收书**，只是它从来不是用来**读书**的地�
 Lumen 指向你早已整理好的 Calibre 书库，只读地把它读进来，再在上面盖一间安静的阅读室：四套阅读主题、真正的分页排版、刷新也不丢的划线笔记。没有导入步骤，没有第二份书库，也不会背着 Calibre 改写任何元数据。
 
 ```bash
-git clone https://github.com/Lumenhao/lumen.git && cd lumen
+git clone https://github.com/Lumenhao/Lumen.git && cd lumen
 docker compose up -d          # → http://localhost:8080
 ```
 
@@ -93,7 +93,7 @@ docker compose up -d          # → http://localhost:8080
 ### 方式一：Docker（推荐）
 
 ```bash
-git clone https://github.com/Lumenhao/lumen.git
+git clone https://github.com/Lumenhao/Lumen.git
 cd lumen
 
 # 指向你的 Calibre 书库；不写这一行则使用仓库自带的演示库
@@ -109,7 +109,7 @@ docker compose up -d
 需要 Python 3.11 及以上。
 
 ```bash
-git clone https://github.com/Lumenhao/lumen.git
+git clone https://github.com/Lumenhao/Lumen.git
 cd lumen
 
 python -m venv .venv

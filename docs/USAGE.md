@@ -222,11 +222,11 @@ $$
 
 ### 5.1 建仓库并推送
 
-先在 GitHub 上建一个**空仓库**（不要勾选 README / .gitignore / license）。本站按 `https://github.com/Lumenhao/lumen` 配置；换成别的仓库时，记得同步改 `hugo.toml` 里的 GitHub 链接。
+先在 GitHub 上建一个**空仓库**（不要勾选 README / .gitignore / license）。本站按 `https://github.com/Lumenhao/Lumen` 配置；换成别的仓库时，记得同步改 `hugo.toml` 里的 GitHub 链接。
 
 ```bash
 cd "E:/Workbuddy work space/my-library"
-git remote add origin https://github.com/Lumenhao/lumen.git
+git remote add origin https://github.com/Lumenhao/Lumen.git
 git branch -M main
 git push -u origin main
 ```
@@ -241,7 +241,7 @@ git push -u origin main
 2. 打开 **Settings → Pages**
 3. **Source** 选 `Deploy from a branch`
 4. **Branch** 选 `gh-pages`，目录选 `/ (root)`，保存
-5. 等 1 分钟左右，访问 `https://Lumenhao.github.io/lumen/`
+5. 等 1 分钟左右，访问 `https://Lumenhao.github.io/Lumen/`
 
 站点的真实地址由 CI 自动计算（见 `deploy.yml` 的 Build 步骤），**不需要手动改 `baseURL`**。
 
@@ -259,7 +259,7 @@ git push
 
 ### 5.4 发布后补一处
 
-- 侧栏底部的 GitHub 入口已经在 `hugo.toml` 的 `[[menu.after]]` 里配好，指向 `Lumenhao/lumen`；换仓库时一并改掉
+- 侧栏底部的 GitHub 入口已经在 `hugo.toml` 的 `[[menu.after]]` 里配好，指向 `Lumenhao/Lumen`；换仓库时一并改掉
 
 ---
 

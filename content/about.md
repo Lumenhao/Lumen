@@ -5,7 +5,7 @@ weight: 10
 
 # 关于本站
 
-**Lumen · 星皓书房** 是一个自托管的个人数字图书馆：原地读取 Calibre 书库，配一间 Koodo 级的阅读器。完整说明、部署方式与技术取舍见 [GitHub 仓库](https://github.com/Lumenhao/lumen)。
+**Lumen · 星皓书房** 是一个自托管的个人数字图书馆：原地读取 Calibre 书库，配一间 Koodo 级的阅读器。完整说明、部署方式与技术取舍见 [GitHub 仓库](https://github.com/Lumenhao/Lumen)。
 
 这个站点是它的门面与读书笔记：首页是产品介绍；书架、笔记、论文与参考都用 Markdown 写成，由 [Hugo](https://gohugo.io) 与 [Hugo Book](https://github.com/alex-shpak/hugo-book) 主题生成，发布在 GitHub Pages。支持 KaTeX 数学公式与 pseudocode.js 伪代码。
 

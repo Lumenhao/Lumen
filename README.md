@@ -23,7 +23,7 @@ Calibre is very good at keeping a library. It was never meant to be the place wh
 Lumen points at the Calibre library you already own, reads it without touching it, and puts a quiet, well-set reading room on top: four reading themes, real pagination, highlights and notes that survive a browser restart. No import step, no duplicate library, no metadata rewritten behind Calibre's back.
 
 ```bash
-git clone https://github.com/Lumenhao/lumen.git && cd lumen
+git clone https://github.com/Lumenhao/Lumen.git && cd lumen
 docker compose up -d          # → http://localhost:8080
 ```
 
@@ -93,7 +93,7 @@ Together: *a study lit by stars* — a private reading room in which every book 
 ### Docker (recommended)
 
 ```bash
-git clone https://github.com/Lumenhao/lumen.git
+git clone https://github.com/Lumenhao/Lumen.git
 cd lumen
 
 # Point at your Calibre library; omit this line to use the bundled demo library
@@ -109,7 +109,7 @@ Open <http://localhost:8080>. `CALIBRE_PATH` accepts Windows drive paths (`D:/Ca
 Python 3.11 or newer.
 
 ```bash
-git clone https://github.com/Lumenhao/lumen.git
+git clone https://github.com/Lumenhao/Lumen.git
 cd lumen
 
 python -m venv .venv

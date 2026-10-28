@@ -60,5 +60,5 @@ copyright = '© 2026 Haoming Xing'
 # 发布到 GitHub 后取消注释，并把地址换成你的仓库
 [[menu.after]]
   name = 'GitHub'
-  url = 'https://github.com/Lumenhao/lumen'
+  url = 'https://github.com/Lumenhao/Lumen'
   weight = 10

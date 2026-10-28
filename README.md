@@ -93,12 +93,13 @@ Calibre 负责藏书与元数据，星皓书房负责「把书读好」。指向
 git clone https://github.com/Lumenhao/Library.git
 cd Library
 
-# 让应用指向你的 Calibre 书库（不填则使用仓库自带的演示库）
-# 编辑 docker-compose.yml 中 volumes 的左侧路径
+# 指向你的 Calibre 书库；不写这一行则使用仓库自带的演示库
+echo "CALIBRE_PATH=D:/Calibre Library" > .env
+
 docker compose up -d
 ```
 
-打开 <http://localhost:8080>。
+打开 <http://localhost:8080>。`CALIBRE_PATH` 支持 Windows 盘符路径（`D:/Calibre Library`）与 Linux/macOS 绝对路径（`/mnt/books/Calibre`），换库只需改 `.env` 后 `docker compose up -d`。
 
 ### 方式二：本地运行
 
@@ -132,6 +133,8 @@ LIBRARY_PATH="/path/to/Calibre Library" python -m app.main
 | `PORT` | `8080` | 监听端口 |
 | `SITE_NAME` | `星皓书房` | 站点标题 |
 | `LIBRARY_PASSWORD` | 空 | 设置后启用 HTTP Basic 口令 |
+
+`CALIBRE_PATH` 只在 Compose 里使用，用来指定挂载进容器的书库目录，默认 `./demo-library`。
 
 ## 接入你的 Calibre 库
 

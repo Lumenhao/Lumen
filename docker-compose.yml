@@ -15,8 +15,8 @@ services:
       LIBRARY_PASSWORD: "${LIBRARY_PASSWORD:-}"
       TZ: Asia/Shanghai
     volumes:
-      # 仅用于演示。接入真实书库时把左边改成 Calibre 库的绝对路径，并保留 :ro
-      - ./demo-library:/library:ro
+      # 默认用演示库。接入真实书库：在仓库根目录建 .env，写 CALIBRE_PATH=你的书库绝对路径
+      - "${CALIBRE_PATH:-./demo-library}:/library:ro"
       - library-data:/data
 
 volumes:

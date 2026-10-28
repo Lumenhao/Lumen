@@ -17,3 +17,5 @@ data/
 *.db-wal
 *.db-shm
 .venv/
+# 本机书库路径等本地配置
+.env

@@ -237,6 +237,9 @@ M1 在线阅读 EPUB；PDF 通过浏览器原生查看器打开；MOBI/AZW3 需�
 **忘记密码 / 想关闭登录？**
 `LIBRARY_PASSWORD` 为空时不启用登录。建议仅在可信内网使用，或置于反向代理之后。
 
+**拉取基础镜像失败？**
+部分网络无法直连 Docker Hub。可以给 Docker Desktop 配置镜像加速器（Settings → Docker Engine 中加入 `registry-mirrors`），或先 `docker pull <镜像站>/library/python:3.13-slim`，再 `docker tag` 成 `python:3.13-slim` 后重新构建。
+
 ## 贡献
 
 欢迎 Issue 与 Pull Request。提交前请：

@@ -15,8 +15,8 @@ pdfs
 out
 .tools
 .venv
-__pycache__
-*.pyc
-*.db-wal
-*.db-shm
+**/__pycache__
+**/*.pyc
+**/*.db-wal
+**/*.db-shm
 README.md

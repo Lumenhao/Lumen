@@ -24,4 +24,7 @@ USER library
 EXPOSE 8080
 VOLUME ["/data"]
 
+HEALTHCHECK --interval=30s --timeout=3s --start-period=15s --retries=3 \
+  CMD python -c "import os,urllib.request; urllib.request.urlopen('http://127.0.0.1:'+os.environ.get('PORT','8080')+'/api/config', timeout=2)"
+
 CMD ["python", "-m", "app.main"]

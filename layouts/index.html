@@ -23,7 +23,7 @@
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="{{ "/" | relURL }}" aria-label="Lumen 首页">
+    <a class="brand" href="{{ .Site.Home.RelPermalink }}" aria-label="Lumen 首页">
       <span class="brand-mark">L</span>
       <span class="brand-text">
         <span class="brand-name">Lumen</span>
@@ -208,9 +208,9 @@
     <nav aria-label="页脚导航">
       <a href="https://github.com/Lumenhao/Lumen">GitHub</a>
       <a href="https://github.com/Lumenhao/Lumen/blob/main/docs/USAGE.md">使用文档</a>
-      <a href="{{ "/books/" | relURL }}">书架</a>
-      <a href="{{ "/notes/" | relURL }}">笔记</a>
-      <a href="{{ "/about/" | relURL }}">关于</a>
+      <a href="{{ (.Site.GetPage "/books").RelPermalink }}">书架</a>
+      <a href="{{ (.Site.GetPage "/notes").RelPermalink }}">笔记</a>
+      <a href="{{ (.Site.GetPage "/about").RelPermalink }}">关于</a>
     </nav>
   </div>
 </footer>

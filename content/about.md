@@ -5,7 +5,7 @@ weight: 10
 
 # 关于本站
 
-个人数字图书馆，基于 [Hugo](https://gohugo.io) + [Hugo Book](https://github.com/alex-shpak/hugo-book) 主题构建，部署于 GitHub Pages。
+个人数字图书馆（星皓书房），基于 [Hugo](https://gohugo.io) + [Hugo Book](https://github.com/alex-shpak/hugo-book) 主题构建，部署于 GitHub Pages。
 
 书籍、笔记、论文全部是 Markdown 文件，支持 KaTeX 数学公式与 pseudocode.js 伪代码。
 

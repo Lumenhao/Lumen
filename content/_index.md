@@ -1,11 +1,11 @@
 ---
-title: "我的图书馆"
+title: "星皓书房"
 weight: 1
 ---
 
 <section class="hero">
-  <h1 class="hero-title">我的图书馆</h1>
-  <p class="hero-subtitle">个人数字图书馆</p>
+  <h1 class="hero-title">星皓书房</h1>
+  <p class="hero-subtitle">Haoming's Digital Library</p>
 </section>
 
 ## 书架

@@ -2,7 +2,7 @@
 # baseURL 保持根路径即可：本地预览直接用 http://localhost:1313/
 # 发布到 GitHub Pages 时，CI 会自动传入真实地址（见 .github/workflows/deploy.yml）
 baseURL = '/'
-title = "我的图书馆"
+title = "星皓书房"
 theme = 'hugo-book'
 
 defaultContentLanguage = 'zh'
@@ -11,7 +11,7 @@ disablePathToLower = true
 uglyurls = true
 relativeurls = false
 
-copyright = '© 我的图书馆'
+copyright = '© 2026 Haoming Xing'
 
 [markup]
 [markup.goldmark.renderer]
@@ -58,7 +58,7 @@ copyright = '© 我的图书馆'
   BookPortableLinks = 'warning'
 
 # 发布到 GitHub 后取消注释，并把地址换成你的仓库
-# [[menu.after]]
-#   name = 'GitHub'
-#   url = 'https://github.com/YOURNAME/my-library'
-#   weight = 10
+[[menu.after]]
+  name = 'GitHub'
+  url = 'https://github.com/haomingxing/library'
+  weight = 10

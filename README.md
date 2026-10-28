@@ -1,4 +1,4 @@
-# 📚 我的图书馆
+# 📚 星皓书房
 
 个人数字图书馆 —— Hugo + KaTeX + pseudocode.js，推送到 GitHub 后自动构建并发布到 GitHub Pages。
 

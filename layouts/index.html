@@ -169,10 +169,11 @@
     <div class="sec-head">
       <span class="eyebrow">Deploy</span>
       <h2>三条命令，书房开张。</h2>
-      <p>只需要一台装着 Docker 的机器。默认接入仓库自带的演示书库，要读自己的书，改一行路径就够了。</p>
+      <p>Docker 一条命令，或者 Python 版双击启动。默认接入仓库自带的演示书库，要读自己的书，改一行路径就够了。</p>
     </div>
     <div class="deploy">
-      <ol class="steps">
+      <div>
+        <ol class="steps">
         <li>
           <b>找到你的 Calibre 书库</b>
           就是 metadata.db 所在的那个目录。Lumen 只读挂载它，不会写入任何内容。
@@ -185,12 +186,14 @@
           <b>启动，然后打开浏览器</b>
           访问 <code>http://localhost:8080</code>。书库随即点亮，进度与笔记开始单独存放。
         </li>
-      </ol>
+        </ol>
+        <p class="deploy-note">没有 Docker？<b>Python 版</b>只需 Python 3.11+：Windows 双击 <code>start.bat</code>，macOS / Linux 运行 <code>bash start.sh</code>。</p>
+      </div>
       <div class="term">
         <div class="term-bar"><b></b>bash — lumen</div>
         <pre><code><span class="c"># 1. 获取代码</span>
 <span class="p">$</span> git clone https://github.com/Lumenhao/Lumen.git
-<span class="p">$</span> cd lumen
+<span class="p">$</span> cd Lumen
 
 <span class="c"># 2. 指向你的 Calibre 书库</span>
 <span class="p">$</span> echo <span class="k">"CALIBRE_PATH=D:/Calibre Library"</span> &gt; .env

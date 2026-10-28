@@ -425,6 +425,17 @@ body::after {
 
 /* ------------------------------------------------------------ 部署 */
 
+.deploy-note {
+  margin: 26px 0 0;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line);
+  color: var(--faint);
+  font-size: 13.5px;
+  line-height: 1.8;
+}
+
+.deploy-note b { color: var(--ink); font-weight: 600; }
+
 .deploy {
   display: grid;
   grid-template-columns: minmax(0, .86fr) minmax(0, 1fr);
@@ -467,7 +478,8 @@ body::after {
 
 .steps b { display: block; color: var(--ink); font-weight: 600; margin-bottom: 4px; }
 
-.steps code {
+.steps code,
+.deploy-note code {
   padding: 2px 7px;
   border-radius: 6px;
   border: 1px solid var(--line);

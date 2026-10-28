@@ -90,11 +90,23 @@ Together: *a study lit by stars* — a private reading room in which every book 
 
 ## Quick start
 
-### Docker (recommended)
+One codebase, two editions. Pick the one that matches the machine you will run it on.
+
+| | Docker edition | Python edition |
+|---|---|---|
+| **Needs** | Docker with Compose | Python 3.11+ |
+| **Best for** | NAS, VPS, an always-on box | A laptop or desktop you already use |
+| **Start** | `docker compose up -d` | double-click `start.bat`, or `bash start.sh` |
+| **Data** | named volume `library-data` | `data/` inside the project folder |
+| **Update** | `git pull && docker compose up -d --build` | `git pull`, then relaunch |
+
+Both editions read the same `.env` at the repository root, so the library path is set once and switching between them costs nothing.
+
+### Docker edition
 
 ```bash
 git clone https://github.com/Lumenhao/Lumen.git
-cd lumen
+cd Lumen
 
 # Point at your Calibre library; omit this line to use the bundled demo library
 echo "CALIBRE_PATH=D:/Calibre Library" > .env
@@ -104,41 +116,43 @@ docker compose up -d
 
 Open <http://localhost:8080>. `CALIBRE_PATH` accepts Windows drive paths (`D:/Calibre Library`) and POSIX paths (`/mnt/books/Calibre`). To switch libraries, edit `.env` and run `docker compose up -d` again.
 
-### Local
-
-Python 3.11 or newer.
+### Python edition
 
 ```bash
 git clone https://github.com/Lumenhao/Lumen.git
-cd lumen
+cd Lumen
 
+echo "CALIBRE_PATH=D:/Calibre Library" > .env   # optional, same file as above
+```
+
+- **Windows** — double-click `start.bat`.
+- **macOS / Linux** — run `bash start.sh`.
+
+The launcher creates `.venv`, installs the two dependencies, starts the server and opens the browser. Nothing is installed globally; delete `.venv/` to undo.
+
+Manual equivalent, if you prefer a shell:
+
+```bash
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r app/requirements.txt
-
-# Windows PowerShell
-$env:LIBRARY_PATH = "D:\Calibre Library"
-
-# macOS / Linux
-export LIBRARY_PATH="/path/to/Calibre Library"
-
 python -m app.main
 ```
 
-Listens on `127.0.0.1:8080` by default; override with `HOST` / `PORT`.
+Listens on `127.0.0.1:8080` by default. Set `HOST=0.0.0.0` in `.env` to reach it from other devices on your network.
 
 ### Configuration
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `LIBRARY_PATH` | `demo-library` | Calibre library root (the directory holding `metadata.db`) |
+| `LIBRARY_PATH` | `demo-library` | Calibre library root (the directory holding `metadata.db`); `CALIBRE_PATH` is accepted as an alias in `.env` |
 | `DATA_DIR` | `data` | App data directory (progress, bookmarks, notes) |
 | `HOST` | `127.0.0.1` | Bind address (`0.0.0.0` inside the container) |
 | `PORT` | `8080` | Listen port |
 | `SITE_NAME` | `星皓书房` | Title shown in the interface |
 | `LIBRARY_PASSWORD` | empty | When set, requires HTTP Basic authentication |
 
-`CALIBRE_PATH` is compose-only: it selects which host directory is mounted at `/library`.
+`CALIBRE_PATH` is what Compose mounts at `/library`; the Python edition reads the same value as its library path.
 
 ## Connecting your Calibre library
 
@@ -192,6 +206,7 @@ lumen/
 ├── tools/build_demo_library.py
 ├── content/  layouts/  assets/  static/  themes/   # Hugo site (the landing page)
 ├── docs/                     # Product, architecture, roadmap, usage
+├── start.bat  start.sh       # One-click launchers (Python edition)
 ├── docker-compose.yml
 ├── Dockerfile
 └── .github/workflows/        # Publishes the Hugo site to GitHub Pages
@@ -228,6 +243,9 @@ No. The library is mounted read-only and there is no write path in the code. Con
 
 **Which formats are supported?**
 EPUB is read in-app. PDF opens in the browser's native viewer. MOBI and AZW3 need a one-time conversion in Calibre; `ebook-convert` integration is on the M2 list.
+
+**Do I need Docker?**
+No. The Python edition runs natively with Python 3.11+ — double-click `start.bat` or run `bash start.sh`, and it manages its own `.venv`. Docker is the reproducible option for an always-on machine; both editions share the same `.env` and the same data model.
 
 **Can it run on GitHub Pages?**
 No — Pages only serves static files, and a shelf with reading progress needs a backend. The Hugo site in this repo is the static companion.

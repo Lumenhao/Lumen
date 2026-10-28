@@ -8,6 +8,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 
+def _load_dotenv(path: Path) -> None:
+    """仓库根目录的 .env 同时供 Docker 版与 Python 版使用。"""
+    if not path.is_file():
+        return
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        os.environ.setdefault(key.strip(), value.strip().strip("\"'"))
+
+
 def _path(value: str | None, default: Path) -> Path:
     if not value:
         return default
@@ -17,7 +29,10 @@ def _path(value: str | None, default: Path) -> Path:
 
 class Settings:
     def __init__(self) -> None:
-        self.library_path = _path(os.getenv("LIBRARY_PATH"), ROOT / "demo-library")
+        _load_dotenv(ROOT / ".env")
+        # Compose 里用 CALIBRE_PATH 指定挂载源；Python 版没有挂载，直接把它当书库路径
+        library = os.getenv("LIBRARY_PATH") or os.getenv("CALIBRE_PATH")
+        self.library_path = _path(library, ROOT / "demo-library")
         self.data_dir = _path(os.getenv("DATA_DIR"), ROOT / "data")
         self.host = os.getenv("HOST", "127.0.0.1")
         self.port = int(os.getenv("PORT", "8080"))

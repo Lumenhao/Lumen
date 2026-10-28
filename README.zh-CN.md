@@ -90,11 +90,23 @@ docker compose up -d          # → http://localhost:8080
 
 ## 快速开始
 
-### 方式一：Docker（推荐）
+一套代码，两个版本。按你打算运行它的机器挑一个。
+
+| | Docker 版 | Python 版 |
+|---|---|---|
+| **需要** | Docker + Compose | Python 3.11+ |
+| **适合** | NAS、VPS、长期常开的机器 | 你自己的笔记本或台式机 |
+| **启动** | `docker compose up -d` | 双击 `start.bat`，或 `bash start.sh` |
+| **数据** | 命名卷 `library-data` | 项目目录下的 `data/` |
+| **升级** | `git pull && docker compose up -d --build` | `git pull` 后重新启动 |
+
+两个版本读同一份仓库根目录的 `.env`：书库路径只写一次，换版本不用重新配置。
+
+### Docker 版
 
 ```bash
 git clone https://github.com/Lumenhao/Lumen.git
-cd lumen
+cd Lumen
 
 # 指向你的 Calibre 书库；不写这一行则使用仓库自带的演示库
 echo "CALIBRE_PATH=D:/Calibre Library" > .env
@@ -104,41 +116,43 @@ docker compose up -d
 
 打开 <http://localhost:8080>。`CALIBRE_PATH` 支持 Windows 盘符路径（`D:/Calibre Library`）与 POSIX 绝对路径（`/mnt/books/Calibre`）。换库只需改 `.env` 后再次 `docker compose up -d`。
 
-### 方式二：本地运行
-
-需要 Python 3.11 及以上。
+### Python 版
 
 ```bash
 git clone https://github.com/Lumenhao/Lumen.git
-cd lumen
+cd Lumen
 
+echo "CALIBRE_PATH=D:/Calibre Library" > .env   # 可选，与上面是同一个文件
+```
+
+- **Windows**：双击 `start.bat`。
+- **macOS / Linux**：运行 `bash start.sh`。
+
+脚本会创建 `.venv`、安装两个依赖、启动服务并打开浏览器。不往系统里装任何东西，删掉 `.venv/` 即还原。
+
+喜欢自己敲命令的话：
+
+```bash
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r app/requirements.txt
-
-# Windows PowerShell
-$env:LIBRARY_PATH = "D:\Calibre Library"
-
-# macOS / Linux
-export LIBRARY_PATH="/path/to/Calibre Library"
-
 python -m app.main
 ```
 
-默认监听 `127.0.0.1:8080`，可用 `HOST` / `PORT` 覆盖。
+默认监听 `127.0.0.1:8080`；在 `.env` 里设 `HOST=0.0.0.0` 可从局域网其他设备访问。
 
 ### 环境变量
 
 | 变量 | 默认值 | 作用 |
 |---|---|---|
-| `LIBRARY_PATH` | `demo-library` | Calibre 书库根目录（含 `metadata.db`） |
+| `LIBRARY_PATH` | `demo-library` | Calibre 书库根目录（含 `metadata.db`）；在 `.env` 里写 `CALIBRE_PATH` 等效 |
 | `DATA_DIR` | `data` | 应用数据目录（进度、书签、笔记） |
 | `HOST` | `127.0.0.1` | 监听地址（容器内为 `0.0.0.0`） |
 | `PORT` | `8080` | 监听端口 |
 | `SITE_NAME` | `星皓书房` | 界面标题 |
 | `LIBRARY_PASSWORD` | 空 | 设置后启用 HTTP Basic 口令 |
 
-`CALIBRE_PATH` 只在 Compose 中使用，用来指定挂载进容器的主机目录。
+`CALIBRE_PATH` 是 Compose 挂载进容器的主机目录；Python 版把它直接当作书库路径。
 
 ## 接入你的 Calibre 库
 
@@ -192,6 +206,7 @@ lumen/
 ├── tools/build_demo_library.py
 ├── content/  layouts/  assets/  static/  themes/   # Hugo 站点（落地页）
 ├── docs/                     # 产品、架构、路线图、使用说明
+├── start.bat  start.sh       # Python 版一键启动脚本
 ├── docker-compose.yml
 ├── Dockerfile
 └── .github/workflows/        # 把 Hugo 站点发布到 GitHub Pages
@@ -228,6 +243,9 @@ lumen/
 
 **支持哪些格式？**
 EPUB 在应用内直接阅读；PDF 调用浏览器原生查看器；MOBI / AZW3 需要先在 Calibre 里转换一次，`ebook-convert` 集成在 M2 计划中。
+
+**一定要装 Docker 吗？**
+不用。Python 版只需 Python 3.11+：Windows 双击 `start.bat`，macOS / Linux 运行 `bash start.sh`，虚拟环境由脚本自己管理。Docker 版适合常开机器；两版共用同一份 `.env` 和同一套数据模型。
 
 **能部署到 GitHub Pages 吗？**
 不能。Pages 只托管静态文件，而书架与阅读进度需要后端。仓库里的 Hugo 站点是它的静态搭档。

@@ -9,3 +9,11 @@ __pycache__/
 out/
 fix_ocr.py
 .tools/
+# 生成演示库时下载的公版书缓存（可重新生成，不入库）
+tools/.cache/
+
+# 应用运行时数据（进度 / 书签 / 笔记）
+data/
+*.db-wal
+*.db-shm
+.venv/

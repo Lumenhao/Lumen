@@ -1,0 +1,23 @@
+services:
+  library:
+    build: .
+    image: xinghao-library:latest
+    container_name: xinghao-library
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      # 换成你的 Calibre 书库目录：容器内固定为 /library
+      LIBRARY_PATH: /library
+      DATA_DIR: /data
+      SITE_NAME: 星皓书房
+      # 留空则不启用登录；设置了就会要求 HTTP Basic 口令
+      LIBRARY_PASSWORD: "${LIBRARY_PASSWORD:-}"
+      TZ: Asia/Shanghai
+    volumes:
+      # 仅用于演示。接入真实书库时把左边改成 Calibre 库的绝对路径，并保留 :ro
+      - ./demo-library:/library:ro
+      - library-data:/data
+
+volumes:
+  library-data:

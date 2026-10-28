@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>参考 on 星皓书房</title><link>https://Lumenhao.github.io/Library/reference/index.html</link><description>Recent content in 参考 on 星皓书房</description><generator>Hugo</generator><language>zh-CN</language><copyright>© 2026 Haoming Xing</copyright><atom:link href="https://Lumenhao.github.io/Library/reference/index.xml" rel="self" type="application/rss+xml"/><item><title>元素速查</title><link>https://Lumenhao.github.io/Library/reference/elements.html</link><pubDate>Wed, 28 Oct 2026 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/reference/elements.html</guid><description>&lt;p&gt;本页列出全部内容元素的写法与实际渲染效果，写书时直接抄。&lt;/p&gt;
+&lt;h2 id="提示框-callout"&gt;提示框 callout&lt;a class="anchor" href="#%e6%8f%90%e7%a4%ba%e6%a1%86-callout"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;type&lt;/code&gt; 控制配色：&lt;code&gt;tip&lt;/code&gt; 蓝、&lt;code&gt;note&lt;/code&gt; 灰、&lt;code&gt;warning&lt;/code&gt; 橙、&lt;code&gt;important&lt;/code&gt; 红。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;{{&amp;lt; callout type=&amp;#34;tip&amp;#34; title=&amp;#34;标题（可选）&amp;#34; &amp;gt;}}
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;内容……
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;{{&amp;lt; /callout &amp;gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="callout callout-tip"&gt;
+ &lt;p class="callout-title"&gt;提示&lt;/p&gt;
+ &lt;div class="callout-body"&gt;这是一个 tip 提示框，用于补充有用的小技巧。&lt;/div&gt;
+&lt;/div&gt;
+
+
+
+
+&lt;div class="callout callout-warning"&gt;
+ &lt;p class="callout-title"&gt;注意&lt;/p&gt;
+ &lt;div class="callout-body"&gt;不要混淆 $P(s'|s,a)$ 和 $P(s'|s)$——前者依赖动作，后者不依赖。&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id="定义-definition"&gt;定义 definition&lt;a class="anchor" href="#%e5%ae%9a%e4%b9%89-definition"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;{{&amp;lt; definition title=&amp;#34;马尔可夫决策过程&amp;#34; &amp;gt;}}
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;定义内容……
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;{{&amp;lt; /definition &amp;gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="element definition"&gt;
+ &lt;span class="element-label"&gt;定义&lt;/span&gt;&lt;span class="element-title"&gt;马尔可夫决策过程（MDP）&lt;/span&gt;
+ &lt;div class="element-body"&gt;一个 MDP 由状态集 $S$、动作集 $A$、转移概率 $P(s'|s,a)$、奖励函数 $R$ 和折扣因子 $\gamma$ 组成。其核心性质是&lt;strong&gt;马尔可夫性&lt;/strong&gt;：未来只取决于当前状态和动作，与历史无关。&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id="定理-theorem"&gt;定理 theorem&lt;a class="anchor" href="#%e5%ae%9a%e7%90%86-theorem"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;type&lt;/code&gt; 可选：定理（默认）、引理、命题、推论。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;{{&amp;lt; theorem type=&amp;#34;引理&amp;#34; title=&amp;#34;贝尔曼最优方程&amp;#34; &amp;gt;}}
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;陈述……
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;{{&amp;lt; /theorem &amp;gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="element theorem"&gt;
+ &lt;span class="element-label"&gt;定理&lt;/span&gt;&lt;span class="element-title"&gt;贝尔曼最优方程&lt;/span&gt;
+ &lt;div class="element-body"&gt;&lt;p&gt;最优状态价值函数满足：
+&lt;/p&gt;
+$$
+V^*(s) = \max_a \sum_{s'} P(s'|s,a) \left[ R(s,a,s') + \gamma V^*(s') \right]
+$$&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id="例题-example"&gt;例题 example&lt;a class="anchor" href="#%e4%be%8b%e9%a2%98-example"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;内部可以再嵌一个 &lt;code&gt;solution&lt;/code&gt; 显示解答。&lt;/p&gt;</description></item></channel></rss>

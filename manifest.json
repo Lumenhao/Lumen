@@ -1,0 +1,15 @@
+{
+  "name": "星皓书房",
+  "short_name": "星皓书房",
+  "start_url": "/Library/",
+  "scope": "/Library/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/Library/favicon.svg",
+      "sizes": "512x512"
+    }
+  ]
+}

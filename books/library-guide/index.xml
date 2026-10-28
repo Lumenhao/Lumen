@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>图书馆使用指南 on 星皓书房</title><link>https://Lumenhao.github.io/Library/books/library-guide/index.html</link><description>Recent content in 图书馆使用指南 on 星皓书房</description><generator>Hugo</generator><language>zh-CN</language><copyright>© 2026 Haoming Xing</copyright><atom:link href="https://Lumenhao.github.io/Library/books/library-guide/index.xml" rel="self" type="application/rss+xml"/><item><title>第1章 · 结构与导航</title><link>https://Lumenhao.github.io/Library/books/library-guide/ch01.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/books/library-guide/ch01.html</guid><description>&lt;h1 id="第1章--结构与导航"&gt;第1章 · 结构与导航&lt;a class="anchor" href="#%e7%ac%ac1%e7%ab%a0--%e7%bb%93%e6%9e%84%e4%b8%8e%e5%af%bc%e8%88%aa"&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;一本书就是一个文件夹。Hugo 按文件夹里的 Markdown 生成网页，不需要数据库，也不需要后台。&lt;/p&gt;
+&lt;h2 id="一本书的文件夹"&gt;一本书的文件夹&lt;a class="anchor" href="#%e4%b8%80%e6%9c%ac%e4%b9%a6%e7%9a%84%e6%96%87%e4%bb%b6%e5%a4%b9"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;content/books/library-guide/
+├── _index.md ← 封面：书名、简介、目录
+├── ch01.md ← 正文第一章
+├── ch02.md
+├── ch03.md
+└── images/ ← 这本书用到的图片
+ └── pipeline.svg&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;_index.md&lt;/code&gt; 是封面页，其余 Markdown 按 &lt;code&gt;weight&lt;/code&gt; 从小到大排成章节。&lt;code&gt;weight&lt;/code&gt; 建议用 10、20、30，将来在中间插一章不用重新编号。&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/pipeline.svg" alt="从源文件到网站的流程" /&gt;
+
+&lt;p class="caption"&gt;
+ 图1.1　一本书变成网页的流程
+&lt;/p&gt;
+&lt;/p&gt;
+&lt;h2 id="导航是自动的"&gt;导航是自动的&lt;a class="anchor" href="#%e5%af%bc%e8%88%aa%e6%98%af%e8%87%aa%e5%8a%a8%e7%9a%84"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;侧栏&lt;/strong&gt;：读取每本书 &lt;code&gt;categories&lt;/code&gt; 的第一项作为分组&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;目录&lt;/strong&gt;：封面页里的 &lt;code&gt;{{&amp;lt; book-toc &amp;gt;}}&lt;/code&gt; 自动列出所有章节和它们的 &lt;code&gt;description&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;翻页&lt;/strong&gt;：每章底部自动出现「上一章 / 下一章」，封面底部是「开始阅读」&lt;/li&gt;
+&lt;/ul&gt;
+
+
+
+&lt;div class="callout callout-tip"&gt;
+ &lt;p class="callout-title"&gt;最省事的加书方式&lt;/p&gt;
+ &lt;div class="callout-body"&gt;把 &lt;code&gt;library-guide&lt;/code&gt; 整个文件夹复制一份，改名成你的新书 slug，再替换 &lt;code&gt;_index.md&lt;/code&gt; 里的书名、作者、简介，删掉旧章节，放入新章节。首页书架加一行链接即可。&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div class="element key-point"&gt;
+ &lt;span class="element-label"&gt;要点&lt;/span&gt;
+ &lt;div class="element-body"&gt;&lt;ul&gt;
+&lt;li&gt;一本书 = &lt;code&gt;content/books/&amp;lt;slug&amp;gt;/&lt;/code&gt; 一个文件夹&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;_index.md&lt;/code&gt; 是封面，&lt;code&gt;ch*.md&lt;/code&gt; 是章节，&lt;code&gt;images/&lt;/code&gt; 放图&lt;/li&gt;
+&lt;li&gt;侧栏分组来自 &lt;code&gt;categories&lt;/code&gt;，排序来自 &lt;code&gt;weight&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>第2章 · 页面元素</title><link>https://Lumenhao.github.io/Library/books/library-guide/ch02.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/books/library-guide/ch02.html</guid><description>&lt;h1 id="第2章--页面元素"&gt;第2章 · 页面元素&lt;a class="anchor" href="#%e7%ac%ac2%e7%ab%a0--%e9%a1%b5%e9%9d%a2%e5%85%83%e7%b4%a0"&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;这一章把常用的排版元素各演示一遍。语法抄 &lt;code&gt;content/reference/elements.md&lt;/code&gt; 即可，那里有全部元素的源码。&lt;/p&gt;
+&lt;h2 id="提示框"&gt;提示框&lt;a class="anchor" href="#%e6%8f%90%e7%a4%ba%e6%a1%86"&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+
+&lt;div class="callout callout-tip"&gt;
+ &lt;p class="callout-title"&gt;提示&lt;/p&gt;
+ &lt;div class="callout-body"&gt;用于补充有用的小技巧。&lt;/div&gt;
+&lt;/div&gt;
+
+
+
+
+&lt;div class="callout callout-warning"&gt;
+ &lt;p class="callout-title"&gt;注意&lt;/p&gt;
+ &lt;div class="callout-body"&gt;用于易错点、版本差异、实验上的坑。&lt;/div&gt;
+&lt;/div&gt;
+
+
+
+
+&lt;div class="callout callout-note"&gt;
+ &lt;p class="callout-title"&gt;说明&lt;/p&gt;
+ &lt;div class="callout-body"&gt;用于一般性说明。&lt;/div&gt;
+&lt;/div&gt;
+
+
+
+
+&lt;div class="callout callout-important"&gt;
+ &lt;p class="callout-title"&gt;重要&lt;/p&gt;
+ &lt;div class="callout-body"&gt;用于必须记住的结论。&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id="定义与定理"&gt;定义与定理&lt;a class="anchor" href="#%e5%ae%9a%e4%b9%89%e4%b8%8e%e5%ae%9a%e7%90%86"&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;div class="element definition"&gt;
+ &lt;span class="element-label"&gt;定义&lt;/span&gt;&lt;span class="element-title"&gt;局域化长度&lt;/span&gt;
+ &lt;div class="element-body"&gt;在无序系统中，波函数包络按 $\psi(r) \sim e^{-|r|/\xi}$ 衰减，$\xi$ 称为&lt;strong&gt;局域化长度&lt;/strong&gt;。$\xi$ 有限对应局域态，$\xi \to \infty$ 对应扩展态。&lt;/div&gt;
+&lt;/div&gt;
+
+
+
+
+&lt;div class="element theorem"&gt;
+ &lt;span class="element-label"&gt;定理&lt;/span&gt;&lt;span class="element-title"&gt;标度理论&lt;/span&gt;
+ &lt;div class="element-body"&gt;&lt;p&gt;电导 $g(L)$ 随系统尺寸 $L$ 的变化只依赖于 $g$ 本身：
+&lt;/p&gt;
+$$
+\beta(g) = \frac{d \ln g}{d \ln L}
+$$&lt;p&gt;
+$\beta(g)$ 的符号决定系统在热力学极限下是金属还是绝缘体。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id="例题与解答"&gt;例题与解答&lt;a class="anchor" href="#%e4%be%8b%e9%a2%98%e4%b8%8e%e8%a7%a3%e7%ad%94"&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;div class="element example"&gt;
+ &lt;span class="element-label"&gt;例题&lt;/span&gt;&lt;span class="element-title"&gt;例2-1 一维链的能带宽度&lt;/span&gt;
+ &lt;div class="element-body"&gt;&lt;p&gt;一维紧束缚链的色散为 $E(k) = -2t \cos(ka)$，求能带宽度。&lt;/p&gt;
+&lt;div class="solution"&gt;
+ $E(k)$ 在 $k=0$ 取最小值 $-2t$，在 $k=\pi/a$ 取最大值 $2t$，故带宽 $W = 4t$。
+&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id="表格"&gt;表格&lt;a class="anchor" href="#%e8%a1%a8%e6%a0%bc"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;元素&lt;/th&gt;
+					&lt;th&gt;用途&lt;/th&gt;
+					&lt;th&gt;语法&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;callout&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;提示、警告、说明&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;{{&amp;lt; callout type=&amp;quot;tip&amp;quot; &amp;gt;}}&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;definition&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;定义框&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;{{&amp;lt; definition title=&amp;quot;…&amp;quot; &amp;gt;}}&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;theorem&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;定理、引理、命题&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;{{&amp;lt; theorem type=&amp;quot;引理&amp;quot; &amp;gt;}}&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;example&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;例题，可嵌套解答&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;{{&amp;lt; example title=&amp;quot;…&amp;quot; &amp;gt;}}&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;key-point&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;章末要点&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;{{&amp;lt; key-point &amp;gt;}}&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;caption&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;图注、表注&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;{{&amp;lt; caption &amp;gt;}}&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p class="caption"&gt;
+ 表2.1　常用元素一览
+&lt;/p&gt;</description></item><item><title>第3章 · 公式与算法</title><link>https://Lumenhao.github.io/Library/books/library-guide/ch03.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/books/library-guide/ch03.html</guid><description>&lt;h1 id="第3章--公式与算法"&gt;第3章 · 公式与算法&lt;a class="anchor" href="#%e7%ac%ac3%e7%ab%a0--%e5%85%ac%e5%bc%8f%e4%b8%8e%e7%ae%97%e6%b3%95"&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;数学公式由 KaTeX 在浏览器里渲染。行内用 &lt;code&gt;$...$&lt;/code&gt;，行间用 &lt;code&gt;$$...$$&lt;/code&gt;，和 LaTeX 写法基本一致。&lt;/p&gt;
+&lt;h2 id="行内公式"&gt;行内公式&lt;a class="anchor" href="#%e8%a1%8c%e5%86%85%e5%85%ac%e5%bc%8f"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;石墨烯的低能有效哈密顿量为 $H = v_F (\sigma_x k_x + \sigma_y k_y)$，本征能量 $E_\pm = \pm \hbar v_F |\mathbf{k}|$。&lt;/p&gt;
+&lt;h2 id="行间公式"&gt;行间公式&lt;a class="anchor" href="#%e8%a1%8c%e9%97%b4%e5%85%ac%e5%bc%8f"&gt;#&lt;/a&gt;&lt;/h2&gt;
+$$
+\rho(\omega) \propto \int \frac{d^2k}{(2\pi)^2}\, \delta\bigl(\hbar\omega - E(\mathbf{k})\bigr)
+$$&lt;h2 id="对齐与矩阵"&gt;对齐与矩阵&lt;a class="anchor" href="#%e5%af%b9%e9%bd%90%e4%b8%8e%e7%9f%a9%e9%98%b5"&gt;#&lt;/a&gt;&lt;/h2&gt;
+$$
+\begin{aligned}
+H_{AB} &amp;= \begin{pmatrix}
+0 &amp; f(\mathbf{k}) \\
+f^*(\mathbf{k}) &amp; 0
+\end{pmatrix}, \\[4pt]
+f(\mathbf{k}) &amp;= \sum_{i=1}^{3} e^{i \mathbf{k} \cdot \boldsymbol{\delta}_i}.
+\end{aligned}
+$$&lt;p&gt;求和与积分同样可以直接写：&lt;/p&gt;
+$$
+\langle E \rangle = \frac{\sum_n E_n e^{-E_n / k_B T}}{\sum_n e^{-E_n / k_B T}}
+$$&lt;h2 id="伪代码"&gt;伪代码&lt;a class="anchor" href="#%e4%bc%aa%e4%bb%a3%e7%a0%81"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;算法块用 &lt;code&gt;&amp;lt;pre class=&amp;quot;pseudocode&amp;quot;&amp;gt;&lt;/code&gt; 包住 LaTeX algorithmic 语法，外层套 &lt;code&gt;algorithm&lt;/code&gt; 短代码加标题。&lt;/p&gt;</description></item></channel></rss>

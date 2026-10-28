@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>指南 on 星皓书房</title><link>https://Lumenhao.github.io/Library/categories/%E6%8C%87%E5%8D%97.html</link><description>Recent content in 指南 on 星皓书房</description><generator>Hugo</generator><language>zh-CN</language><copyright>© 2026 Haoming Xing</copyright><atom:link href="https://Lumenhao.github.io/Library/categories/%E6%8C%87%E5%8D%97/index.xml" rel="self" type="application/rss+xml"/><item><title>图书馆使用指南</title><link>https://Lumenhao.github.io/Library/books/library-guide/index.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/books/library-guide/index.html</guid><description>&lt;section class="book-hero"&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>指南 on 星皓书房</title><link>https://Lumenhao.github.io/Lumen/categories/%E6%8C%87%E5%8D%97.html</link><description>Recent content in 指南 on 星皓书房</description><generator>Hugo</generator><language>zh-CN</language><copyright>© 2026 Haoming Xing</copyright><atom:link href="https://Lumenhao.github.io/Lumen/categories/%E6%8C%87%E5%8D%97/index.xml" rel="self" type="application/rss+xml"/><item><title>图书馆使用指南</title><link>https://Lumenhao.github.io/Lumen/books/library-guide/index.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Lumen/books/library-guide/index.html</guid><description>&lt;section class="book-hero"&gt;
  &lt;div class="book-hero-art"&gt;
 
 
@@ -50,7 +50,7 @@
  
  
  &lt;div class="book-hero-tags"&gt;
- &lt;a class="chip" href="https://Lumenhao.github.io/Library/categories/%E6%8C%87%E5%8D%97.html"&gt;指南&lt;/a&gt;&lt;a class="chip" href="https://Lumenhao.github.io/Library/tags/%E7%A4%BA%E4%BE%8B.html"&gt;示例&lt;/a&gt;
+ &lt;a class="chip" href="https://Lumenhao.github.io/Lumen/categories/%E6%8C%87%E5%8D%97.html"&gt;指南&lt;/a&gt;&lt;a class="chip" href="https://Lumenhao.github.io/Lumen/tags/%E7%A4%BA%E4%BE%8B.html"&gt;示例&lt;/a&gt;
  &lt;/div&gt;
  
  &lt;/div&gt;
@@ -59,7 +59,7 @@
 &lt;section class="book-intro"&gt;
  &lt;h2&gt;简介&lt;/h2&gt;
  &lt;p&gt;这本示例书同时是模板：三章分别演示一座书的骨架、页面上能用的元素、以及公式和伪代码的写法。想加新书时，把这本书的文件夹复制一份改名，替换文字和图片即可。&lt;/p&gt;
- &lt;p&gt;完整的操作步骤见仓库根目录的 &lt;code&gt;使用说明.md&lt;/code&gt;。&lt;/p&gt;
+ &lt;p&gt;完整的操作步骤见仓库里的 &lt;code&gt;docs/USAGE.md&lt;/code&gt;。&lt;/p&gt;
 &lt;/section&gt;
 &lt;h2 id="目录"&gt;目录&lt;a class="anchor" href="#%e7%9b%ae%e5%bd%95"&gt;#&lt;/a&gt;&lt;/h2&gt;
 
@@ -72,7 +72,7 @@
 
 &lt;div class="book-toc-list"&gt;
  
- &lt;a class="toc-row" href="https://Lumenhao.github.io/Library/books/library-guide/ch01.html"&gt;
+ &lt;a class="toc-row" href="https://Lumenhao.github.io/Lumen/books/library-guide/ch01.html"&gt;
  &lt;span class="toc-row-title"&gt;第1章 · 结构与导航&lt;/span&gt;
  
  &lt;span class="toc-row-desc"&gt;一本书的文件长什么样&lt;/span&gt;
@@ -80,7 +80,7 @@
  &lt;span class="toc-row-arrow"&gt;›&lt;/span&gt;
  &lt;/a&gt;
  
- &lt;a class="toc-row" href="https://Lumenhao.github.io/Library/books/library-guide/ch02.html"&gt;
+ &lt;a class="toc-row" href="https://Lumenhao.github.io/Lumen/books/library-guide/ch02.html"&gt;
  &lt;span class="toc-row-title"&gt;第2章 · 页面元素&lt;/span&gt;
  
  &lt;span class="toc-row-desc"&gt;提示框、定理、例题、图表&lt;/span&gt;
@@ -88,7 +88,7 @@
  &lt;span class="toc-row-arrow"&gt;›&lt;/span&gt;
  &lt;/a&gt;
  
- &lt;a class="toc-row" href="https://Lumenhao.github.io/Library/books/library-guide/ch03.html"&gt;
+ &lt;a class="toc-row" href="https://Lumenhao.github.io/Lumen/books/library-guide/ch03.html"&gt;
  &lt;span class="toc-row-title"&gt;第3章 · 公式与算法&lt;/span&gt;
  
  &lt;span class="toc-row-desc"&gt;KaTeX 数学公式与伪代码&lt;/span&gt;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>星皓书房</title><link>https://Lumenhao.github.io/Library/index.html</link><description>Recent content on 星皓书房</description><generator>Hugo</generator><language>zh-CN</language><copyright>© 2026 Haoming Xing</copyright><atom:link href="https://Lumenhao.github.io/Library/index.xml" rel="self" type="application/rss+xml"/><item><title>元素速查</title><link>https://Lumenhao.github.io/Library/reference/elements.html</link><pubDate>Wed, 28 Oct 2026 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/reference/elements.html</guid><description>&lt;p&gt;本页列出全部内容元素的写法与实际渲染效果，写书时直接抄。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Lumen · 星皓书房 on 星皓书房</title><link>https://Lumenhao.github.io/Lumen/index.html</link><description>Recent content in Lumen · 星皓书房 on 星皓书房</description><generator>Hugo</generator><language>zh-CN</language><copyright>© 2026 Haoming Xing</copyright><atom:link href="https://Lumenhao.github.io/Lumen/index.xml" rel="self" type="application/rss+xml"/><item><title>元素速查</title><link>https://Lumenhao.github.io/Lumen/reference/elements.html</link><pubDate>Wed, 28 Oct 2026 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Lumen/reference/elements.html</guid><description>&lt;p&gt;本页列出全部内容元素的写法与实际渲染效果，写书时直接抄。&lt;/p&gt;
 &lt;h2 id="提示框-callout"&gt;提示框 callout&lt;a class="anchor" href="#%e6%8f%90%e7%a4%ba%e6%a1%86-callout"&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;type&lt;/code&gt; 控制配色：&lt;code&gt;tip&lt;/code&gt; 蓝、&lt;code&gt;note&lt;/code&gt; 灰、&lt;code&gt;warning&lt;/code&gt; 橙、&lt;code&gt;important&lt;/code&gt; 红。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;{{&amp;lt; callout type=&amp;#34;tip&amp;#34; title=&amp;#34;标题（可选）&amp;#34; &amp;gt;}}
@@ -46,7 +46,7 @@ $$&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;h2 id="例题-example"&gt;例题 example&lt;a class="anchor" href="#%e4%be%8b%e9%a2%98-example"&gt;#&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;内部可以再嵌一个 &lt;code&gt;solution&lt;/code&gt; 显示解答。&lt;/p&gt;</description></item><item><title>第1章 · 结构与导航</title><link>https://Lumenhao.github.io/Library/books/library-guide/ch01.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/books/library-guide/ch01.html</guid><description>&lt;h1 id="第1章--结构与导航"&gt;第1章 · 结构与导航&lt;a class="anchor" href="#%e7%ac%ac1%e7%ab%a0--%e7%bb%93%e6%9e%84%e4%b8%8e%e5%af%bc%e8%88%aa"&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;内部可以再嵌一个 &lt;code&gt;solution&lt;/code&gt; 显示解答。&lt;/p&gt;</description></item><item><title>第1章 · 结构与导航</title><link>https://Lumenhao.github.io/Lumen/books/library-guide/ch01.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Lumen/books/library-guide/ch01.html</guid><description>&lt;h1 id="第1章--结构与导航"&gt;第1章 · 结构与导航&lt;a class="anchor" href="#%e7%ac%ac1%e7%ab%a0--%e7%bb%93%e6%9e%84%e4%b8%8e%e5%af%bc%e8%88%aa"&gt;#&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;一本书就是一个文件夹。Hugo 按文件夹里的 Markdown 生成网页，不需要数据库，也不需要后台。&lt;/p&gt;
 &lt;h2 id="一本书的文件夹"&gt;一本书的文件夹&lt;a class="anchor" href="#%e4%b8%80%e6%9c%ac%e4%b9%a6%e7%9a%84%e6%96%87%e4%bb%b6%e5%a4%b9"&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;content/books/library-guide/
@@ -85,13 +85,16 @@ $$&lt;/div&gt;
 &lt;li&gt;侧栏分组来自 &lt;code&gt;categories&lt;/code&gt;，排序来自 &lt;code&gt;weight&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description></item><item><title>关于本站</title><link>https://Lumenhao.github.io/Library/about.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/about.html</guid><description>&lt;h1 id="关于本站"&gt;关于本站&lt;a class="anchor" href="#%e5%85%b3%e4%ba%8e%e6%9c%ac%e7%ab%99"&gt;#&lt;/a&gt;&lt;/h1&gt;
-&lt;p&gt;个人数字图书馆（星皓书房），基于 &lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt; + &lt;a href="https://github.com/alex-shpak/hugo-book"&gt;Hugo Book&lt;/a&gt; 主题构建，部署于 GitHub Pages。&lt;/p&gt;
-&lt;p&gt;书籍、笔记、论文全部是 Markdown 文件，支持 KaTeX 数学公式与 pseudocode.js 伪代码。&lt;/p&gt;
+&lt;/div&gt;</description></item><item><title>关于本站</title><link>https://Lumenhao.github.io/Lumen/about.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Lumen/about.html</guid><description>&lt;h1 id="关于本站"&gt;关于本站&lt;a class="anchor" href="#%e5%85%b3%e4%ba%8e%e6%9c%ac%e7%ab%99"&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;Lumen · 星皓书房&lt;/strong&gt; 是一个自托管的个人数字图书馆：原地读取 Calibre 书库，配一间 Koodo 级的阅读器。完整说明、部署方式与技术取舍见 &lt;a href="https://github.com/Lumenhao/lumen"&gt;GitHub 仓库&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;这个站点是它的门面与读书笔记：首页是产品介绍；书架、笔记、论文与参考都用 Markdown 写成，由 &lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt; 与 &lt;a href="https://github.com/alex-shpak/hugo-book"&gt;Hugo Book&lt;/a&gt; 主题生成，发布在 GitHub Pages。支持 KaTeX 数学公式与 pseudocode.js 伪代码。&lt;/p&gt;
+&lt;h2 id="命名"&gt;命名&lt;a class="anchor" href="#%e5%91%bd%e5%90%8d"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;星皓书房&lt;/strong&gt;：星，是书架上散落的每一个光点；皓，明亮；书房，是读书的那间屋子——合起来是一间被星光照亮的书房。&lt;/p&gt;
+&lt;p&gt;英文名 &lt;strong&gt;Lumen&lt;/strong&gt; 取自拉丁语「光」，也是国际单位制中光通量的单位。它不收藏书，它把书点亮。&lt;/p&gt;
 &lt;h2 id="技术栈"&gt;技术栈&lt;a class="anchor" href="#%e6%8a%80%e6%9c%af%e6%a0%88"&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt; · &lt;a href="https://katex.org"&gt;KaTeX&lt;/a&gt; · &lt;a href="https://github.com/SaswatPadhi/pseudocode.js"&gt;pseudocode.js&lt;/a&gt; · &lt;a href="https://pages.github.com"&gt;GitHub Pages&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="致谢"&gt;致谢&lt;a class="anchor" href="#%e8%87%b4%e8%b0%a2"&gt;#&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;站点结构与样式参考 &lt;a href="https://github.com/yuanuite/digital-library"&gt;Yuanuite/digital-library&lt;/a&gt;，该项目的灵感来自 &lt;a href="https://github.com/UynajGI/yuulibrary"&gt;UynajGI/yuulibrary&lt;/a&gt;。&lt;/p&gt;</description></item><item><title>第2章 · 页面元素</title><link>https://Lumenhao.github.io/Library/books/library-guide/ch02.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/books/library-guide/ch02.html</guid><description>&lt;h1 id="第2章--页面元素"&gt;第2章 · 页面元素&lt;a class="anchor" href="#%e7%ac%ac2%e7%ab%a0--%e9%a1%b5%e9%9d%a2%e5%85%83%e7%b4%a0"&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;站点结构与样式参考 &lt;a href="https://github.com/yuanuite/digital-library"&gt;Yuanuite/digital-library&lt;/a&gt;，该项目的灵感来自 &lt;a href="https://github.com/UynajGI/yuulibrary"&gt;UynajGI/yuulibrary&lt;/a&gt;。&lt;/p&gt;</description></item><item><title>第2章 · 页面元素</title><link>https://Lumenhao.github.io/Lumen/books/library-guide/ch02.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Lumen/books/library-guide/ch02.html</guid><description>&lt;h1 id="第2章--页面元素"&gt;第2章 · 页面元素&lt;a class="anchor" href="#%e7%ac%ac2%e7%ab%a0--%e9%a1%b5%e9%9d%a2%e5%85%83%e7%b4%a0"&gt;#&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;这一章把常用的排版元素各演示一遍。语法抄 &lt;code&gt;content/reference/elements.md&lt;/code&gt; 即可，那里有全部元素的源码。&lt;/p&gt;
 &lt;h2 id="提示框"&gt;提示框&lt;a class="anchor" href="#%e6%8f%90%e7%a4%ba%e6%a1%86"&gt;#&lt;/a&gt;&lt;/h2&gt;
 
@@ -203,7 +206,7 @@ $\beta(g)$ 的符号决定系统在热力学极限下是金属还是绝缘体。
 &lt;/table&gt;
 &lt;p class="caption"&gt;
  表2.1　常用元素一览
-&lt;/p&gt;</description></item><item><title>第3章 · 公式与算法</title><link>https://Lumenhao.github.io/Library/books/library-guide/ch03.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/books/library-guide/ch03.html</guid><description>&lt;h1 id="第3章--公式与算法"&gt;第3章 · 公式与算法&lt;a class="anchor" href="#%e7%ac%ac3%e7%ab%a0--%e5%85%ac%e5%bc%8f%e4%b8%8e%e7%ae%97%e6%b3%95"&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;/p&gt;</description></item><item><title>第3章 · 公式与算法</title><link>https://Lumenhao.github.io/Lumen/books/library-guide/ch03.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Lumen/books/library-guide/ch03.html</guid><description>&lt;h1 id="第3章--公式与算法"&gt;第3章 · 公式与算法&lt;a class="anchor" href="#%e7%ac%ac3%e7%ab%a0--%e5%85%ac%e5%bc%8f%e4%b8%8e%e7%ae%97%e6%b3%95"&gt;#&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;数学公式由 KaTeX 在浏览器里渲染。行内用 &lt;code&gt;$...$&lt;/code&gt;，行间用 &lt;code&gt;$$...$$&lt;/code&gt;，和 LaTeX 写法基本一致。&lt;/p&gt;
 &lt;h2 id="行内公式"&gt;行内公式&lt;a class="anchor" href="#%e8%a1%8c%e5%86%85%e5%85%ac%e5%bc%8f"&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;石墨烯的低能有效哈密顿量为 $H = v_F (\sigma_x k_x + \sigma_y k_y)$，本征能量 $E_\pm = \pm \hbar v_F |\mathbf{k}|$。&lt;/p&gt;
@@ -223,7 +226,7 @@ $$&lt;p&gt;求和与积分同样可以直接写：&lt;/p&gt;
 $$
 \langle E \rangle = \frac{\sum_n E_n e^{-E_n / k_B T}}{\sum_n e^{-E_n / k_B T}}
 $$&lt;h2 id="伪代码"&gt;伪代码&lt;a class="anchor" href="#%e4%bc%aa%e4%bb%a3%e7%a0%81"&gt;#&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;算法块用 &lt;code&gt;&amp;lt;pre class=&amp;quot;pseudocode&amp;quot;&amp;gt;&lt;/code&gt; 包住 LaTeX algorithmic 语法，外层套 &lt;code&gt;algorithm&lt;/code&gt; 短代码加标题。&lt;/p&gt;</description></item><item><title>开始使用这座图书馆</title><link>https://Lumenhao.github.io/Library/notes/getting-started.html</link><pubDate>Wed, 28 Oct 2026 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/notes/getting-started.html</guid><description>&lt;p&gt;这是一篇示例笔记，用来演示笔记板块的样子。首页的「最近笔记」会自动列出最新 5 篇。&lt;/p&gt;
+&lt;p&gt;算法块用 &lt;code&gt;&amp;lt;pre class=&amp;quot;pseudocode&amp;quot;&amp;gt;&lt;/code&gt; 包住 LaTeX algorithmic 语法，外层套 &lt;code&gt;algorithm&lt;/code&gt; 短代码加标题。&lt;/p&gt;</description></item><item><title>开始使用这座图书馆</title><link>https://Lumenhao.github.io/Lumen/notes/getting-started.html</link><pubDate>Wed, 28 Oct 2026 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Lumen/notes/getting-started.html</guid><description>&lt;p&gt;这是一篇示例笔记，用来演示笔记板块的样子。首页的「最近笔记」会自动列出最新 5 篇。&lt;/p&gt;
 &lt;h2 id="笔记怎么放"&gt;笔记怎么放&lt;a class="anchor" href="#%e7%ac%94%e8%ae%b0%e6%80%8e%e4%b9%88%e6%94%be"&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;新建一个 Markdown 文件放到 &lt;code&gt;content/notes/&lt;/code&gt; 下，文件名就是网址：&lt;/p&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;content/notes/my-note.md → /notes/my-note.html&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="和书的区别"&gt;和书的区别&lt;a class="anchor" href="#%e5%92%8c%e4%b9%a6%e7%9a%84%e5%8c%ba%e5%88%ab"&gt;#&lt;/a&gt;&lt;/h2&gt;

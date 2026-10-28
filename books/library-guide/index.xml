@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>图书馆使用指南 on 星皓书房</title><link>https://Lumenhao.github.io/Library/books/library-guide/index.html</link><description>Recent content in 图书馆使用指南 on 星皓书房</description><generator>Hugo</generator><language>zh-CN</language><copyright>© 2026 Haoming Xing</copyright><atom:link href="https://Lumenhao.github.io/Library/books/library-guide/index.xml" rel="self" type="application/rss+xml"/><item><title>第1章 · 结构与导航</title><link>https://Lumenhao.github.io/Library/books/library-guide/ch01.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/books/library-guide/ch01.html</guid><description>&lt;h1 id="第1章--结构与导航"&gt;第1章 · 结构与导航&lt;a class="anchor" href="#%e7%ac%ac1%e7%ab%a0--%e7%bb%93%e6%9e%84%e4%b8%8e%e5%af%bc%e8%88%aa"&gt;#&lt;/a&gt;&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>图书馆使用指南 on 星皓书房</title><link>https://Lumenhao.github.io/Lumen/books/library-guide/index.html</link><description>Recent content in 图书馆使用指南 on 星皓书房</description><generator>Hugo</generator><language>zh-CN</language><copyright>© 2026 Haoming Xing</copyright><atom:link href="https://Lumenhao.github.io/Lumen/books/library-guide/index.xml" rel="self" type="application/rss+xml"/><item><title>第1章 · 结构与导航</title><link>https://Lumenhao.github.io/Lumen/books/library-guide/ch01.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Lumen/books/library-guide/ch01.html</guid><description>&lt;h1 id="第1章--结构与导航"&gt;第1章 · 结构与导航&lt;a class="anchor" href="#%e7%ac%ac1%e7%ab%a0--%e7%bb%93%e6%9e%84%e4%b8%8e%e5%af%bc%e8%88%aa"&gt;#&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;一本书就是一个文件夹。Hugo 按文件夹里的 Markdown 生成网页，不需要数据库，也不需要后台。&lt;/p&gt;
 &lt;h2 id="一本书的文件夹"&gt;一本书的文件夹&lt;a class="anchor" href="#%e4%b8%80%e6%9c%ac%e4%b9%a6%e7%9a%84%e6%96%87%e4%bb%b6%e5%a4%b9"&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;content/books/library-guide/
@@ -37,7 +37,7 @@
 &lt;li&gt;侧栏分组来自 &lt;code&gt;categories&lt;/code&gt;，排序来自 &lt;code&gt;weight&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description></item><item><title>第2章 · 页面元素</title><link>https://Lumenhao.github.io/Library/books/library-guide/ch02.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/books/library-guide/ch02.html</guid><description>&lt;h1 id="第2章--页面元素"&gt;第2章 · 页面元素&lt;a class="anchor" href="#%e7%ac%ac2%e7%ab%a0--%e9%a1%b5%e9%9d%a2%e5%85%83%e7%b4%a0"&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;/div&gt;</description></item><item><title>第2章 · 页面元素</title><link>https://Lumenhao.github.io/Lumen/books/library-guide/ch02.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Lumen/books/library-guide/ch02.html</guid><description>&lt;h1 id="第2章--页面元素"&gt;第2章 · 页面元素&lt;a class="anchor" href="#%e7%ac%ac2%e7%ab%a0--%e9%a1%b5%e9%9d%a2%e5%85%83%e7%b4%a0"&gt;#&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;这一章把常用的排版元素各演示一遍。语法抄 &lt;code&gt;content/reference/elements.md&lt;/code&gt; 即可，那里有全部元素的源码。&lt;/p&gt;
 &lt;h2 id="提示框"&gt;提示框&lt;a class="anchor" href="#%e6%8f%90%e7%a4%ba%e6%a1%86"&gt;#&lt;/a&gt;&lt;/h2&gt;
 
@@ -149,7 +149,7 @@ $\beta(g)$ 的符号决定系统在热力学极限下是金属还是绝缘体。
 &lt;/table&gt;
 &lt;p class="caption"&gt;
  表2.1　常用元素一览
-&lt;/p&gt;</description></item><item><title>第3章 · 公式与算法</title><link>https://Lumenhao.github.io/Library/books/library-guide/ch03.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Library/books/library-guide/ch03.html</guid><description>&lt;h1 id="第3章--公式与算法"&gt;第3章 · 公式与算法&lt;a class="anchor" href="#%e7%ac%ac3%e7%ab%a0--%e5%85%ac%e5%bc%8f%e4%b8%8e%e7%ae%97%e6%b3%95"&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;/p&gt;</description></item><item><title>第3章 · 公式与算法</title><link>https://Lumenhao.github.io/Lumen/books/library-guide/ch03.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://Lumenhao.github.io/Lumen/books/library-guide/ch03.html</guid><description>&lt;h1 id="第3章--公式与算法"&gt;第3章 · 公式与算法&lt;a class="anchor" href="#%e7%ac%ac3%e7%ab%a0--%e5%85%ac%e5%bc%8f%e4%b8%8e%e7%ae%97%e6%b3%95"&gt;#&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;数学公式由 KaTeX 在浏览器里渲染。行内用 &lt;code&gt;$...$&lt;/code&gt;，行间用 &lt;code&gt;$$...$$&lt;/code&gt;，和 LaTeX 写法基本一致。&lt;/p&gt;
 &lt;h2 id="行内公式"&gt;行内公式&lt;a class="anchor" href="#%e8%a1%8c%e5%86%85%e5%85%ac%e5%bc%8f"&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;石墨烯的低能有效哈密顿量为 $H = v_F (\sigma_x k_x + \sigma_y k_y)$，本征能量 $E_\pm = \pm \hbar v_F |\mathbf{k}|$。&lt;/p&gt;

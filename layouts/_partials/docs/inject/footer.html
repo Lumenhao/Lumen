@@ -44,7 +44,8 @@
   {{- end -}}
   {{- if not $prev -}}{{- with .Site.GetPage "/books" -}}{{- $prev = . -}}{{- end -}}{{- end -}}
 {{- else if $isSection -}}
-  {{- /* 书封面：prev=父级section(仅丛书卷) → 首页，next=开始阅读 */ -}}
+  {{- /* 书封面：prev=父级section(仅丛书卷) → 首页，next=开始阅读；其余板块不显示翻页 */ -}}
+  {{- if eq .Section "books" -}}
   {{- if and $parent $parent.IsSection $parent.Params.BookCollapseSection -}}
     {{- $prev = $parent -}}
   {{- else -}}
@@ -52,6 +53,7 @@
   {{- end -}}
   {{- with .RegularPages.ByWeight -}}
     {{- if gt (len .) 0 -}}{{- $next = index . 0 -}}{{- $nextLabel = "开始阅读 →" -}}{{- end -}}
+  {{- end -}}
   {{- end -}}
 {{- else if gt (len $pages) 1 -}}
   {{- $found := false -}}{{- $isLast := false -}}{{- $isFirst := false -}}

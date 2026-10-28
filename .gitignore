@@ -8,3 +8,4 @@ __pycache__/
 .DS_Store
 out/
 fix_ocr.py
+.tools/

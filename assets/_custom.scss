@@ -300,7 +300,7 @@ body {
 // === 通用卡片网格（notes/papers/term 列表页）：浅灰背景块 ===
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1px;
   margin: 1.5rem 0 2rem;
   background: var(--hairline);

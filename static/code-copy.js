@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.markdown pre').forEach(pre => {
+  document.querySelectorAll('.markdown pre:not(.pseudocode)').forEach(pre => {
     const btn = document.createElement('button');
     btn.className = 'copy-btn';
     btn.textContent = '复制';

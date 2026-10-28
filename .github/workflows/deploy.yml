@@ -20,7 +20,16 @@ jobs:
           hugo-version: '0.163.3'
           extended: true
       - name: Build
-        run: hugo --gc --minify
+        run: |
+          OWNER="${{ github.repository_owner }}"
+          REPO="${{ github.event.repository.name }}"
+          if [ "$REPO" = "$OWNER.github.io" ]; then
+            BASE="https://$OWNER.github.io/"
+          else
+            BASE="https://$OWNER.github.io/$REPO/"
+          fi
+          echo "baseURL: $BASE"
+          hugo --gc --minify --baseURL "$BASE"
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:

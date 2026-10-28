@@ -1,6 +1,7 @@
 # 我的图书馆 — Hugo 配置
-# 发布前需要改的一行：baseURL（改成 https://<你的GitHub用户名>.github.io/<仓库名>/）
-baseURL = 'https://YOURNAME.github.io/my-library/'
+# baseURL 保持根路径即可：本地预览直接用 http://localhost:1313/
+# 发布到 GitHub Pages 时，CI 会自动传入真实地址（见 .github/workflows/deploy.yml）
+baseURL = '/'
 title = "我的图书馆"
 theme = 'hugo-book'
 

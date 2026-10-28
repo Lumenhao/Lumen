@@ -31,6 +31,6 @@
       <text x="805" y="170" font-size="14" fill="#4a6577">GitHub</text>
       <text x="805" y="190" font-size="14" fill="#4a6577">Pages</text>
     </g>
-    <text x="450" y="52" font-size="16" fill="#6b7684">一本书变成网页的流程</text>
+    <text x="450" y="52" font-size="16" fill="#6b7684">content/books/ 里的 Markdown 变成可浏览的网页</text>
   </g>
 </svg>

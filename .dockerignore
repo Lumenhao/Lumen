@@ -19,4 +19,4 @@ out
 **/*.pyc
 **/*.db-wal
 **/*.db-shm
-README.md
+README*.md

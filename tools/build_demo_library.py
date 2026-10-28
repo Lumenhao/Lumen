@@ -35,7 +35,7 @@ NS = {
     "opf": "http://www.idpf.org/2007/opf",
     "dc": "http://purl.org/dc/elements/1.1/",
 }
-UA = {"User-Agent": "XinghaoLibrary/0.1 (demo library builder)"}
+UA = {"User-Agent": "Lumen/0.1 (demo library builder)"}
 TODAY = dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
 TZ = "+00:00"
 

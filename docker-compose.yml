@@ -1,8 +1,8 @@
 services:
   library:
     build: .
-    image: xinghao-library:latest
-    container_name: xinghao-library
+    image: lumen:latest
+    container_name: lumen
     restart: unless-stopped
     ports:
       - "8080:8080"

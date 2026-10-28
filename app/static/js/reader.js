@@ -217,7 +217,7 @@ async function boot() {
   }
 
   els.bookTitle.textContent = state.meta.title;
-  document.title = `${state.meta.title} · 星皓书房`;
+  document.title = `${state.meta.title} · Lumen`;
   updateNoteCount();
   renderNotes();
   renderMarks();

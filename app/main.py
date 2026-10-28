@@ -1,4 +1,4 @@
-"""星皓书房 · 自托管应用入口。
+"""Lumen · 星皓书房 · 自托管应用入口。
 
 python -m app.main
 """
@@ -40,7 +40,7 @@ MEDIA_TYPES = {
 }
 
 
-app = FastAPI(title="星皓书房", docs_url="/api/docs", openapi_url="/api/openapi.json")
+app = FastAPI(title="Lumen · 星皓书房", docs_url="/api/docs", openapi_url="/api/openapi.json")
 
 try:
     library = CalibreLibrary(settings.library_path)
@@ -75,7 +75,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             if not ok:
                 return Response(
                     status_code=401,
-                    headers={"WWW-Authenticate": 'Basic realm="Xinghao Library", charset="UTF-8"'},
+                    headers={"WWW-Authenticate": 'Basic realm="Lumen", charset="UTF-8"'},
                 )
         response = await call_next(request)
         response.headers["x-content-type-options"] = "nosniff"
@@ -314,10 +314,10 @@ def main() -> None:
     import uvicorn
 
     if library_error:
-        print(f"[星皓书房] 书库不可用：{library_error}")
-    print(f"[星皓书房] 书库：{settings.library_path}")
-    print(f"[星皓书房] 数据：{settings.data_dir}")
-    print(f"[星皓书房] http://{settings.host}:{settings.port}")
+        print(f"[Lumen] 书库不可用：{library_error}")
+    print(f"[Lumen] 书库：{settings.library_path}")
+    print(f"[Lumen] 数据：{settings.data_dir}")
+    print(f"[Lumen] http://{settings.host}:{settings.port}")
     uvicorn.run(app, host=settings.host, port=settings.port, log_level="info")
 
 

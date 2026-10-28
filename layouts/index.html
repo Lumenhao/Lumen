@@ -1,11 +1,220 @@
-{{/*
-  首页布局：只渲染 _index.md 内容（hero + 书架 + 最近笔记）。
-  不追加 card-grid（那是 section list 页的行为，首页不需要）。
-*/}}
-{{ define "main" }}
-  <article class="markdown book-article">
-    {{- .Content -}}
-  </article>
-{{ end }}
+{{- $css := resources.Get "landing.css" | minify | fingerprint -}}
+{{- $js := resources.Get "landing.js" | minify | fingerprint -}}
+{{- $shotLibrary := resources.Get "landing/library.webp" -}}
+{{- $shotReader := resources.Get "landing/reader.webp" -}}
+{{- $shotBook := resources.Get "landing/book.webp" -}}
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lumen · 星皓书房 — 把你的藏书，点亮成一座私人星图</title>
+  <meta name="description" content="Lumen（星皓书房）是一个自托管的个人数字图书馆：直接读取你的 Calibre 书库，配上 Koodo 级的 EPUB / PDF 阅读器。一条命令部署，数据留在自己机器上。">
+  <meta name="theme-color" content="#05060b">
+  <meta property="og:title" content="Lumen · 星皓书房">
+  <meta property="og:description" content="把你的藏书，点亮成一座私人星图。以 Calibre 为地基的自托管数字图书馆。">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+</head>
+<body>
 
-{{ define "toc-container" }}{{ end }}
+<canvas class="stars" aria-hidden="true"></canvas>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="{{ "/" | relURL }}" aria-label="Lumen 首页">
+      <span class="brand-mark">L</span>
+      <span class="brand-text">
+        <span class="brand-name">Lumen</span>
+        <span class="brand-cn">星皓书房</span>
+      </span>
+    </a>
+    <nav class="nav-links" aria-label="页面导航">
+      <a href="#shots">界面</a>
+      <a href="#features">能力</a>
+      <a href="#deploy">部署</a>
+      <a href="https://github.com/Lumenhao/lumen/blob/main/docs/USAGE.md">文档</a>
+    </nav>
+    <a class="gh" href="https://github.com/Lumenhao/lumen" target="_blank" rel="noreferrer">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      <span>GitHub</span>
+    </a>
+  </div>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <div class="hero-copy">
+      <span class="badge"><i></i>Calibre · Docker · Self-hosted</span>
+      <h1>把你的藏书，<br>点亮成一座<br><span class="grad">私人星图。</span></h1>
+      <p class="hero-lead">
+        <strong>Lumen · 星皓书房</strong> 是一个自托管的个人数字图书馆。它以你已有的 Calibre 书库为地基，一行元数据都不改；
+        再用一间 Koodo 级的阅读器，把 EPUB 与 PDF 读回书该有的样子。进度、笔记与书签，只留在你自己的机器上。
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="#deploy">
+          开始部署
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+        </a>
+        <a class="btn ghost" href="https://github.com/Lumenhao/lumen" target="_blank" rel="noreferrer">
+          查看源码
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+      <p class="hero-meta">
+        <span>CALIBRE METADATA</span>
+        <span>EPUB / PDF</span>
+        <span>FASTAPI</span>
+        <span>MIT LICENSE</span>
+      </p>
+    </div>
+
+    <div class="hero-art">
+      <div class="shot">
+        <div class="shot-bar"><b></b><b></b><b></b><em>localhost:8080</em></div>
+        <img src="{{ $shotLibrary.RelPermalink }}" width="1800" height="1125" alt="Lumen 书库首页：封面墙与阅读进度" loading="eager" decoding="async">
+      </div>
+      <span class="float-chip chip-a"><b>Calibre</b> 书库只读挂载</span>
+      <span class="float-chip chip-b"><b>0</b> 云端上传</span>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="signals">
+      <div class="signal"><b>1<em>条命令</em></b><p>docker compose up -d</p></div>
+      <div class="signal"><b>4<em>套阅读主题</em></b><p>米黄 · 纸白 · 豆绿 · 夜读</p></div>
+      <div class="signal"><b>0<em>迁移成本</em></b><p>直接读取现有 Calibre 书库</p></div>
+      <div class="signal"><b>100<em>% 数据自持</em></b><p>无需云端账号，不依赖第三方</p></div>
+    </div>
+  </section>
+
+  <section class="wrap sec" id="shots">
+    <div class="sec-head">
+      <span class="eyebrow">Interface</span>
+      <h2>书架的秩序，阅读器的安静。</h2>
+      <p>书库一屏尽览：封面墙、进度、元数据，搜索随打随出。点进去，是可以真正读下去的排版——分页或滚动、单栏或双栏，字距与行高都听你的。</p>
+    </div>
+    <div class="shots">
+      <figure class="shot-card">
+        <div class="shot">
+          <div class="shot-bar"><b></b><b></b><b></b><em>reader · 《小王子》</em></div>
+          <img src="{{ $shotReader.RelPermalink }}" width="1600" height="1000" alt="Lumen 阅读器：双栏排版、目录、划线与笔记面板" loading="lazy" decoding="async">
+        </div>
+        <figcaption><b>阅读器</b> 分页 / 滚动 · 单双栏 · 划线笔记</figcaption>
+      </figure>
+      <figure class="shot-card">
+        <div class="shot">
+          <div class="shot-bar"><b></b><b></b><b></b><em>book · 详情</em></div>
+          <img src="{{ $shotBook.RelPermalink }}" width="1600" height="1000" alt="Lumen 书籍详情页：封面、元数据、简介与阅读进度" loading="lazy" decoding="async">
+        </div>
+        <figcaption><b>书籍详情</b> 元数据 · 简介 · 阅读进度</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap sec" id="features">
+    <div class="sec-head">
+      <span class="eyebrow">Capabilities</span>
+      <h2>该有的都有，不该动的都不动。</h2>
+      <p>不重建书库、不改写元数据、不替你决定书该放在哪。Lumen 只做一件事：把你已经整理好的藏书，变成一个读得舒服的地方。</p>
+    </div>
+    <div class="features">
+      <article class="feature">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5.5" rx="7.5" ry="3"/><path d="M4.5 5.5v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3v-6"/><path d="M4.5 11.5v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3v-6"/></svg>
+        </span>
+        <h3>Calibre 只读接入</h3>
+        <p>以只读方式打开 metadata.db，作者、系列、标签、评分全部原样读入。你的书库目录一个字节都不会被改写。</p>
+      </article>
+      <article class="feature">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.3 5 8.1 4.3 4.5 4.3v13.4c3.6 0 5.8.7 7.5 2.2 1.7-1.5 3.9-2.2 7.5-2.2V4.3c-3.6 0-5.8.7-7.5 2.2Z"/><path d="M12 6.5v13.4"/></svg>
+        </span>
+        <h3>Koodo 级阅读器</h3>
+        <p>基于 epub.js 的排版引擎：四套主题、衬线与黑体两套字体、字号行距字距可调，支持键盘翻页与目录跳转，PDF 也能顺滑翻看。</p>
+      </article>
+      <article class="feature">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5 14.8 8.7l1.9 1.9L5.9 21.4H4Z"/><path d="M13.2 10.3l3.1-3.1a1.6 1.6 0 0 1 2.3 0l1.2 1.2a1.6 1.6 0 0 1 0 2.3l-3.1 3.1"/><path d="M3 4.5h6"/></svg>
+        </span>
+        <h3>划线 · 笔记 · 书签</h3>
+        <p>选中文字即可划线，四色标注；笔记与想法随手记下，书签一处收藏。全部存进你本地的 SQLite，随时导出。</p>
+      </article>
+      <article class="feature">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.5 15.5 4.2 4.2"/></svg>
+        </span>
+        <h3>全书搜索</h3>
+        <p>在整本 EPUB 里检索原文，命中位置按章节列出，点一下直接跳回书中的那一行，不必再靠印象翻找。</p>
+      </article>
+      <article class="feature">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1"/><path d="M20.5 4v4.6h-4.6"/><path d="M12 8v4.4l3 1.8"/></svg>
+        </span>
+        <h3>进度跟随</h3>
+        <p>阅读位置精确到段落，换浏览器、换设备打开都能接上。书架上的进度条，始终诚实。</p>
+      </article>
+      <article class="feature">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="m7.5 9.5 2.7 2.5-2.7 2.5"/><path d="M12.8 15h3.7"/></svg>
+        </span>
+        <h3>一条命令部署</h3>
+        <p>Docker 镜像带健康检查，compose 一键起停。笔记本、NAS、树莓派都能常驻，重建容器数据不丢。</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap sec" id="deploy">
+    <div class="sec-head">
+      <span class="eyebrow">Deploy</span>
+      <h2>三条命令，书房开张。</h2>
+      <p>只需要一台装着 Docker 的机器。默认接入仓库自带的演示书库，要读自己的书，改一行路径就够了。</p>
+    </div>
+    <div class="deploy">
+      <ol class="steps">
+        <li>
+          <b>找到你的 Calibre 书库</b>
+          就是 metadata.db 所在的那个目录。Lumen 只读挂载它，不会写入任何内容。
+        </li>
+        <li>
+          <b>写下书库路径</b>
+          在仓库根目录新建 <code>.env</code>，填入 <code>CALIBRE_PATH</code>。Windows 盘符照原样写即可。
+        </li>
+        <li>
+          <b>启动，然后打开浏览器</b>
+          访问 <code>http://localhost:8080</code>。书库随即点亮，进度与笔记开始单独存放。
+        </li>
+      </ol>
+      <div class="term">
+        <div class="term-bar"><b></b>bash — lumen</div>
+        <pre><code><span class="c"># 1. 获取代码</span>
+<span class="p">$</span> git clone https://github.com/Lumenhao/lumen.git
+<span class="p">$</span> cd lumen
+
+<span class="c"># 2. 指向你的 Calibre 书库</span>
+<span class="p">$</span> echo <span class="k">"CALIBRE_PATH=D:/Calibre Library"</span> &gt; .env
+
+<span class="c"># 3. 启动</span>
+<span class="p">$</span> docker compose up -d</code></pre>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-inner">
+    <span>© 2026 Haoming Xing · Lumen 以 MIT 协议开源</span>
+    <nav aria-label="页脚导航">
+      <a href="https://github.com/Lumenhao/lumen">GitHub</a>
+      <a href="https://github.com/Lumenhao/lumen/blob/main/docs/USAGE.md">使用文档</a>
+      <a href="{{ "/books/" | relURL }}">书架</a>
+      <a href="{{ "/notes/" | relURL }}">笔记</a>
+      <a href="{{ "/about/" | relURL }}">关于</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+</body>
+</html>

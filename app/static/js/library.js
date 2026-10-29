@@ -1,5 +1,6 @@
 import { getJSON } from "./api.js";
 import { esc, coverMarkup, stars, toast, initThemeToggle, formatBytes } from "./ui.js";
+import { t, has, errText, applyStatic, brand } from "./i18n.js";
 
 const PAGE_SIZE = 24;
 const state = { q: "", sort: "recent", tag: "", author: "", series: "", language: "", page: 1 };
@@ -9,7 +10,9 @@ let config = null;
 let lastTotal = 0;
 
 const $ = (id) => document.getElementById(id);
-const LANG = { eng: "英文", zho: "中文", chi: "中文", jpn: "日文", fra: "法文", deu: "德文", ger: "德文", rus: "俄文" };
+const langName = (code) => (code && has(`lang.${code}`) ? t(`lang.${code}`) : code);
+
+const brandName = () => brand(config?.site_name);
 
 history.scrollRestoration = "manual";
 initThemeToggle();
@@ -52,12 +55,12 @@ async function loadConfig() {
     config = await getJSON("/api/config");
     if (config.site_name) {
       $("siteName").textContent = config.site_name;
-      document.title = location.pathname.startsWith("/book/") ? document.title : config.site_name;
+      document.title = location.pathname.startsWith("/book/") ? document.title : brandName();
     }
-    $("footMeta").textContent = `${config.library.books} 本藏书 · ${config.library.authors} 位作者`;
-    if (config.error) toast(config.error);
+    $("footMeta").textContent = t("lib.meta", { books: config.library.books, authors: config.library.authors, n: config.library.books });
+    if (config.error) toast(errText(config.error, { path: config.error_path || "" }));
   } catch (err) {
-    toast(`无法连接后端：${err.message}`);
+    toast(t("lib.offline", { msg: err.message }));
   }
 }
 
@@ -68,7 +71,7 @@ async function loadContinue() {
     renderHeroStats(data.items.length);
     if (!data.items.length) { strip.hidden = true; return; }
     strip.hidden = false;
-    $("continueCount").textContent = `${data.items.length} 本在读`;
+    $("continueCount").textContent = t("lib.continue_count", { n: data.items.length });
     $("continueRail").innerHTML = data.items.map((b) => {
       const pct = Math.round((b.progress?.percent || 0) * 100);
       return `
@@ -76,7 +79,7 @@ async function loadContinue() {
           <span class="mini-cover">${coverMarkup(b)}</span>
           <span class="strip-info">
             <p class="strip-title">${esc(b.title)}</p>
-            <span class="strip-meta">${esc(b.authors.join(" / ") || "佚名")} · ${pct}%</span>
+            <span class="strip-meta">${esc(b.authors.join(" / ") || t("common.anonymous"))} · ${pct}%</span>
             <span class="strip-bar"><i style="width:${pct}%"></i></span>
           </span>
         </a>`;
@@ -88,9 +91,9 @@ function renderHeroStats(reading) {
   const stats = $("heroStats");
   if (!stats || !config) return;
   stats.innerHTML = `
-    <div class="hero-stat"><b>${config.library.books}</b><span>藏书</span></div>
-    <div class="hero-stat"><b>${config.library.authors}</b><span>作者</span></div>
-    <div class="hero-stat"><b>${reading}</b><span>在读</span></div>`;
+    <div class="hero-stat"><b>${config.library.books}</b><span>${t("lib.stat_books")}</span></div>
+    <div class="hero-stat"><b>${config.library.authors}</b><span>${t("lib.stat_authors")}</span></div>
+    <div class="hero-stat"><b>${reading}</b><span>${t("lib.stat_reading")}</span></div>`;
 }
 
 async function load({ keepScroll = false } = {}) {
@@ -111,7 +114,7 @@ async function load({ keepScroll = false } = {}) {
   } catch (err) {
     grid.innerHTML = "";
     $("empty").hidden = false;
-    $("emptyTitle").textContent = "书架打不开";
+    $("emptyTitle").textContent = t("lib.load_failed");
     $("emptyText").textContent = err.message;
     $("emptyReset").hidden = true;
     $("pager").hidden = true;
@@ -131,12 +134,12 @@ function cardHTML(b) {
   return `
     <a class="card" href="/book/${b.id}">
       <div class="card-cover">
-        ${coverMarkup(b, b.tags[0] || "藏书")}
+        ${coverMarkup(b, b.tags[0] || t("common.book"))}
         ${pct ? `<span class="card-progress"><i style="width:${pct}%"></i></span>` : ""}
       </div>
       <div class="card-body">
         <h3 class="card-title">${esc(b.title)}</h3>
-        <p class="card-author">${esc(b.authors.join(" / ") || "佚名")}</p>
+        <p class="card-author">${esc(b.authors.join(" / ") || t("common.anonymous"))}</p>
         <div class="card-foot">
           ${b.rating ? `<span class="card-stars">${stars(b.rating)}</span>` : ""}
           <span>${esc(b.formats.join(" ").toUpperCase())}</span>
@@ -156,16 +159,14 @@ function render(data) {
   $("empty").hidden = hasResults;
   if (!hasResults) {
     const filtered = state.q || filterCount();
-    $("emptyTitle").textContent = filtered ? "没有找到书" : "书架是空的";
-    $("emptyText").textContent = filtered
-      ? "换个关键词，或清除筛选条件试试。"
-      : "把书放进 Calibre 书库，刷新页面即可看到。";
+    $("emptyTitle").textContent = filtered ? t("lib.empty_title") : t("lib.empty_library_title");
+    $("emptyText").textContent = filtered ? t("lib.empty_text") : t("lib.empty_library_text");
     $("emptyReset").hidden = !filtered;
   }
 
   $("heroSub").textContent = state.q
-    ? `“${state.q}” 的搜索结果 · ${data.total} 本`
-    : filterCount() ? `筛选后 ${data.total} 本` : `${data.total} 本藏书`;
+    ? t("lib.hero_search", { q: state.q, n: data.total })
+    : filterCount() ? t("lib.hero_filtered", { n: data.total }) : t("lib.hero_total", { n: data.total });
 
   renderTagChips();
   renderActiveFilters();
@@ -177,7 +178,7 @@ function renderTagChips() {
   const box = $("tagChips");
   const tags = (facets?.tags || []).slice(0, 12);
   box.innerHTML = [
-    `<button class="chip" data-tag="" aria-pressed="${!state.tag}">全部</button>`,
+    `<button class="chip" data-tag="" aria-pressed="${!state.tag}">${t("lib.chip_all")}</button>`,
     ...tags.map((t) => `<button class="chip" data-tag="${esc(t.name)}"
         aria-pressed="${state.tag === t.name}">${esc(t.name)}<span class="count">${t.count}</span></button>`),
   ].join("");
@@ -186,15 +187,15 @@ function renderTagChips() {
 function renderActiveFilters() {
   const box = $("activeFilters");
   const entries = [
-    ["q", `搜索：${state.q}`],
-    ["tag", `标签：${state.tag}`],
-    ["author", `作者：${state.author}`],
-    ["series", `系列：${state.series}`],
-    ["language", `语言：${LANG[state.language] || state.language}`],
+    ["q", t("lib.active_search", { v: state.q })],
+    ["tag", t("lib.active_tag", { v: state.tag })],
+    ["author", t("lib.active_author", { v: state.author })],
+    ["series", t("lib.active_series", { v: state.series })],
+    ["language", t("lib.active_language", { v: langName(state.language) })],
   ].filter(([key]) => state[key]);
   box.hidden = entries.length === 0;
   box.innerHTML = entries.map(([key, label]) => `
-    <button class="chip" data-clear="${key}" title="移除">
+    <button class="chip" data-clear="${key}" title="${t("lib.remove")}">
       ${esc(label)}
       <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></svg>
     </button>`).join("");
@@ -212,16 +213,16 @@ function renderPager(data) {
   const nums = [];
   for (let i = windowStart; i <= Math.min(data.pages, windowStart + 4); i += 1) nums.push(i);
   pager.innerHTML = `
-    <button data-page="${data.page - 1}" ${data.page === 1 ? "disabled" : ""}>上一页</button>
+    <button data-page="${data.page - 1}" ${data.page === 1 ? "disabled" : ""}>${t("lib.prev_page")}</button>
     ${nums.map((n) => `<button data-page="${n}" aria-current="${n === data.page}">${n}</button>`).join("")}
-    <button data-page="${data.page + 1}" ${data.page === data.pages ? "disabled" : ""}>下一页</button>`;
+    <button data-page="${data.page + 1}" ${data.page === data.pages ? "disabled" : ""}>${t("lib.next_page")}</button>`;
 }
 
 /* ---------------------------------------------------------------- 筛选面板 */
 
 function syncSheet() {
   const body = $("filterBody");
-  if (!facets) { body.innerHTML = `<p style="color:var(--faint)">正在读取筛选项…</p>`; return; }
+  if (!facets) { body.innerHTML = `<p style="color:var(--faint)">${t("lib.filter_loading")}</p>`; return; }
   const group = (title, key, items, labelFn) => `
     <div class="filter-group">
       <h3>${title}</h3>
@@ -231,15 +232,15 @@ function syncSheet() {
           return `<button type="button" class="chip" data-facet="${key}" data-value="${esc(value)}"
             aria-pressed="${state[key] === value}">${esc(labelFn ? labelFn(value) : value)}
             <span class="count">${item.count}</span></button>`;
-        }).join("") || `<span style="color:var(--faint);font-size:12px">暂无</span>`}
+        }).join("") || `<span style="color:var(--faint);font-size:12px">${t("lib.filter_empty")}</span>`}
       </div>
     </div>`;
 
   body.innerHTML = [
-    group("作者", "author", facets.authors),
-    group("系列", "series", facets.series),
-    group("标签", "tag", facets.tags),
-    group("语言", "language", facets.languages, (v) => LANG[v] || v),
+    group(t("lib.facet_author"), "author", facets.authors),
+    group(t("lib.facet_series"), "series", facets.series),
+    group(t("lib.facet_tag"), "tag", facets.tags),
+    group(t("lib.facet_language"), "language", facets.languages, langName),
   ].join("");
 }
 
@@ -249,11 +250,11 @@ async function showBook(id) {
   $("libraryView").hidden = true;
   const box = $("bookView");
   box.hidden = false;
-  box.innerHTML = `<div class="detail-inner"><div class="empty"><p>正在打开…</p></div></div>`;
+  box.innerHTML = `<div class="detail-inner"><div class="empty"><p>${t("common.opening")}</p></div></div>`;
 
   try {
     const { book, progress } = await getJSON(`/api/books/${id}`);
-    document.title = `${book.title} · ${config?.site_name || "星皓书房"}`;
+    document.title = `${book.title} · ${brandName()}`;
     const pct = Math.round((progress?.percent || 0) * 100);
     const epub = book.formats.includes("epub");
     const pdf = book.formats.includes("pdf");
@@ -264,51 +265,53 @@ async function showBook(id) {
 
     const readHref = epub ? `/read/${book.id}` : pdf
       ? `/api/books/${book.id}/file/pdf?inline=1` : "#";
-    const readLabel = epub ? (pct ? `继续阅读 · ${pct}%` : "开始阅读") : pdf ? "打开 PDF" : "暂无可读格式";
+    const readLabel = epub
+      ? (pct ? t("book.continue", { n: pct }) : t("book.start"))
+      : pdf ? t("book.open_pdf") : t("book.no_format");
 
     box.innerHTML = `
       <div class="detail-backdrop" style="background-image:url('/api/books/${book.id}/cover')"></div>
       <div class="detail-inner">
         <a class="detail-back" href="/" data-nav>
-          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"></path></svg> 书架
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"></path></svg> ${t("book.back")}
         </a>
         <div class="detail-grid">
-          <div class="detail-cover">${coverMarkup(book, book.tags[0] || "藏书")}</div>
+          <div class="detail-cover">${coverMarkup(book, book.tags[0] || t("common.book"))}</div>
           <div class="detail-info">
-            ${book.series ? `<p class="detail-series">${esc(book.series)} · 第 ${book.series_index} 部</p>` : ""}
+            ${book.series ? `<p class="detail-series">${esc(t("book.series_index", { name: book.series, n: book.series_index }))}</p>` : ""}
             <h1 class="detail-title">${esc(book.title)}</h1>
-            <p class="detail-author">${esc(book.authors.join(" / ") || "佚名")}</p>
+            <p class="detail-author">${esc(book.authors.join(" / ") || t("common.anonymous"))}</p>
             ${book.rating ? `<div class="detail-rating"><span class="stars">${stars(book.rating)}</span>
               <span>${book.rating} / 5</span></div>` : ""}
             <div class="detail-tags">
               ${book.tags.map((t) => `<a href="/?tag=${encodeURIComponent(t)}" data-nav>${esc(t)}</a>`).join("")}
             </div>
-            <p class="detail-desc">${esc(book.description || "暂无简介。可以在 Calibre 里补充简介后刷新。")}</p>
-            ${pct ? `<div class="detail-progress"><span>上次读到 ${pct}%</span>
+            <p class="detail-desc">${esc(book.description || t("book.no_desc"))}</p>
+            ${pct ? `<div class="detail-progress"><span>${esc(t("book.last_read", { n: pct }))}</span>
               <span class="bar"><i style="width:${pct}%"></i></span></div>` : ""}
             <div class="detail-actions">
               <a class="btn primary" href="${readHref}" ${pdf && !epub ? 'target="_blank" rel="noopener"' : ""}
                  ${!epub && !pdf ? 'aria-disabled="true" style="opacity:.5;pointer-events:none"' : ""}>${readLabel}</a>
               ${files.map((f) => `<a class="btn" href="/api/books/${book.id}/file/${f.format}"
-                 download>下载 ${f.format.toUpperCase()}</a>`).join("")}
+                 download>${esc(t("book.download", { fmt: f.format.toUpperCase() }))}</a>`).join("")}
             </div>
             <div class="detail-facts">
-              ${book.publisher ? `<span>出版 <b>${esc(book.publisher)}</b></span>` : ""}
-              ${book.pubdate ? `<span>日期 <b>${esc(book.pubdate)}</b></span>` : ""}
-              ${book.languages.length ? `<span>语言 <b>${book.languages.map((l) => LANG[l] || l).join(" / ")}</b></span>` : ""}
-              <span>格式 <b>${esc(book.formats.join(" / ").toUpperCase())}</b></span>
-              ${size ? `<span>大小 <b>${formatBytes(size)}</b></span>` : ""}
+              ${book.publisher ? `<span>${t("book.publisher")} <b>${esc(book.publisher)}</b></span>` : ""}
+              ${book.pubdate ? `<span>${t("book.pubdate")} <b>${esc(book.pubdate)}</b></span>` : ""}
+              ${book.languages.length ? `<span>${t("book.language")} <b>${book.languages.map(langName).join(" / ")}</b></span>` : ""}
+              <span>${t("book.formats")} <b>${esc(book.formats.join(" / ").toUpperCase())}</b></span>
+              ${size ? `<span>${t("book.size")} <b>${formatBytes(size)}</b></span>` : ""}
               ${book.isbn ? `<span>ISBN <b>${esc(book.isbn)}</b></span>` : ""}
             </div>
             ${toc.length ? `
             <div class="toc-block">
-              <h2>目录 · ${toc.length} 节</h2>
+              <h2>${esc(t("book.toc", { n: toc.length }))}</h2>
               <ol class="toc-list" id="tocList">
                 ${tocShown.map((t, i) => `<li class="lv${Math.min(t.level || 0, 2)}">
                   <span class="toc-num">${String(i + 1).padStart(2, "0")}</span>
                   <span>${esc(t.title)}</span></li>`).join("")}
               </ol>
-              ${toc.length > tocShown.length ? `<button class="toc-more" id="tocMore">展开全部 ${toc.length} 节</button>` : ""}
+              ${toc.length > tocShown.length ? `<button class="toc-more" id="tocMore">${esc(t("book.toc_more", { n: toc.length }))}</button>` : ""}
             </div>` : ""}
           </div>
         </div>
@@ -324,8 +327,8 @@ async function showBook(id) {
     });
   } catch (err) {
     box.innerHTML = `<div class="detail-inner">
-      <a class="detail-back" href="/" data-nav>← 书架</a>
-      <div class="empty"><h2>打不开这本书</h2><p>${esc(err.message)}</p></div></div>`;
+      <a class="detail-back" href="/" data-nav>← ${esc(t("book.back"))}</a>
+      <div class="empty"><h2>${esc(t("book.failed"))}</h2><p>${esc(err.message)}</p></div></div>`;
   }
 }
 
@@ -333,7 +336,7 @@ function showLibrary() {
   $("bookView").hidden = true;
   $("bookView").innerHTML = "";
   $("libraryView").hidden = false;
-  document.title = config?.site_name || "星皓书房";
+  document.title = brandName();
 }
 
 /* ---------------------------------------------------------------- 交互 */
@@ -482,6 +485,7 @@ window.addEventListener("popstate", route);
 
 // 先建立骨架，再取数据
 (async function boot() {
+  applyStatic(document);
   $("q").value = "";
   await loadConfig();
   loadContinue();

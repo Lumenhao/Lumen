@@ -72,6 +72,7 @@ docker compose up -d          # → http://localhost:8080
 - **自有数据库**：`progress` / `bookmarks` / `annotations` 三张表，单文件即可备份。
 - **默认私有**：没有账号体系，没有遥测，不向外发请求；需要暴露到内网之外时，可开启 HTTP Basic 口令。
 - **运维无聊**：单容器，无 Node、无 Nginx、无 Redis；内置健康检查；书库以 `:ro` 挂载。
+- **中英双语**：界面自带中文与英文，默认跟随浏览器 `Accept-Language`，也可用 `LOCALE=zh` / `LOCALE=en` 固定。
 - **自带演示库**：仓库里有一小份公版书构成的 Calibre 库，首次启动界面不会是空的。
 
 ## 命名与中文原义
@@ -150,6 +151,7 @@ python -m app.main
 | `HOST` | `127.0.0.1` | 监听地址（容器内为 `0.0.0.0`） |
 | `PORT` | `8080` | 监听端口 |
 | `SITE_NAME` | `星皓书房` | 界面标题 |
+| `LOCALE` | `auto` | 界面语言：`auto` 跟随浏览器，也可固定为 `zh` / `en` |
 | `LIBRARY_PASSWORD` | 空 | 设置后启用 HTTP Basic 口令 |
 
 `CALIBRE_PATH` 是 Compose 挂载进容器的主机目录；Python 版把它直接当作书库路径。

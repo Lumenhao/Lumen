@@ -38,6 +38,8 @@ class Settings:
         self.port = int(os.getenv("PORT", "8080"))
         self.site_name = os.getenv("SITE_NAME", "星皓书房")
         self.password = os.getenv("LIBRARY_PASSWORD", "")
+        locale = os.getenv("LOCALE", "auto").strip().lower()
+        self.locale = locale if locale in ("auto", "zh", "en") else "auto"
         self.data_dir.mkdir(parents=True, exist_ok=True)
 
     @property

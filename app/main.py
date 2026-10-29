@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse, JSONResponse, Response
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Response
 from pydantic import BaseModel, Field
 from starlette.middleware.base import BaseHTTPMiddleware
 
@@ -45,16 +45,18 @@ app = FastAPI(title="Lumen · 星皓书房", docs_url="/api/docs", openapi_url="
 try:
     library = CalibreLibrary(settings.library_path)
     library_error: str | None = None
+    library_error_path: str | None = None
 except LibraryError as exc:
     library = None  # type: ignore[assignment]
-    library_error = str(exc)
+    library_error = "library_missing"
+    library_error_path = str(exc)
 
 store = Store(settings.data_dir / "library.db")
 
 
 def need_library() -> CalibreLibrary:
     if library is None:
-        raise HTTPException(status_code=503, detail=library_error or "书库不可用")
+        raise HTTPException(status_code=503, detail="library_unavailable")
     return library
 
 
@@ -88,24 +90,43 @@ app.add_middleware(SecurityMiddleware)
 
 # ---------------------------------------------------------------- 页面
 
-def page(name: str) -> FileResponse:
-    return FileResponse(STATIC / name, media_type="text/html; charset=utf-8",
-                        headers={"cache-control": "no-cache"})
+def resolve_locale(request: Request) -> str:
+    """LOCALE 固定语言；auto 时按 Accept-Language 选，认不出就用英文。"""
+    if settings.locale != "auto":
+        return settings.locale
+    header = request.headers.get("accept-language", "")
+    if not header:
+        return "zh"
+    for part in header.split(","):
+        tag = part.split(";")[0].strip().lower()
+        if tag.startswith("zh"):
+            return "zh"
+        if tag.startswith("en"):
+            return "en"
+    return "en"
+
+
+def page(name: str, request: Request) -> HTMLResponse:
+    locale = resolve_locale(request)
+    html = (STATIC / name).read_text(encoding="utf-8")
+    html = html.replace("__LUMEN_LOCALE__", locale)
+    html = html.replace("__LUMEN_LANG__", "zh-CN" if locale == "zh" else "en")
+    return HTMLResponse(html, headers={"cache-control": "no-cache"})
 
 
 @app.get("/", include_in_schema=False)
-def index() -> FileResponse:
-    return page("index.html")
+def index(request: Request) -> HTMLResponse:
+    return page("index.html", request)
 
 
 @app.get("/book/{book_id}", include_in_schema=False)
-def book_page(book_id: int) -> FileResponse:
-    return page("index.html")
+def book_page(book_id: int, request: Request) -> HTMLResponse:
+    return page("index.html", request)
 
 
 @app.get("/read/{book_id}", include_in_schema=False)
-def reader_page(book_id: int) -> FileResponse:
-    return page("reader.html")
+def reader_page(book_id: int, request: Request) -> HTMLResponse:
+    return page("reader.html", request)
 
 
 @app.get("/favicon.svg", include_in_schema=False)
@@ -116,14 +137,16 @@ def favicon() -> Response:
 # ---------------------------------------------------------------- 配置与书库
 
 @app.get("/api/config")
-def config() -> dict[str, Any]:
+def config(request: Request) -> dict[str, Any]:
     stats = library.stats() if library else {"books": 0, "authors": 0, "formats": 0, "path": ""}
     return {
         "site_name": settings.site_name,
         "demo": settings.is_demo,
         "auth": bool(settings.password),
+        "locale": resolve_locale(request),
         "library": stats,
         "error": library_error,
+        "error_path": library_error_path,
     }
 
 
@@ -169,7 +192,7 @@ def reading(limit: int = 12) -> dict[str, Any]:
 def book_detail(book_id: int) -> dict[str, Any]:
     book = need_library().get_book(book_id)
     if not book:
-        raise HTTPException(status_code=404, detail="没有这本书")
+        raise HTTPException(status_code=404, detail="book_not_found")
     return {"book": book, "progress": store.get_progress(book_id)}
 
 
@@ -178,7 +201,7 @@ def reader_session(book_id: int) -> dict[str, Any]:
     lib = need_library()
     book = lib.get_book(book_id)
     if not book:
-        raise HTTPException(status_code=404, detail="没有这本书")
+        raise HTTPException(status_code=404, detail="book_not_found")
     book.pop("toc", None)
     return {
         "book": book,
@@ -192,7 +215,7 @@ def reader_session(book_id: int) -> dict[str, Any]:
 def cover(book_id: int) -> FileResponse:
     path = need_library().cover(book_id)
     if not path:
-        raise HTTPException(status_code=404, detail="没有封面")
+        raise HTTPException(status_code=404, detail="cover_not_found")
     return FileResponse(path, headers={"cache-control": "public, max-age=86400"})
 
 
@@ -200,7 +223,7 @@ def cover(book_id: int) -> FileResponse:
 def book_file(book_id: int, fmt: str, inline: int = 0):
     entry = need_library().file_entry(book_id, fmt)
     if not entry:
-        raise HTTPException(status_code=404, detail="没有该格式")
+        raise HTTPException(status_code=404, detail="format_not_found")
     fmt = entry["format"]
     disposition = "inline" if (inline or fmt in {"epub", "pdf"}) else "attachment"
     filename = f"{entry['name']}.{fmt}"
@@ -264,7 +287,7 @@ def post_bookmark(book_id: int, payload: BookmarkIn) -> dict[str, Any]:
 @app.delete("/api/bookmarks/{bookmark_id}")
 def remove_bookmark(bookmark_id: int) -> dict[str, bool]:
     if not store.delete_bookmark(bookmark_id):
-        raise HTTPException(status_code=404, detail="书签不存在")
+        raise HTTPException(status_code=404, detail="bookmark_not_found")
     return {"deleted": True}
 
 
@@ -287,14 +310,14 @@ def post_annotation(book_id: int, payload: AnnotationIn) -> dict[str, Any]:
 def patch_annotation(annotation_id: int, payload: AnnotationPatch) -> dict[str, Any]:
     row = store.update_annotation(annotation_id, payload.note, payload.color)
     if row is None:
-        raise HTTPException(status_code=404, detail="笔记不存在")
+        raise HTTPException(status_code=404, detail="note_not_found")
     return {"annotation": row}
 
 
 @app.delete("/api/annotations/{annotation_id}")
 def remove_annotation(annotation_id: int) -> dict[str, bool]:
     if not store.delete_annotation(annotation_id):
-        raise HTTPException(status_code=404, detail="笔记不存在")
+        raise HTTPException(status_code=404, detail="note_not_found")
     return {"deleted": True}
 
 

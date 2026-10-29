@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="__LUMEN_LANG__" data-locale="__LUMEN_LOCALE__" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
-<title>阅读 · Lumen</title>
+<title data-i18n="app.reading_title">阅读 · Lumen</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/css/base.css">
 <link rel="stylesheet" href="/static/css/reader.css">
@@ -40,31 +40,34 @@
 <div class="reader" id="reader" data-reader-theme="paper">
 
   <header class="r-bar">
-    <a class="icon-btn" href="/" id="backBtn" aria-label="返回书架" title="返回书架">
+    <a class="icon-btn" href="/" id="backBtn" data-i18n-aria="reader.back" data-i18n-title="reader.back"
+       aria-label="返回书架" title="返回书架">
       <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"></path></svg>
     </a>
     <div class="r-title">
-      <span class="r-book" id="bookTitle">正在打开…</span>
+      <span class="r-book" id="bookTitle" data-i18n="common.opening">正在打开…</span>
       <span class="r-chapter" id="chapterTitle"></span>
     </div>
     <div class="r-tools">
-      <button class="r-btn" data-panel="toc" title="目录">
+      <button class="r-btn" data-panel="toc" data-i18n-title="reader.toc" title="目录">
         <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"></path></svg>
-        <span>目录</span>
+        <span data-i18n="reader.toc">目录</span>
       </button>
-      <button class="r-btn" data-panel="notes" title="笔记">
+      <button class="r-btn" data-panel="notes" data-i18n-title="reader.notes" title="笔记">
         <svg viewBox="0 0 24 24"><path d="M7 4h10a2 2 0 0 1 2 2v14l-7-4-7 4V6a2 2 0 0 1 2-2z"></path></svg>
-        <span>笔记</span>
+        <span data-i18n="reader.notes">笔记</span>
         <i class="dot" id="noteCount" hidden></i>
       </button>
-      <button class="r-btn" data-panel="search" title="全文搜索">
+      <button class="r-btn" data-panel="search" data-i18n-title="reader.search" title="全文搜索">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
-        <span>搜索</span>
+        <span data-i18n="reader.search">搜索</span>
       </button>
-      <button class="icon-btn" id="bookmarkBtn" title="添加书签" aria-label="添加书签">
+      <button class="icon-btn" id="bookmarkBtn" data-i18n-title="reader.bookmark_add"
+              data-i18n-aria="reader.bookmark_add" title="添加书签" aria-label="添加书签">
         <svg viewBox="0 0 24 24"><path d="M7 4h10a2 2 0 0 1 2 2v14l-7-4-7 4V6a2 2 0 0 1 2-2z"></path></svg>
       </button>
-      <button class="icon-btn" id="settingsBtn" title="排版设置" aria-label="排版设置">
+      <button class="icon-btn" id="settingsBtn" data-i18n-title="reader.typography"
+              data-i18n-aria="reader.typography" title="排版设置" aria-label="排版设置">
         <svg viewBox="0 0 24 24"><path d="M5 5h14M12 5v14M8 19h8"></path></svg>
       </button>
     </div>
@@ -74,22 +77,25 @@
     <div class="r-viewer" id="viewer"></div>
     <div class="r-loading" id="loading">
       <span class="spinner" aria-hidden="true"></span>
-      <p id="loadingText">正在打开书…</p>
+      <p id="loadingText" data-i18n="reader.opening">正在打开书…</p>
     </div>
     <div class="r-hint" id="hint" hidden>
-      <span>← → 翻页</span><span>⌘K 搜索</span><span>Esc 关闭面板</span>
+      <span data-i18n="reader.hint_pages">← → 翻页</span>
+      <span data-i18n="reader.hint_search">⌘K 搜索</span>
+      <span data-i18n="reader.hint_close">Esc 关闭面板</span>
     </div>
   </main>
 
   <footer class="r-foot">
-    <button class="icon-btn" id="prevBtn" aria-label="上一页">
+    <button class="icon-btn" id="prevBtn" data-i18n-aria="lib.prev_page" aria-label="上一页">
       <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"></path></svg>
     </button>
     <div class="r-progress">
-      <input id="slider" type="range" min="0" max="1000" value="0" step="1" aria-label="阅读进度">
+      <input id="slider" type="range" min="0" max="1000" value="0" step="1"
+             data-i18n-aria="reader.progress_aria" aria-label="阅读进度">
     </div>
     <span class="r-percent" id="percent">0.0%</span>
-    <button class="icon-btn" id="nextBtn" aria-label="下一页">
+    <button class="icon-btn" id="nextBtn" data-i18n-aria="lib.next_page" aria-label="下一页">
       <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"></path></svg>
     </button>
   </footer>
@@ -97,12 +103,12 @@
   <aside class="r-side" id="side" aria-hidden="true">
     <div class="side-head">
       <div class="side-tabs" role="tablist">
-        <button role="tab" data-tab="toc" aria-selected="true">目录</button>
-        <button role="tab" data-tab="notes">笔记</button>
-        <button role="tab" data-tab="marks">书签</button>
-        <button role="tab" data-tab="search">搜索</button>
+        <button role="tab" data-tab="toc" aria-selected="true" data-i18n="reader.toc">目录</button>
+        <button role="tab" data-tab="notes" data-i18n="reader.notes">笔记</button>
+        <button role="tab" data-tab="marks" data-i18n="reader.bookmarks">书签</button>
+        <button role="tab" data-tab="search" data-i18n="reader.search">搜索</button>
       </div>
-      <button class="icon-btn" id="sideClose" aria-label="关闭面板">
+      <button class="icon-btn" id="sideClose" data-i18n-aria="reader.close_panel" aria-label="关闭面板">
         <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></svg>
       </button>
     </div>
@@ -113,7 +119,8 @@
       <div class="pane" data-pane="search" hidden>
         <form class="search-form" id="searchForm">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
-          <input id="searchInput" type="search" placeholder="搜索全书文字…" autocomplete="off">
+          <input id="searchInput" type="search" data-i18n-placeholder="reader.search_placeholder"
+                 placeholder="搜索全书文字…" autocomplete="off">
         </form>
         <div class="search-meta" id="searchMeta"></div>
         <div class="search-results" id="searchResults"></div>
@@ -123,53 +130,53 @@
 
   <aside class="r-settings" id="settings" aria-hidden="true">
     <div class="side-head">
-      <h2>排版</h2>
-      <button class="icon-btn" id="settingsClose" aria-label="关闭设置">
+      <h2 data-i18n="reader.panel_typography">排版</h2>
+      <button class="icon-btn" id="settingsClose" data-i18n-aria="reader.close_settings" aria-label="关闭设置">
         <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></svg>
       </button>
     </div>
     <div class="settings-body">
       <section>
-        <h3>布局</h3>
+        <h3 data-i18n="reader.layout">布局</h3>
         <div class="seg" id="flowSeg">
-          <button data-flow="paginated" data-spread="none">单栏</button>
-          <button data-flow="paginated" data-spread="auto">双栏</button>
-          <button data-flow="scrolled-doc" data-spread="none">滚动</button>
+          <button data-flow="paginated" data-spread="none" data-i18n="reader.layout_single">单栏</button>
+          <button data-flow="paginated" data-spread="auto" data-i18n="reader.layout_double">双栏</button>
+          <button data-flow="scrolled-doc" data-spread="none" data-i18n="reader.layout_scroll">滚动</button>
         </div>
       </section>
       <section>
-        <h3>主题</h3>
+        <h3 data-i18n="reader.theme">主题</h3>
         <div class="swatches" id="themeSwatches">
-          <button data-theme="paper" style="--sw:#f5efe4" title="羊皮纸"><i></i>纸</button>
-          <button data-theme="white" style="--sw:#fdfdfb" title="纯白"><i></i>白</button>
-          <button data-theme="green" style="--sw:#e5eddf" title="护眼"><i></i>绿</button>
-          <button data-theme="night" style="--sw:#15171b" title="夜间"><i></i>夜</button>
+          <button data-theme="paper" style="--sw:#f5efe4" data-i18n-title="reader.theme_paper_tip" title="羊皮纸"><i></i><span data-i18n="reader.theme_paper">纸</span></button>
+          <button data-theme="white" style="--sw:#fdfdfb" data-i18n-title="reader.theme_white_tip" title="纯白"><i></i><span data-i18n="reader.theme_white">白</span></button>
+          <button data-theme="green" style="--sw:#e5eddf" data-i18n-title="reader.theme_green_tip" title="护眼"><i></i><span data-i18n="reader.theme_green">绿</span></button>
+          <button data-theme="night" style="--sw:#15171b" data-i18n-title="reader.theme_night_tip" title="夜间"><i></i><span data-i18n="reader.theme_night">夜</span></button>
         </div>
       </section>
       <section>
-        <h3>字体</h3>
+        <h3 data-i18n="reader.font">字体</h3>
         <div class="seg" id="fontSeg">
-          <button data-font="serif">宋体</button>
-          <button data-font="sans">黑体</button>
+          <button data-font="serif" data-i18n="reader.font_serif">宋体</button>
+          <button data-font="sans" data-i18n="reader.font_sans">黑体</button>
         </div>
       </section>
       <section>
-        <h3>字号 <b id="sizeLabel">18</b></h3>
+        <h3><span data-i18n="reader.size">字号</span> <b id="sizeLabel">18</b></h3>
         <input type="range" id="sizeRange" min="14" max="30" step="1">
       </section>
       <section>
-        <h3>行距 <b id="lineLabel">1.8</b></h3>
+        <h3><span data-i18n="reader.line">行距</span> <b id="lineLabel">1.8</b></h3>
         <input type="range" id="lineRange" min="140" max="220" step="5">
       </section>
       <section>
-        <h3>页边距 <b id="padLabel">48</b></h3>
+        <h3><span data-i18n="reader.margin">页边距</span> <b id="padLabel">48</b></h3>
         <input type="range" id="padRange" min="16" max="120" step="4">
       </section>
       <section>
-        <h3>对齐</h3>
+        <h3 data-i18n="reader.align">对齐</h3>
         <div class="seg" id="alignSeg">
-          <button data-align="justify">两端</button>
-          <button data-align="left">左对齐</button>
+          <button data-align="justify" data-i18n="reader.align_justify">两端</button>
+          <button data-align="left" data-i18n="reader.align_left">左对齐</button>
         </div>
       </section>
     </div>
@@ -178,29 +185,29 @@
   <div class="r-scrim" id="scrim" hidden></div>
 
   <div class="sel-bar" id="selBar" hidden>
-    <button class="sw sw-yellow" data-color="yellow" title="黄色"></button>
-    <button class="sw sw-green" data-color="green" title="绿色"></button>
-    <button class="sw sw-blue" data-color="blue" title="蓝色"></button>
-    <button class="sw sw-pink" data-color="pink" title="粉色"></button>
+    <button class="sw sw-yellow" data-color="yellow" data-i18n-title="reader.color_yellow" title="黄色"></button>
+    <button class="sw sw-green" data-color="green" data-i18n-title="reader.color_green" title="绿色"></button>
+    <button class="sw sw-blue" data-color="blue" data-i18n-title="reader.color_blue" title="蓝色"></button>
+    <button class="sw sw-pink" data-color="pink" data-i18n-title="reader.color_pink" title="粉色"></button>
     <span class="sel-sep"></span>
     <button class="sel-act" data-action="note">
       <svg viewBox="0 0 24 24"><path d="M4 19V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9l-5 5H6a2 2 0 0 1-2-2z"></path><path d="M20 14h-5v5"></path></svg>
-      笔记
+      <span data-i18n="reader.note">笔记</span>
     </button>
-    <button class="sel-act" data-action="copy" title="复制">
+    <button class="sel-act" data-action="copy" data-i18n-title="reader.copy" title="复制">
       <svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M15 5H6a2 2 0 0 0-2 2v9"></path></svg>
     </button>
   </div>
 
   <div class="modal" id="noteDialog" hidden>
     <div class="modal-card">
-      <h3 id="ndTitle">添加笔记</h3>
+      <h3 id="ndTitle" data-i18n="reader.note_add">添加笔记</h3>
       <blockquote id="ndQuote"></blockquote>
-      <textarea id="ndText" rows="4" placeholder="写下你的想法…"></textarea>
+      <textarea id="ndText" rows="4" data-i18n-placeholder="reader.note_placeholder" placeholder="写下你的想法…"></textarea>
       <div class="modal-actions">
-        <button class="btn ghost danger" id="ndDelete" hidden>删除</button>
-        <button class="btn ghost" id="ndCancel">取消</button>
-        <button class="btn primary" id="ndSave">保存</button>
+        <button class="btn ghost danger" id="ndDelete" hidden data-i18n="common.delete">删除</button>
+        <button class="btn ghost" id="ndCancel" data-i18n="common.cancel">取消</button>
+        <button class="btn primary" id="ndSave" data-i18n="common.save">保存</button>
       </div>
     </div>
   </div>

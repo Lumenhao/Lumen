@@ -11,6 +11,8 @@ services:
       LIBRARY_PATH: /library
       DATA_DIR: /data
       SITE_NAME: 星皓书房
+      # 界面语言：auto 跟随浏览器，也可写 zh / en
+      LOCALE: "${LOCALE:-auto}"
       # 留空则不启用登录；设置了就会要求 HTTP Basic 口令
       LIBRARY_PASSWORD: "${LIBRARY_PASSWORD:-}"
       TZ: Asia/Shanghai

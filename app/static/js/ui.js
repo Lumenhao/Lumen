@@ -1,3 +1,5 @@
+import { t } from "./i18n.js";
+
 export function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
@@ -16,7 +18,7 @@ export function stars(rating) {
 }
 
 export function initial(title) {
-  return String(title || "书").trim().slice(0, 1) || "书";
+  return String(title || "").trim().slice(0, 1) || "·";
 }
 
 export function formatBytes(size) {
@@ -26,7 +28,7 @@ export function formatBytes(size) {
   return `${(size / 1024 / 1024).toFixed(1)} MB`;
 }
 
-export function fallbackCover(book, kicker = "藏书") {
+export function fallbackCover(book, kicker = t("common.book")) {
   return `
     <div class="cover-fallback cf-${hash8(book.title)}">
       <span class="cover-kicker">${esc(kicker)}</span>
@@ -35,7 +37,7 @@ export function fallbackCover(book, kicker = "藏书") {
     </div>`;
 }
 
-export function coverMarkup(book, kicker = "藏书") {
+export function coverMarkup(book, kicker = t("common.book")) {
   if (!book.has_cover) return fallbackCover(book, kicker);
   return `
     ${fallbackCover(book, kicker)}

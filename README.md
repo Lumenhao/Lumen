@@ -72,6 +72,7 @@ Lumen is for the person who already has a Calibre library, wants to open it from
 - **Your own database.** Three tables — `progress`, `bookmarks`, `annotations` — in one file you can copy.
 - **Private by default.** No accounts, no telemetry, no outbound requests. Optional HTTP Basic password for exposure beyond localhost.
 - **Boring to run.** One container, no Node, no Nginx, no Redis; a built-in health check; the library mounted `:ro`.
+- **Bilingual by default.** The interface ships in Chinese and English, follows the browser's `Accept-Language`, and can be pinned with `LOCALE=zh` or `LOCALE=en`.
 - **Demo included.** A small public-domain Calibre library ships in the repo, so the interface is never empty on first run.
 
 ## Name & Chinese origin
@@ -150,6 +151,7 @@ Listens on `127.0.0.1:8080` by default. Set `HOST=0.0.0.0` in `.env` to reach it
 | `HOST` | `127.0.0.1` | Bind address (`0.0.0.0` inside the container) |
 | `PORT` | `8080` | Listen port |
 | `SITE_NAME` | `星皓书房` | Title shown in the interface |
+| `LOCALE` | `auto` | Interface language: `auto` follows `Accept-Language`, or pin it with `zh` / `en` |
 | `LIBRARY_PASSWORD` | empty | When set, requires HTTP Basic authentication |
 
 `CALIBRE_PATH` is what Compose mounts at `/library`; the Python edition reads the same value as its library path.

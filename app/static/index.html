@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="__LUMEN_LANG__" data-locale="__LUMEN_LOCALE__" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -28,15 +28,19 @@
 
   <label class="search" for="q">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
-    <input id="q" type="search" aria-label="搜索书库" placeholder="搜索书名、作者、标签、简介" autocomplete="off" spellcheck="false">
+    <input id="q" type="search" data-i18n-aria="lib.search_aria" aria-label="搜索书库"
+           data-i18n-placeholder="lib.search_placeholder" placeholder="搜索书名、作者、标签、简介"
+           autocomplete="off" spellcheck="false">
     <kbd>⌘K</kbd>
   </label>
 
   <div class="top-actions">
-    <button class="icon-btn" id="viewToggle" title="切换视图" aria-label="切换视图">
+    <button class="icon-btn" id="viewToggle" data-i18n-title="lib.view_toggle" data-i18n-aria="lib.view_toggle"
+            title="切换视图" aria-label="切换视图">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>
     </button>
-    <button class="icon-btn" id="themeToggle" title="切换明暗" aria-label="切换明暗">
+    <button class="icon-btn" id="themeToggle" data-i18n-title="lib.theme_toggle" data-i18n-aria="lib.theme_toggle"
+            title="切换明暗" aria-label="切换明暗">
       <svg class="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"></path></svg>
       <svg class="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg>
     </button>
@@ -46,15 +50,15 @@
 <main id="libraryView">
   <section class="hero">
     <div>
-      <p class="hero-kicker">自托管 · Calibre 驱动</p>
-      <h1 class="hero-title">书架</h1>
-      <p class="hero-sub" id="heroSub">正在读取书库…</p>
+      <p class="hero-kicker" data-i18n="lib.kicker">自托管 · Calibre 驱动</p>
+      <h1 class="hero-title" data-i18n="lib.title">书架</h1>
+      <p class="hero-sub" id="heroSub" data-i18n="lib.reading_library">正在读取书库…</p>
     </div>
     <div class="hero-stats" id="heroStats"></div>
   </section>
 
   <section class="continue-strip" id="continueStrip" hidden>
-    <div class="strip-head"><h2>继续阅读</h2><span id="continueCount"></span></div>
+    <div class="strip-head"><h2 data-i18n="lib.continue">继续阅读</h2><span id="continueCount"></span></div>
     <div class="strip-rail" id="continueRail"></div>
   </section>
 
@@ -63,17 +67,17 @@
     <div class="toolbar-right">
       <button class="ghost-btn" id="filterBtn">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"></path></svg>
-        筛选
+        <span data-i18n="lib.filter">筛选</span>
         <span class="filter-count" id="filterCount" hidden></span>
       </button>
       <label class="select-wrap">
-        <select id="sort" aria-label="排序">
-          <option value="recent">最近添加</option>
-          <option value="title">书名</option>
-          <option value="author">作者</option>
-          <option value="pubdate">出版日期</option>
-          <option value="rating">评分</option>
-          <option value="series">系列</option>
+        <select id="sort" data-i18n-aria="lib.sort_aria" aria-label="排序">
+          <option value="recent" data-i18n="lib.sort_recent">最近添加</option>
+          <option value="title" data-i18n="lib.sort_title">书名</option>
+          <option value="author" data-i18n="lib.sort_author">作者</option>
+          <option value="pubdate" data-i18n="lib.sort_pubdate">出版日期</option>
+          <option value="rating" data-i18n="lib.sort_rating">评分</option>
+          <option value="series" data-i18n="lib.sort_series">系列</option>
         </select>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
       </label>
@@ -84,10 +88,10 @@
 
   <section class="grid" id="grid" aria-live="polite"></section>
   <div class="empty" id="empty" hidden>
-    <div class="empty-mark">书</div>
-    <h2 id="emptyTitle">没有找到书</h2>
-    <p id="emptyText">换个关键词，或清除筛选条件试试。</p>
-    <button class="btn" id="emptyReset">清除筛选</button>
+    <div class="empty-mark" data-i18n="lib.empty_mark">书</div>
+    <h2 id="emptyTitle" data-i18n="lib.empty_title">没有找到书</h2>
+    <p id="emptyText" data-i18n="lib.empty_text">换个关键词，或清除筛选条件试试。</p>
+    <button class="btn" id="emptyReset" data-i18n="lib.empty_reset">清除筛选</button>
   </div>
   <nav class="pager" id="pager" hidden></nav>
 </main>
@@ -102,15 +106,15 @@
 <dialog class="sheet" id="filterSheet">
   <form method="dialog" class="sheet-inner">
     <header class="sheet-head">
-      <h2>筛选</h2>
-      <button class="icon-btn" value="close" aria-label="关闭">
+      <h2 data-i18n="lib.filter">筛选</h2>
+      <button class="icon-btn" value="close" data-i18n-aria="common.close" aria-label="关闭">
         <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></svg>
       </button>
     </header>
     <div class="sheet-body" id="filterBody"></div>
     <footer class="sheet-foot">
-      <button class="btn ghost" value="clear" id="filterClear">清除全部</button>
-      <button class="btn primary" value="done">完成</button>
+      <button class="btn ghost" value="clear" id="filterClear" data-i18n="lib.filter_clear">清除全部</button>
+      <button class="btn primary" value="done" data-i18n="lib.filter_done">完成</button>
     </footer>
   </form>
 </dialog>

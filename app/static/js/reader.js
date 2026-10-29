@@ -1,5 +1,6 @@
 import { getJSON, postJSON, patchJSON, del } from "./api.js";
 import { esc, toast } from "./ui.js";
+import { t, applyStatic, brand } from "./i18n.js";
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -94,6 +95,7 @@ const els = {
 
 const state = {
   meta: null,
+  site: "Lumen",
   sessionProgress: null,
   epub: null,
   rendition: null,
@@ -195,6 +197,7 @@ function highlightStyles(color) {
 // ---------------------------------------------------------------- 启动
 
 async function boot() {
+  applyStatic(document);
   bindUI();
   syncPrefsUI();
   els.slider.disabled = true;
@@ -206,35 +209,39 @@ async function boot() {
   els.backBtn.href = `/book/${BOOK_ID}`;
 
   try {
-    const session = await getJSON(`/api/books/${BOOK_ID}/session`);
+    const [cfg, session] = await Promise.all([
+      getJSON("/api/config").catch(() => null),
+      getJSON(`/api/books/${BOOK_ID}/session`),
+    ]);
+    state.site = brand(cfg?.site_name);
     state.meta = session.book;
     state.annotations = session.annotations || [];
     state.bookmarks = session.bookmarks || [];
     state.sessionProgress = session.progress;
   } catch (err) {
-    fail(`打不开这本书：${err.message}`);
+    fail(t("reader.open_failed", { m: err.message }));
     return;
   }
 
   els.bookTitle.textContent = state.meta.title;
-  document.title = `${state.meta.title} · Lumen`;
+  document.title = `${state.meta.title} · ${state.site}`;
   updateNoteCount();
   renderNotes();
   renderMarks();
 
   const epubFile = (state.meta.files || []).find((f) => f.format === "epub");
   if (!epubFile) {
-    fail("这本书没有 EPUB 格式，无法在线阅读。回到书籍页可以下载其他格式。");
+    fail(t("reader.no_epub"));
     return;
   }
   await openBook();
 }
 
 async function openBook() {
-  els.loadingText.textContent = "正在解析书页…";
+  els.loadingText.textContent = t("reader.parsing");
   const Epub = window.ePub;
   if (!Epub) {
-    fail("阅读器脚本未能加载，请刷新页面重试。");
+    fail(t("reader.script_missing"));
     return;
   }
 
@@ -244,7 +251,7 @@ async function openBook() {
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
     buffer = await res.arrayBuffer();
   } catch (err) {
-    fail(`下载 EPUB 失败：${err.message}`);
+    fail(t("reader.download_failed", { m: err.message }));
     return;
   }
 
@@ -253,7 +260,7 @@ async function openBook() {
   try {
     await epub.ready;
   } catch (err) {
-    fail(`EPUB 解析失败：${err?.message || "文件可能已损坏"}`);
+    fail(t("reader.parse_failed", { m: err?.message || t("reader.file_damaged") }));
     return;
   }
 
@@ -286,11 +293,11 @@ async function openBook() {
     await rendition.display(startCfi || undefined);
     alignAfterRender(startCfi);
   } catch {
-    toast("上次的阅读位置已失效，从头开始");
+    toast(t("reader.position_lost"));
     try {
       await rendition.display();
     } catch (err) {
-      fail(`这本书无法显示：${err.message}`);
+      fail(t("reader.display_failed", { m: err.message }));
       return;
     }
   }
@@ -307,7 +314,7 @@ function fail(message) {
   els.loading.querySelector(".spinner")?.remove();
   const line = els.loading.querySelector("p");
   if (line) {
-    line.innerHTML = `${esc(message)}<br><a class="ghost-btn" href="/book/${BOOK_ID}" style="margin-top:10px">返回书籍页</a>`;
+    line.innerHTML = `${esc(message)}<br><a class="ghost-btn" href="/book/${BOOK_ID}" style="margin-top:10px">${esc(t("reader.back_to_book"))}</a>`;
   }
 }
 
@@ -425,7 +432,7 @@ function buildToc() {
   const flat = [];
   const walk = (items, level) => {
     items.forEach((item) => {
-      const title = (item.label || "").trim() || "未命名章节";
+      const title = (item.label || "").trim() || t("reader.untitled_section");
       flat.push({ title, href: item.href, level, index: indexOfHref(item.href) });
       if (item.subitems && item.subitems.length) walk(item.subitems, Math.min(level + 1, 3));
     });
@@ -433,7 +440,7 @@ function buildToc() {
   walk(raw, 0);
   if (!flat.length) {
     state.epub.spine.spineItems.forEach((item, i) => {
-      flat.push({ title: `第 ${i + 1} 节`, href: item.href, level: 0, index: i });
+      flat.push({ title: t("reader.chapter_n", { n: i + 1 }), href: item.href, level: 0, index: i });
     });
   }
   state.toc = flat;
@@ -442,7 +449,7 @@ function buildToc() {
 
 function renderToc() {
   if (!state.toc.length) {
-    els.tocList.innerHTML = `<li class="pane-empty">这本书没有目录</li>`;
+    els.tocList.innerHTML = `<li class="pane-empty">${esc(t("reader.no_toc"))}</li>`;
     return;
   }
   els.tocList.innerHTML = state.toc.map((item) => `
@@ -548,7 +555,7 @@ async function goHref(href) {
   } catch {
     const item = state.epub.spine.get(String(href).split("#")[0]);
     if (item) await state.rendition.display(item.href);
-    else toast("找不到这一节");
+    else toast(t("reader.section_missing"));
   }
 }
 
@@ -641,19 +648,19 @@ async function createHighlight(color) {
     updateNoteCount();
     renderNotes();
     clearSelection(sel.contents);
-    toast(`已划线 · ${labelOfColor(color)}`);
+    toast(t("reader.highlighted", { c: labelOfColor(color) }));
   } catch (err) {
-    toast(`保存失败：${err.message}`);
+    toast(t("reader.save_failed", { m: err.message }));
   }
 }
 
 function labelOfColor(color) {
-  return { yellow: "黄", green: "绿", blue: "蓝", pink: "粉" }[color] || "黄";
+  return t("reader.color_" + (COLORS[color] ? color : "yellow"));
 }
 
 function openNoteEditor(annotation) {
   state.editing = annotation;
-  els.ndTitle.textContent = "编辑笔记";
+  els.ndTitle.textContent = t("reader.note_edit");
   els.ndQuote.textContent = annotation.quote || "";
   els.ndText.value = annotation.note || "";
   els.ndDelete.hidden = false;
@@ -663,12 +670,12 @@ function openNoteEditor(annotation) {
 function openNewNote() {
   const sel = state.pendingSelection;
   if (!sel) {
-    toast("请先选中正文");
+    toast(t("reader.select_first"));
     return;
   }
   state.editing = null;
   state.dialogColor = state.lastColor || "yellow";
-  els.ndTitle.textContent = "添加笔记";
+  els.ndTitle.textContent = t("reader.note_add");
   els.ndQuote.textContent = sel.text;
   els.ndText.value = "";
   els.ndDelete.hidden = true;
@@ -701,9 +708,9 @@ async function saveDialog() {
       Object.assign(target, annotation);
       renderNotes();
       closeDialog();
-      toast(note ? "笔记已保存" : "已清空笔记");
+      toast(note ? t("reader.note_saved") : t("reader.note_cleared"));
     } catch (err) {
-      toast(`保存失败：${err.message}`);
+      toast(t("reader.save_failed", { m: err.message }));
     }
     return;
   }
@@ -730,9 +737,9 @@ async function saveDialog() {
     renderNotes();
     clearSelection(sel.contents);
     closeDialog();
-    toast("笔记已保存");
+    toast(t("reader.note_saved"));
   } catch (err) {
-    toast(`保存失败：${err.message}`);
+    toast(t("reader.save_failed", { m: err.message }));
   }
 }
 
@@ -745,16 +752,16 @@ async function removeAnnotation(annotation) {
     updateNoteCount();
     renderNotes();
     if (state.editing?.id === annotation.id) closeDialog();
-    toast("已删除");
+    toast(t("reader.deleted"));
   } catch (err) {
-    toast(`删除失败：${err.message}`);
+    toast(t("reader.delete_failed", { m: err.message }));
   }
 }
 
 function renderNotes() {
   const items = [...state.annotations].sort((a, b) => (a.percent || 0) - (b.percent || 0));
   if (!items.length) {
-    els.noteList.innerHTML = `<p class="pane-empty">还没有笔记。<br>选中正文即可划线、写笔记。</p>`;
+    els.noteList.innerHTML = `<p class="pane-empty">${t("reader.notes_empty")}</p>`;
     return;
   }
   els.noteList.innerHTML = items.map((a) => {
@@ -765,11 +772,11 @@ function renderNotes() {
         <p class="note-quote">${esc(a.quote)}</p>
         ${a.note ? `<p class="note-text">${esc(a.note)}</p>` : ""}
         <div class="note-meta">
-          <span>${esc(a.chapter || "未标注章节")} · ${percent}</span>
+          <span>${esc(a.chapter || t("reader.untitled_chapter"))} · ${percent}</span>
           <span class="acts">
-            <button type="button" data-act="jump" title="跳转">${ICON.jump}</button>
-            <button type="button" data-act="edit" title="编辑">${ICON.edit}</button>
-            <button type="button" data-act="del" title="删除">${ICON.trash}</button>
+            <button type="button" data-act="jump" title="${t("common.jump")}">${ICON.jump}</button>
+            <button type="button" data-act="edit" title="${t("common.edit")}">${ICON.edit}</button>
+            <button type="button" data-act="del" title="${t("common.delete")}">${ICON.trash}</button>
           </span>
         </div>
       </article>`;
@@ -783,17 +790,17 @@ function updateNoteCount() {
 function renderMarks() {
   const items = [...state.bookmarks].sort((a, b) => (a.percent || 0) - (b.percent || 0));
   if (!items.length) {
-    els.markList.innerHTML = `<p class="pane-empty">还没有书签。<br>点右上角书签按钮记下当前位置。</p>`;
+    els.markList.innerHTML = `<p class="pane-empty">${t("reader.bookmarks_empty")}</p>`;
     return;
   }
   els.markList.innerHTML = items.map((b) => `
     <article class="note-card" data-id="${b.id}" style="--nc:var(--gold)">
-      <p class="note-quote">${esc(b.label || "书签")}</p>
+      <p class="note-quote">${esc(b.label || t("reader.bookmarks"))}</p>
       <div class="note-meta">
         <span>${Math.round((b.percent || 0) * 1000) / 10}%</span>
         <span class="acts">
-          <button type="button" data-act="jump" title="跳转">${ICON.jump}</button>
-          <button type="button" data-act="del" title="删除">${ICON.trash}</button>
+          <button type="button" data-act="jump" title="${t("common.jump")}">${ICON.jump}</button>
+          <button type="button" data-act="del" title="${t("common.delete")}">${ICON.trash}</button>
         </span>
       </div>
     </article>`).join("");
@@ -808,7 +815,7 @@ async function toggleBookmark() {
     if (existing) {
       await del(`/api/bookmarks/${existing.id}`);
       state.bookmarks = state.bookmarks.filter((b) => b.id !== existing.id);
-      toast("已移除书签");
+      toast(t("reader.bookmark_removed"));
     } else {
       const { bookmark } = await postJSON(`/api/books/${BOOK_ID}/bookmarks`, {
         cfi,
@@ -816,12 +823,12 @@ async function toggleBookmark() {
         percent: currentPercent(),
       });
       state.bookmarks.push(bookmark);
-      toast("已添加书签");
+      toast(t("reader.bookmark_added"));
     }
     renderMarks();
     syncBookmarkBtn();
   } catch (err) {
-    toast(`操作失败：${err.message}`);
+    toast(t("reader.action_failed", { m: err.message }));
   }
 }
 
@@ -829,7 +836,7 @@ function syncBookmarkBtn() {
   const cfi = state.current?.start?.cfi;
   const on = Boolean(cfi && state.bookmarks.some((b) => b.cfi === cfi));
   els.bookmarkBtn.setAttribute("aria-pressed", String(on));
-  els.bookmarkBtn.title = on ? "移除书签" : "添加书签";
+  els.bookmarkBtn.title = on ? t("reader.bookmark_remove") : t("reader.bookmark_add");
 }
 
 async function jumpTo(cfi) {
@@ -839,7 +846,7 @@ async function jumpTo(cfi) {
     await state.rendition.display(cfi);
     alignAfterRender(cfi);
   } catch {
-    toast("找不到这个位置");
+    toast(t("reader.position_missing"));
   }
 }
 
@@ -899,16 +906,16 @@ async function runSearch(raw) {
   const q = String(raw || "").trim();
   const my = ++searchSeq;
   if (!q) {
-    els.searchMeta.textContent = "输入关键词开始搜索";
+    els.searchMeta.textContent = t("reader.search_idle");
     els.searchResults.innerHTML = "";
     return;
   }
   if (state.searching) return;
   state.searching = true;
-  els.searchMeta.textContent = "正在建立全文索引…";
+  els.searchMeta.textContent = t("reader.search_indexing");
   try {
     const index = await ensureSearchIndex((i, n) => {
-      if (my === searchSeq) els.searchMeta.textContent = `正在建立索引 ${i + 1} / ${n}`;
+      if (my === searchSeq) els.searchMeta.textContent = t("reader.search_indexing_n", { i: i + 1, n });
     });
     if (my !== searchSeq) return;
     const needle = q.toLowerCase();
@@ -928,7 +935,7 @@ async function runSearch(raw) {
     state.searchHits = hits;
     renderSearchResults(hits, q);
   } catch (err) {
-    els.searchMeta.textContent = `搜索失败：${err.message}`;
+    els.searchMeta.textContent = t("reader.search_failed", { m: err.message });
   } finally {
     state.searching = false;
     // 建索引期间用户可能又改了关键词，这里补跑最新一次
@@ -947,11 +954,13 @@ function chapterAtOffset(entry, at) {
 
 function renderSearchResults(hits, q) {
   if (!hits.length) {
-    els.searchMeta.textContent = `没有找到「${q}」`;
+    els.searchMeta.textContent = t("reader.search_none", { q });
     els.searchResults.innerHTML = "";
     return;
   }
-  els.searchMeta.textContent = `找到 ${hits.length} 处${hits.length >= 60 ? "（仅显示前 60 处）" : ""}`;
+  els.searchMeta.textContent = hits.length >= 60
+      ? t("reader.search_hits_capped", { n: hits.length })
+      : t("reader.search_hits", { n: hits.length });
   els.searchResults.innerHTML = hits.map((hit, i) => {
     const text = hit.entry.text;
     const start = Math.max(0, hit.at - 46);
@@ -979,7 +988,7 @@ async function jumpToHit(hit) {
     }
     if (at < 0 || !nodes.length) {
       section.unload();
-      toast("这段文字已变化，无法定位");
+      toast(t("reader.text_changed"));
       return;
     }
     const target = nodes.find((n) => at >= n.start && at < n.start + n.len) || nodes[nodes.length - 1];
@@ -992,7 +1001,7 @@ async function jumpToHit(hit) {
     alignAfterRender(cfi);
     flashMatch(cfi);
   } catch (err) {
-    toast(`定位失败：${err.message}`);
+    toast(t("reader.locate_failed", { m: err.message }));
   }
 }
 
@@ -1075,8 +1084,8 @@ function switchTab(tab) {
   if (tab === "toc") markTocActive(state.current?.start?.index ?? 0);
   if (tab === "search") {
     els.searchMeta.textContent = state.searchHits.length
-      ? `找到 ${state.searchHits.length} 处`
-      : "输入关键词开始搜索";
+      ? t("reader.search_hits", { n: state.searchHits.length })
+      : t("reader.search_idle");
   }
 }
 
@@ -1128,7 +1137,7 @@ async function applyLayout() {
       alignAfterRender(cfi);
     }
   } catch {
-    toast("切换布局失败");
+    toast(t("reader.layout_failed"));
   }
 }
 
@@ -1195,7 +1204,7 @@ function bindUI() {
   els.slider.addEventListener("change", async () => {
     state.dragging = false;
     if (!state.locationsReady) {
-      toast("位置索引还在生成，稍等一下");
+      toast(t("reader.index_busy"));
       updateProgressUI();
       return;
     }
@@ -1240,9 +1249,9 @@ function bindUI() {
         state.bookmarks = state.bookmarks.filter((b) => b.id !== item.id);
         renderMarks();
         syncBookmarkBtn();
-        toast("已移除书签");
+        toast(t("reader.bookmark_removed"));
       } catch (err) {
-        toast(`删除失败：${err.message}`);
+        toast(t("reader.delete_failed", { m: err.message }));
       }
       return;
     }
@@ -1263,9 +1272,9 @@ function bindUI() {
       if (!sel) return;
       try {
         await navigator.clipboard.writeText(sel.text);
-        toast("已复制");
+        toast(t("reader.copied"));
       } catch {
-        toast("复制失败，请手动选择复制");
+        toast(t("reader.copy_failed"));
       }
       hideSelBar();
       clearSelection(sel.contents);
@@ -1371,5 +1380,5 @@ function bindUI() {
 }
 
 boot().catch((err) => {
-  fail(`阅读器初始化失败：${err.message}`);
+  fail(t("reader.init_failed", { m: err.message }));
 });

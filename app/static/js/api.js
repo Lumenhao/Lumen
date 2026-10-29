@@ -1,3 +1,5 @@
+import { errText } from "./i18n.js";
+
 const JSON_HEADERS = { "content-type": "application/json" };
 
 async function request(path, options = {}) {
@@ -6,7 +8,10 @@ async function request(path, options = {}) {
     let message = `${res.status} ${res.statusText}`;
     try {
       const body = await res.json();
-      if (body && body.detail) message = typeof body.detail === "string" ? body.detail : JSON.stringify(body.detail);
+      if (body && body.detail) {
+        const code = typeof body.detail === "string" ? body.detail : JSON.stringify(body.detail);
+        message = errText(code);
+      }
     } catch { /* 非 JSON 错误体 */ }
     throw new Error(message);
   }
